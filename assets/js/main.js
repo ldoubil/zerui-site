@@ -34,22 +34,24 @@
     }
   };
 
-  var MAIL_CONTACT = {
-    zh: {
-      s: '一般咨询｜泽锐 zerui 户外厨房',
-      b: '您好，我想咨询泽锐 zerui 户外厨房的相关信息。\n\n咨询内容：\n联系方式：\n\n（来源：ruizeoutdoor.com 官网 · Contact）'
-    },
-    en: {
-      s: 'General Enquiry | ZERUI Outdoor Kitchen',
-      b: 'Hello, I would like to contact ZERUI about outdoor kitchens.\n\nEnquiry:\nContact details:\n\n(Source: ruizeoutdoor.com — Contact)'
-    }
-  };
-
   var MAIL_LINKS = {
-    'nav-contact': MAIL_CONTACT,
     'cta-quote': MAIL_QUOTE,
     'cta-proposal': MAIL_QUOTE
   };
+
+  var WA_NUMBER = '8617853993611';
+  var WA_TEXT = {
+    zh: '你好，我想了解一下泽锐的户外厨房产品',
+    en: 'Hello, I would like to learn more about ZERUI outdoor kitchen products.'
+  };
+
+  function applyWhatsAppLinks() {
+    var href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(WA_TEXT[lang]);
+    ['nav-contact', 'cta-whatsapp'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.setAttribute('href', href);
+    });
+  }
 
   function applyMailLinks() {
     Object.keys(MAIL_LINKS).forEach(function (id) {
@@ -100,6 +102,7 @@
     }
 
     applyMailLinks();
+    applyWhatsAppLinks();
   }
 
   applyLang(lang);

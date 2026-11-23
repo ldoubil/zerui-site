@@ -318,8 +318,32 @@ h1 {
 .cta-row {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 12px;
   margin-top: 32px;
+}
+
+.cta-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 8px;
+  border-bottom: 1px solid transparent;
+  color: var(--ink-2);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.cta-wa svg {
+  color: var(--brass);
+  flex: none;
+}
+
+.cta-wa:hover {
+  color: var(--ink);
+  border-color: var(--brass);
 }
 
 /* ---------------- Responsive ---------------- */
@@ -401,6 +425,12 @@ h1 {
 
   .cta-row .btn {
     flex: 1 1 100%;
+  }
+
+  .cta-wa {
+    flex: 1 1 100%;
+    justify-content: center;
+    padding: 10px 0;
   }
 
   .eyebrow {
