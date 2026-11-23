@@ -128,7 +128,20 @@ h1, p {
   font-size: 12.5px;
   letter-spacing: 0.08em;
   color: var(--ink-2);
+}
+
+span.nav-item {
   cursor: default;
+}
+
+a.nav-item {
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+a.nav-item:hover {
+  color: var(--ink);
 }
 
 .header-actions {

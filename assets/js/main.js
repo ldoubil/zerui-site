@@ -21,6 +21,50 @@
     }
   };
 
+  var MAIL_TO = '1806190090@qq.com';
+
+  var MAIL_QUOTE = {
+    zh: {
+      s: '询价｜泽锐 zerui 户外厨房定制方案',
+      b: '您好，我想咨询泽锐 zerui 户外厨房的定制与报价。\n\n产品需求：\n项目地点：\n预计数量：\n联系方式：\n\n（来源：ruizeoutdoor.com 官网 · Get a Quote）'
+    },
+    en: {
+      s: 'Quote Request | ZERUI Outdoor Kitchen',
+      b: 'Hello, I would like to request a quote for a ZERUI outdoor kitchen.\n\nProduct requirements:\nProject location:\nEstimated quantity:\nContact details:\n\n(Source: ruizeoutdoor.com — Get a Quote)'
+    }
+  };
+
+  var MAIL_CONTACT = {
+    zh: {
+      s: '一般咨询｜泽锐 zerui 户外厨房',
+      b: '您好，我想咨询泽锐 zerui 户外厨房的相关信息。\n\n咨询内容：\n联系方式：\n\n（来源：ruizeoutdoor.com 官网 · Contact）'
+    },
+    en: {
+      s: 'General Enquiry | ZERUI Outdoor Kitchen',
+      b: 'Hello, I would like to contact ZERUI about outdoor kitchens.\n\nEnquiry:\nContact details:\n\n(Source: ruizeoutdoor.com — Contact)'
+    }
+  };
+
+  var MAIL_LINKS = {
+    'nav-contact': MAIL_CONTACT,
+    'cta-quote': MAIL_QUOTE,
+    'cta-proposal': MAIL_QUOTE
+  };
+
+  function applyMailLinks() {
+    Object.keys(MAIL_LINKS).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var cfg = MAIL_LINKS[id][lang];
+      el.setAttribute(
+        'href',
+        'mailto:' + MAIL_TO +
+        '?subject=' + encodeURIComponent(cfg.s) +
+        '&body=' + encodeURIComponent(cfg.b)
+      );
+    });
+  }
+
   var lang = 'zh';
   try {
     var saved = localStorage.getItem('zerui-lang');
@@ -54,6 +98,8 @@
     } catch (err) {
       /* noop */
     }
+
+    applyMailLinks();
   }
 
   applyLang(lang);
