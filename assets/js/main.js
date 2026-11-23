@@ -21,48 +21,33 @@
     }
   };
 
-  var MAIL_TO = '1806190090@qq.com';
+  var WA_NUMBER = '8617853993611';
 
-  var MAIL_QUOTE = {
-    zh: {
-      s: '询价｜泽锐 zerui 户外厨房定制方案',
-      b: '您好，我想咨询泽锐 zerui 户外厨房的定制与报价。\n\n产品需求：\n项目地点：\n预计数量：\n联系方式：\n\n（来源：ruizeoutdoor.com 官网 · Get a Quote）'
+  var WA_TEXT = {
+    general: {
+      zh: '你好，我想了解一下泽锐的户外厨房产品',
+      en: 'Hello, I would like to learn more about ZERUI outdoor kitchen products.'
     },
-    en: {
-      s: 'Quote Request | ZERUI Outdoor Kitchen',
-      b: 'Hello, I would like to request a quote for a ZERUI outdoor kitchen.\n\nProduct requirements:\nProject location:\nEstimated quantity:\nContact details:\n\n(Source: ruizeoutdoor.com — Get a Quote)'
+    quote: {
+      zh: '你好，我想咨询泽锐户外厨房的报价，产品需求：',
+      en: 'Hello, I would like a quote for a ZERUI outdoor kitchen. Product requirements:'
     }
   };
 
-  var MAIL_LINKS = {
-    'cta-quote': MAIL_QUOTE,
-    'cta-proposal': MAIL_QUOTE
-  };
-
-  var WA_NUMBER = '8617853993611';
-  var WA_TEXT = {
-    zh: '你好，我想了解一下泽锐的户外厨房产品',
-    en: 'Hello, I would like to learn more about ZERUI outdoor kitchen products.'
+  var WA_LINKS = {
+    'nav-contact': 'general',
+    'cta-whatsapp': 'general',
+    'cta-quote': 'quote',
+    'cta-proposal': 'quote'
   };
 
   function applyWhatsAppLinks() {
-    var href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(WA_TEXT[lang]);
-    ['nav-contact', 'cta-whatsapp'].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) el.setAttribute('href', href);
-    });
-  }
-
-  function applyMailLinks() {
-    Object.keys(MAIL_LINKS).forEach(function (id) {
+    Object.keys(WA_LINKS).forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
-      var cfg = MAIL_LINKS[id][lang];
       el.setAttribute(
         'href',
-        'mailto:' + MAIL_TO +
-        '?subject=' + encodeURIComponent(cfg.s) +
-        '&body=' + encodeURIComponent(cfg.b)
+        'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(WA_TEXT[WA_LINKS[id]][lang])
       );
     });
   }
@@ -101,7 +86,6 @@
       /* noop */
     }
 
-    applyMailLinks();
     applyWhatsAppLinks();
   }
 
