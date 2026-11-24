@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ruizeoutdoor.com/sitemap.xml
+Sitemap: https://zeruioutdoor.com/sitemap.xml
