@@ -11,25 +11,37 @@ const rangeRows = [
     model: 'Standard',
     modelZh: '标准款',
     size: '2.85 × 0.73 × 2.28 m',
+    sizeImperial: '112 × 29 × 90 in',
     weight: '800 kg',
+    weightImperial: '1,764 lb',
     packedSize: '2.93 × 0.78 × 2.46 m',
+    packedSizeImperial: '115 × 31 × 97 in',
     packedWeight: '900 kg',
+    packedWeightImperial: '1,984 lb',
   },
   {
     model: 'Original',
     modelZh: '原创款',
     size: '2.25 × 0.73 × 2.28 m',
+    sizeImperial: '89 × 29 × 90 in',
     weight: '650 kg',
+    weightImperial: '1,433 lb',
     packedSize: '2.33 × 0.78 × 2.46 m',
+    packedSizeImperial: '92 × 31 × 97 in',
     packedWeight: '760 kg',
+    packedWeightImperial: '1,676 lb',
   },
   {
     model: 'Flagship',
     modelZh: '旗舰款',
     size: '3.50 × 0.73 × 2.28 m',
+    sizeImperial: '138 × 29 × 90 in',
     weight: '900 kg',
+    weightImperial: '1,984 lb',
     packedSize: '3.58 × 0.78 × 2.46 m',
+    packedSizeImperial: '141 × 31 × 97 in',
     packedWeight: '1,030 kg',
+    packedWeightImperial: '2,271 lb',
   },
   {
     model: 'Foldable',
@@ -37,17 +49,25 @@ const rangeRows = [
     size: '2.80 × 0.96 × 1.15 m',
     sizeNoteZh: '顶篷收起',
     sizeNoteEn: 'canopy closed',
+    sizeImperial: '110 × 38 × 45 in',
     weight: '600 kg',
+    weightImperial: '1,323 lb',
     packedSize: '2.93 × 1.04 × 1.24 m',
+    packedSizeImperial: '115 × 41 × 49 in',
     packedWeight: '680 kg',
+    packedWeightImperial: '1,499 lb',
   },
   {
     model: 'Simple (Terrace)',
     modelZh: '简版（露台）',
     size: '2.85 × 0.91 × 2.37 m',
+    sizeImperial: '112 × 36 × 93 in',
     weight: '600 kg',
+    weightImperial: '1,323 lb',
     packedSize: '2.93 × 1.12 × 2.47 m',
+    packedSizeImperial: '115 × 44 × 97 in',
     packedWeight: '700 kg',
+    packedWeightImperial: '1,543 lb',
   },
 ];
 ---
@@ -55,7 +75,7 @@ const rangeRows = [
 <Layout
   path="/products/"
   current="/products/"
-  titleZh="收藏｜泽锐 zerui 户外厨房"
+  titleZh="收藏｜ZERUI"
   titleEn="The Collection | ZERUI Outdoor Kitchens"
   descZh="泽锐 zerui 的户外厨房收藏：预制的一体化户外厨房舱与模块化套件，五种工厂型号，可配置不锈钢结构、集成烹饪台与可升降式遮阳篷。含标准尺寸与装箱重量表。"
   descEn="The ZERUI outdoor kitchen collection: prefabricated, all-in-one pods and modular kits in five factory models, with configurable stainless steel structures, integrated cooking stations and lift-up canopies. Standard dimensions and packed weights included."
@@ -182,13 +202,23 @@ const rangeRows = [
                   </th>
                   <td>
                     {row.size}
+                    <span class="cell-note">{row.sizeImperial}</span>
                     {row.sizeNoteZh && (
                       <span class="cell-note" data-en={row.sizeNoteEn}>({row.sizeNoteZh})</span>
                     )}
                   </td>
-                  <td>{row.weight}</td>
-                  <td>{row.packedSize}</td>
-                  <td>{row.packedWeight}</td>
+                  <td>
+                    {row.weight}
+                    <span class="cell-note">{row.weightImperial}</span>
+                  </td>
+                  <td>
+                    {row.packedSize}
+                    <span class="cell-note">{row.packedSizeImperial}</span>
+                  </td>
+                  <td>
+                    {row.packedWeight}
+                    <span class="cell-note">{row.packedWeightImperial}</span>
+                  </td>
                 </tr>
               ))
             }

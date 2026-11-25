@@ -13,11 +13,11 @@ export const SITE = {
 };
 
 export const navItems = [
-  { href: '/products/', zh: '收藏', en: 'Collection' },
+  { href: '/products/', zh: '收藏', en: 'Outdoor Kitchens' },
   { href: '/custom/', zh: 'OEM 与定制', en: 'OEM & Custom' },
-  { href: '/projects/', zh: '经销商', en: 'Dealers' },
+  { href: '/projects/', zh: '经销商', en: 'Dealer Program' },
   { href: '/factory/', zh: '工厂', en: 'Factory' },
-  { href: '/guides/', zh: '指南', en: 'Guide' },
+  { href: '/guides/', zh: '指南', en: 'Buying Guide' },
   { href: '/about/', zh: '关于', en: 'About' },
   { href: '/contact/', zh: '联系', en: 'Contact' },
 ];

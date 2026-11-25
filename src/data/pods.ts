@@ -145,8 +145,8 @@ export const pods: Pod[] = [
       {
         labelZh: '尺寸',
         labelEn: 'Dimensions',
-        valueZh: '2.85 × 0.73 × 2.28 m（宽 × 深 × 高）；单台重量 800 kg',
-        valueEn: '2.85 × 0.73 × 2.28 m (W × D × H); unit weight 800 kg',
+        valueZh: '2.85 × 0.73 × 2.28 m（112 × 29 × 90 in，宽 × 深 × 高）；单台重量 800 kg（1,764 lb）',
+        valueEn: '2.85 × 0.73 × 2.28 m (112 × 29 × 90 in, W × D × H); unit weight 800 kg (1,764 lb)',
       },
       {
         labelZh: '顶篷',
@@ -179,9 +179,9 @@ export const pods: Pod[] = [
       {
         labelZh: '包装与运输',
         labelEn: 'Packing & shipping',
-        valueZh: '包装尺寸 2.93 × 0.78 × 2.46 m；包装重量 900 kg；装柜方案在报价时确认',
+        valueZh: '包装尺寸 2.93 × 0.78 × 2.46 m（115 × 31 × 97 in）；包装重量 900 kg（1,984 lb）；装柜方案在报价时确认',
         valueEn:
-          'Packed size 2.93 × 0.78 × 2.46 m; packed weight 900 kg; container plan confirmed at quotation',
+          'Packed size 2.93 × 0.78 × 2.46 m (115 × 31 × 97 in); packed weight 900 kg (1,984 lb); container plan confirmed at quotation',
       },
       {
         labelZh: '最小起订',

@@ -16,15 +16,84 @@ const { pod } = Astro.props;
 const relatedPods = pod.related
   .map((slug) => pods.find((item) => item.slug === slug))
   .filter(Boolean);
+
+const metaTitlesEn: Record<string, string> = {
+  obsidian: 'Obsidian Integrated Outdoor Kitchen Pod with Lift-Up Canopy | ZERUI',
+  lumiere: 'Lumière Courtyard Outdoor Kitchen Pod | ZERUI',
+  'copper-studio': 'Copper Studio Outdoor Kitchen & Entertainment Pod | ZERUI',
+  'chef-edition': 'Chef Edition Flagship Outdoor Kitchen Pod | ZERUI',
+  'mirror-edition': 'Mirror Edition Architectural Outdoor Kitchen Pod | ZERUI',
+};
+const titleEn = metaTitlesEn[pod.slug] ?? `${pod.nameEn} Outdoor Kitchen Pod | ZERUI`;
+
+const siteOrigin = Astro.site ?? new URL('https://zeruioutdoor.com');
+const pageUrl = new URL(`/product/${pod.slug}/`, siteOrigin).href;
+const imageUrl = new URL(images[pod.image].src, siteOrigin).href;
+
+const deliverySpecs = [
+  {
+    labelZh: '40HQ 装柜量',
+    labelEn: '40HQ container load',
+    valueZh: '12–24 台，视型号与包装',
+    valueEn: '12–24 pods, depending on model and packing',
+  },
+  {
+    labelZh: '台面',
+    labelEn: 'Countertop',
+    valueZh: '烧结石、石英石或不锈钢，按配置',
+    valueEn: 'Sintered stone, quartz or stainless steel, to configuration',
+  },
+  {
+    labelZh: '保修',
+    labelEn: 'Warranty',
+    valueZh: '1 年，提供备件',
+    valueEn: '1 year, spare parts available',
+  },
+];
+
+const jsonLd = [
+  {
+    '@type': 'Product',
+    name: pod.fullEn,
+    alternateName: `${pod.nameZh} ${pod.fullEn}`,
+    description: pod.leadEn,
+    image: [imageUrl],
+    sku: `ZERUI-${pod.slug.toUpperCase()}`,
+    brand: { '@type': 'Brand', name: 'ZERUI' },
+    manufacturer: { '@type': 'Organization', name: 'ZERUI' },
+    material: '304 stainless steel',
+    url: pageUrl,
+    additionalProperty: pod.specs.map((spec) => ({
+      '@type': 'PropertyValue',
+      name: spec.labelEn,
+      value: spec.valueEn,
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', siteOrigin).href },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Outdoor kitchens',
+        item: new URL('/products/', siteOrigin).href,
+      },
+      { '@type': 'ListItem', position: 3, name: pod.nameEn, item: pageUrl },
+    ],
+  },
+];
 ---
 
 <Layout
   path={`/product/${pod.slug}/`}
   current="/products/"
-  titleZh={`${pod.nameZh}｜泽锐 zerui 户外厨房`}
-  titleEn={`${pod.nameEn} | ZERUI Outdoor Kitchens`}
+  titleZh={`${pod.nameZh}｜ZERUI`}
+  titleEn={titleEn}
   descZh={pod.leadZh}
   descEn={pod.leadEn}
+  ogImage={imageUrl}
+  jsonLd={jsonLd}
 >
   <section class="section">
     <div class="wrap">
@@ -84,6 +153,24 @@ const relatedPods = pod.related
           <tbody>
             {
               pod.specs.map((spec) => (
+                <tr>
+                  <th scope="row">
+                    <span data-en={spec.labelEn}>{spec.labelZh}</span>
+                  </th>
+                  <td>
+                    <span data-en={spec.valueEn}>{spec.valueZh}</span>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="table-scroll pd-specs">
+        <table class="spec-table spec-table--spec">
+          <tbody>
+            {
+              deliverySpecs.map((spec) => (
                 <tr>
                   <th scope="row">
                     <span data-en={spec.labelEn}>{spec.labelZh}</span>

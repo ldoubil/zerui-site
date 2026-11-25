@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../data/site';
+import { enPath } from '../lib/i18n';
 
 const {
   titleZh,
@@ -20,8 +21,11 @@ const {
 } = Astro.props;
 
 const site = Astro.site ?? new URL('https://zeruioutdoor.com');
-const canonical = new URL(path ?? Astro.url.pathname, site).href;
-const canonicalEn = `${canonical}?lang=en`;
+const pagePath = path ?? Astro.url.pathname;
+const is404 = pagePath === '/404/';
+const canonical = new URL(pagePath, site).href;
+const enEquivalent = is404 ? '/en/' : enPath(pagePath);
+const canonicalEn = new URL(enEquivalent, site).href;
 const ogImageUrl = ogImage
   ? new URL(ogImage, site).href
   : new URL('/og-image.png', site).href;
@@ -70,7 +74,7 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang="zh-CN" data-lang="zh">
+<html lang="zh-CN" data-lang="zh" data-en-url={enEquivalent} data-zh-url={pagePath}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -88,9 +92,15 @@ const structuredData = {
     <meta name="theme-color" content="#0e1116" />
 
     <link rel="canonical" href={canonical} />
-    <link rel="alternate" hreflang="zh-CN" href={canonical} />
-    <link rel="alternate" hreflang="en" href={canonicalEn} />
-    <link rel="alternate" hreflang="x-default" href={canonical} />
+    {
+      !is404 && (
+        <>
+          <link rel="alternate" hreflang="zh-CN" href={canonical} />
+          <link rel="alternate" hreflang="en" href={canonicalEn} />
+          <link rel="alternate" hreflang="x-default" href={canonicalEn} />
+        </>
+      )
+    }
 
     {
       preload &&
@@ -135,17 +145,15 @@ const structuredData = {
       (function () {
         try {
           var q = new URLSearchParams(location.search).get('lang');
-          var saved = localStorage.getItem('zerui-lang');
-          var lang =
-            q === 'en' || q === 'zh'
-              ? q
-              : saved === 'en' || saved === 'zh'
-                ? saved
-                : /^zh/i.test(navigator.language || '')
-                  ? 'zh'
-                  : 'en';
-          document.documentElement.dataset.lang = lang;
-          document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+          if (q !== 'en' && q !== 'zh') return;
+          var root = document.documentElement;
+          var target = q === 'en' ? root.dataset.enUrl : root.dataset.zhUrl;
+          if (!target) return;
+          if (location.pathname !== target) {
+            location.replace(target + location.hash);
+            return;
+          }
+          history.replaceState(null, '', target + location.hash);
         } catch (e) {}
       })();
     </script>
@@ -160,7 +168,7 @@ const structuredData = {
   >
     <a class="skip-link" href="#main" data-en="Skip to main content">跳到主要内容</a>
 
-    <Header current={current} overlay={headerOverlay} />
+    <Header current={current} overlay={headerOverlay} langHref={is404 ? '/en/' : enPath(pagePath)} />
 
     <main id="main">
       <slot />

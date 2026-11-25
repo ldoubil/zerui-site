@@ -26,7 +26,7 @@ const faqPage = {
 <Layout
   path="/faq/"
   current="/faq/"
-  titleZh="常见问题｜泽锐 zerui 户外厨房"
+  titleZh="常见问题｜ZERUI"
   titleEn="FAQ | ZERUI Outdoor Kitchens"
   descZh="关于户外厨房定制、报价、起订量、排期、物流、安装与售后的常见问题。答案给出条件与处理方式，不做绝对承诺。"
   descEn="Common questions about custom outdoor kitchens, quotes, minimum quantities, scheduling, shipping, installation and after-sales — answered with conditions rather than promises."
@@ -67,7 +67,7 @@ const faqPage = {
               <h2 data-en={group.title.en}>{group.title.zh}</h2>
               <div class="faq-list">
                 {group.items.map((item, index) => (
-                  <div class="faq-item" id={item.id}>
+                  <div class="faq-item" id={item.id} data-q-en={item.q.en} data-a-en={item.a.en}>
                     <h3 class="faq-q">
                       <span class="idx">{String(index + 1).padStart(2, '0')}</span>
                       <span data-en={item.q.en}>{item.q.zh}</span>

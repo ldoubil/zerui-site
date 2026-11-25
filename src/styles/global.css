@@ -240,6 +240,9 @@ a.nav-item[aria-current="page"] {
 }
 
 .lang-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 46px;
   height: 34px;
   padding: 0 10px;
@@ -249,6 +252,7 @@ a.nav-item[aria-current="page"] {
   font-family: inherit;
   font-size: 10.5px;
   letter-spacing: 0.14em;
+  text-decoration: none;
   cursor: pointer;
   transition: border-color 0.38s var(--ease), color 0.38s var(--ease);
 }
