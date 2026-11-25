@@ -7,6 +7,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { parse } from 'node-html-parser';
+import PDFDocument from 'pdfkit';
+import { enPath } from '../src/lib/routes.mjs';
 
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, 'dist');
@@ -28,6 +30,12 @@ const EN_TITLES = {
   '/products/islands/': 'Integrated Outdoor Kitchen Islands, Built to Project | ZERUI',
   '/products/modular/': 'Modular Outdoor Kitchen Systems for Dealers | ZERUI',
   '/projects/': 'Outdoor Kitchen Dealer & Distributor Program | ZERUI',
+  '/case-studies/': 'Outdoor Kitchen Project Case Studies | ZERUI',
+  '/resources/': 'Buyer Resources: Compliance, Shipping & Installation | ZERUI',
+  '/resources/compliance/': 'Outdoor Kitchen Compliance & Certification by Project | ZERUI',
+  '/resources/shipping/': 'Outdoor Kitchen Export Packing, Container Loading & Shipping | ZERUI',
+  '/resources/installation/': 'Outdoor Kitchen Installation Preparation Checklist | ZERUI',
+  '/custom/oem/': 'Outdoor Kitchen OEM & Private Label Manufacturing | ZERUI',
   '/product/obsidian/': 'Obsidian Integrated Outdoor Kitchen Pod with Lift-Up Canopy | ZERUI',
   '/product/lumiere/': 'Lumière Courtyard Outdoor Kitchen Pod | ZERUI',
   '/product/copper-studio/': 'Copper Studio Outdoor Kitchen & Entertainment Pod | ZERUI',
@@ -46,6 +54,12 @@ const SOURCE_FILES = {
   '/privacy/': 'src/pages/privacy/index.astro',
   '/products/': 'src/pages/products/index.astro',
   '/projects/': 'src/pages/projects/index.astro',
+  '/case-studies/': 'src/pages/case-studies/index.astro',
+  '/resources/': 'src/pages/resources/index.astro',
+  '/resources/compliance/': 'src/pages/resources/compliance/index.astro',
+  '/resources/shipping/': 'src/pages/resources/shipping/index.astro',
+  '/resources/installation/': 'src/pages/resources/installation/index.astro',
+  '/custom/oem/': 'src/pages/custom/oem.astro',
   '/products/cabinets/': 'src/pages/products/[category].astro',
   '/products/grills/': 'src/pages/products/[category].astro',
   '/products/islands/': 'src/pages/products/[category].astro',
@@ -61,6 +75,7 @@ const ASSET_PREFIXES = [
   '/_astro/',
   '/videos/',
   '/assets/',
+  '/specs/',
   '/favicon',
   '/apple-touch-icon',
   '/icon-',
@@ -71,19 +86,6 @@ const ASSET_PREFIXES = [
   '/sitemap',
   '/logo.svg',
 ];
-
-export function enPath(p) {
-  const clean = p.endsWith('/') ? p : `${p}/`;
-  if (clean === '/') return '/en/';
-  if (clean === '/projects/') return '/en/dealer-program/';
-  return `/en${clean}`;
-}
-
-function zhPathOf(p) {
-  if (p === '/en/' || p === '/en') return '/';
-  if (p === '/en/dealer-program/') return '/projects/';
-  return p.replace(/^\/en/, '') || '/';
-}
 
 function abs(p) {
   return ORIGIN + p;
@@ -382,6 +384,83 @@ function buildIndex() {
   );
 }
 
+// ---- 规格表 PDF ----
+function specRowsFromHtml(html) {
+  const root = parse(html);
+  const rows = [];
+  for (const tr of root.querySelectorAll('.spec-table tr')) {
+    const th = tr.querySelector('th');
+    const td = tr.querySelector('td');
+    if (!th || !td) continue;
+    const label = th.textContent.replace(/\s+/g, ' ').trim();
+    const value = td.textContent.replace(/\s+/g, ' ').trim();
+    if (label && value) rows.push([label, value]);
+  }
+  return rows;
+}
+
+function writeSpecSheet(file, title, rows) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  const doc = new PDFDocument({
+    size: 'A4',
+    margin: 48,
+    info: { Title: `${title} - Specification`, Author: 'ZERUI' },
+  });
+  doc.pipe(fs.createWriteStream(file));
+
+  doc.font('Helvetica-Bold').fontSize(17).fillColor('#14161a').text('ZERUI');
+  doc
+    .font('Helvetica')
+    .fontSize(8)
+    .fillColor('#6b6f76')
+    .text('Professional outdoor kitchen manufacturer  ·  zeruioutdoor.com');
+  doc.moveDown(1.1);
+  doc.font('Helvetica-Bold').fontSize(14).fillColor('#14161a').text(`${title} - specification`, {
+    width: 499,
+  });
+  doc.moveDown(0.35);
+  doc
+    .font('Helvetica')
+    .fontSize(8)
+    .fillColor('#6b6f76')
+    .text(
+      `Generated ${new Date().toISOString().slice(0, 10)}. Final configuration, packed size and weight are confirmed at quotation.`,
+      { width: 499 }
+    );
+  doc.moveDown(0.9);
+
+  for (const [label, value] of rows) {
+    if (doc.y > 720) doc.addPage();
+    const y = doc.y;
+    doc.moveTo(48, y).lineTo(547, y).lineWidth(0.5).strokeColor('#e2e2e2').stroke();
+    doc
+      .font('Helvetica-Bold')
+      .fontSize(8.5)
+      .fillColor('#14161a')
+      .text(label, 48, y + 6, { width: 136 });
+    const labelBottom = doc.y;
+    doc
+      .font('Helvetica')
+      .fontSize(8.5)
+      .fillColor('#33373d')
+      .text(value, 190, y + 6, { width: 357 });
+    doc.y = Math.max(labelBottom, doc.y) + 6;
+  }
+
+  doc.moveDown(1);
+  doc
+    .font('Helvetica')
+    .fontSize(7.5)
+    .fillColor('#6b6f76')
+    .text(
+      'ZERUI · Outdoor kitchen pods and modular systems · Linyi, Shandong, China · zeruioutdoor.com',
+      48,
+      doc.y,
+      { width: 499 }
+    );
+  doc.end();
+}
+
 // ---- main ----
 // CI 默认浅克隆，补全历史后 sitemap 的 lastmod 才能取到真实内容更新时间
 try {
@@ -420,6 +499,20 @@ for (const page of pages) {
     .replace(/<[^>]+>/g, ' ');
   const cjk = [...text].filter(isChinese).length;
   report.push({ route: page.route, enRoute, cjk });
+
+  // 每个产品页生成一份英文规格表 PDF
+  if (page.route.startsWith('/product/')) {
+    const slug = page.route.split('/')[2];
+    const h1 = (enHtml.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || slug;
+    const title = decodeEntities(h1.replace(/<[^>]+>/g, ''))
+      .replace(/\s+/g, ' ')
+      .trim();
+    writeSpecSheet(
+      path.join(DIST, 'specs', `${slug}-outdoor-kitchen-spec-sheet.pdf`),
+      title,
+      specRowsFromHtml(enHtml)
+    );
+  }
 }
 
 fs.writeFileSync(path.join(DIST, 'sitemap-0.xml'), buildSitemap(routes, images));

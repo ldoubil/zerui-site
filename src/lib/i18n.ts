@@ -1,17 +1,5 @@
 /**
- * 中英文路径映射。中文不带前缀，英文统一挂在 /en/ 下。
- * 经销商页英文使用 /en/dealer-program/（与手册一致）。
+ * 中英文路径映射。映射表在 src/lib/routes.mjs，与构建脚本共用同一份。
+ * 中文不带前缀，英文统一挂在 /en/ 下；经销商页英文为 /en/dealer-program/。
  */
-export function enPath(path: string): string {
-  const p = path.endsWith('/') ? path : `${path}/`;
-  if (p === '/') return '/en/';
-  if (p === '/projects/') return '/en/dealer-program/';
-  return `/en${p}`;
-}
-
-export function zhPath(path: string): string {
-  const p = path.endsWith('/') ? path : `${path}/`;
-  if (p === '/en/' || p === '/en') return '/';
-  if (p === '/en/dealer-program/') return '/projects/';
-  return p.replace(/^\/en/, '') || '/';
-}
+export { enPath, zhPath } from './routes.mjs';

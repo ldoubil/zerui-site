@@ -14,6 +14,7 @@
     "astro": "^7.4.13"
   },
   "devDependencies": {
-    "node-html-parser": "^9.0.7"
+    "node-html-parser": "^9.0.7",
+    "pdfkit": "^0.21.0"
   }
 }

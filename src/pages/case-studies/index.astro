@@ -1,0 +1,224 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import InquiryCard from '../../components/InquiryCard.astro';
+
+const caseFields = [
+  {
+    no: '01',
+    titleZh: '客户背景',
+    titleEn: 'Buyer background',
+    bodyZh: [
+      '国家 / 地区：待补充',
+      '买家类型：经销商 / 进口商 / 项目商 / 终端业主（待确认）',
+      '品牌与渠道：待补充',
+    ],
+    bodyEn: [
+      'Country / region: to be added',
+      'Buyer type: dealer / importer / contractor / end client (to be confirmed)',
+      'Brand and channel: to be added',
+    ],
+  },
+  {
+    no: '02',
+    titleZh: '场地条件',
+    titleEn: 'Site conditions',
+    bodyZh: [
+      '室内 / 室外：待补充',
+      '可用长度 × 进深 × 净高：待补充',
+      '搬运通道、台阶与吊装落点：待补充',
+      '气候与暴露：沿海 / 多雨 / 强风（待确认）',
+    ],
+    bodyEn: [
+      'Indoor / outdoor: to be added',
+      'Clear length × depth × height: to be added',
+      'Delivery route, steps and lifting position: to be added',
+      'Climate and exposure: coastal / rainy / high wind (to be confirmed)',
+    ],
+  },
+  {
+    no: '03',
+    titleZh: '配置方案',
+    titleEn: 'Configuration',
+    bodyZh: [
+      '型号与结构：待补充',
+      '台面与柜门饰面：待补充',
+      '设备清单（烤炉、水槽、冷藏、照明）：待补充',
+      '品牌与包装要求：待补充',
+    ],
+    bodyEn: [
+      'Model and structure: to be added',
+      'Worktop and door finish: to be added',
+      'Equipment list (grill, sink, refrigeration, lighting): to be added',
+      'Branding and packing requirements: to be added',
+    ],
+  },
+  {
+    no: '04',
+    titleZh: '交付与安装',
+    titleEn: 'Delivery & installation',
+    bodyZh: [
+      '数量与批次：待补充',
+      '40HQ 装柜量：按型号与包装确认（12–24 台区间）',
+      '生产与交付周期：标准生产 20 天，运输按目的地确认',
+      '安装方式与现场准备：待补充',
+    ],
+    bodyEn: [
+      'Quantity and phases: to be added',
+      '40HQ container load: confirmed by model and packing (12–24 units)',
+      'Production and delivery: 20-day standard production, freight confirmed by destination',
+      'Installation method and site preparation: to be added',
+    ],
+  },
+];
+
+const cases = [
+  {
+    no: 'CASE 01',
+    titleZh: '经销商展厅样机（结构模板）',
+    titleEn: 'Dealer showroom unit (template)',
+    ledeZh:
+      '一条完整的案例应说明：谁买的、放在什么场地、配了什么、怎么交付和安装。下面四个字段是固定结构，实拍与项目信息到位后逐项替换。',
+    ledeEn:
+      'A complete case explains who bought it, where it stands, what was specified, and how it was delivered and installed. The four fields below are the fixed structure; replace each item once photos and project information are available.',
+  },
+  {
+    no: 'CASE 02',
+    titleZh: '别墅庭院项目（结构模板）',
+    titleEn: 'Villa courtyard project (template)',
+    ledeZh:
+      '庭院项目通常更关注通道、基础与遮蔽：吊装能否到位、地面能否承重、顶棚打开后的净高是否足够。',
+    ledeEn:
+      'Courtyard projects depend on access, foundation and cover: whether the unit can be lifted into position, whether the ground carries the load, and whether there is clear height with the canopy open.',
+  },
+  {
+    no: 'CASE 03',
+    titleZh: '酒店与餐饮项目（结构模板）',
+    titleEn: 'Hotel & hospitality project (template)',
+    ledeZh:
+      '多台项目要把同一配置重复到不同楼栋或批次，主规格、包装、唛头与安装顺序都需要在首批发货前书面确认。',
+    ledeEn:
+      'Multi-unit projects repeat one specification across buildings or phases; the master specification, packing, shipping marks and installation sequence are confirmed in writing before the first shipment.',
+  },
+];
+
+const checklist = [
+  { zh: '客户所在国家与买家类型', en: 'Customer country and buyer type' },
+  { zh: '场地照片与实测尺寸', en: 'Site photos and measured dimensions' },
+  { zh: '型号、配置与设备清单', en: 'Model, configuration and equipment list' },
+  { zh: '装柜数量与实际交付周期', en: 'Container quantity and actual delivery window' },
+  { zh: '安装方式与现场准备', en: 'Installation method and site preparation' },
+  { zh: '可公开的客户评价（可选）', en: 'A client quote cleared for publication (optional)' },
+];
+---
+
+<Layout
+  path="/case-studies/"
+  current=""
+  titleZh="户外厨房项目案例（结构模板）｜ZERUI"
+  titleEn="Outdoor Kitchen Project Case Studies | ZERUI"
+  descZh="泽锐 zerui 的户外厨房项目案例页：按客户背景、场地条件、配置方案、交付与安装四段结构整理。当前为可替换的结构模板，实拍与项目信息到位后填充。"
+  descEn="ZERUI outdoor kitchen case studies, structured by buyer background, site conditions, configuration, and delivery and installation. This page is a replaceable template until project photos and details are supplied."
+>
+  <PageHero
+    eyebrowZh="CASE STUDIES"
+    eyebrowEn="CASE STUDIES"
+    titleZh="项目案例：按同一结构讲清楚"
+    titleEn="Case studies, told in one structure"
+    ledeZh="每个案例固定四段：客户背景、场地条件、配置方案、交付与安装。当前为结构模板，字段待实拍与项目信息填充。"
+    ledeEn="Every case follows four parts: buyer background, site conditions, configuration, and delivery and installation. The page is a template until photos and project information are supplied."
+  >
+    <div class="page-hero-meta">
+      <span data-en="4 fixed fields">4 个固定字段</span>
+      <span data-en="3 templates">3 个结构模板</span>
+      <span data-en="Photos pending">实拍待补</span>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap">
+      <p
+        class="note"
+        data-en="Do not publish client names, project details or photos until they are confirmed in writing by the client. Items marked 'to be added' are placeholders, not project facts."
+      >
+        客户名称、项目细节与照片在获得客户书面确认前不对外发布。标注「待补充」的内容为占位说明，不是已发生的项目事实。
+      </p>
+    </div>
+  </section>
+
+  {
+    cases.map((item, index) => (
+      <section class={`section ${index % 2 === 1 ? 'section--pale' : ''}`}>
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow" data-en={item.no}>{item.no} · 结构模板</p>
+              <h2 class="section-title" data-en={item.titleEn}>{item.titleZh}</h2>
+            </div>
+          </div>
+          <p class="section-lede" data-en={item.ledeEn}>{item.ledeZh}</p>
+          <div class="principles principles--four">
+            {caseFields.map((field) => (
+              <div class="principle">
+                <span class="step-no">{field.no}</span>
+                <h3 data-en={field.titleEn}>{field.titleZh}</h3>
+                {field.bodyZh.map((line, lineIndex) => (
+                  <p data-en={field.bodyEn[lineIndex]}>{line}</p>
+                ))}
+              </div>
+            ))}
+          </div>
+          <p
+            class="note"
+            data-en="Photos, drawings and the client quote for this case are pending. Replace the four fields above and add the images before publishing."
+          >
+            本案例的实拍、图纸与客户评价待补充。发布前请替换上方四个字段并补入图片。
+          </p>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="What a finished case needs">一个可发布的案例需要什么</h2>
+        <span class="section-note" data-en="Fill the list">逐项补齐</span>
+      </div>
+      <ul class="plain-list">
+        {
+          checklist.map((item, index) => (
+            <li>
+              <span class="idx">{String(index + 1).padStart(2, '0')}</span>
+              <span data-en={item.en}>{item.zh}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p
+        class="note"
+        data-en="Until these are available, the case stays a template: the structure is published, the facts are not."
+      >
+        在这些信息到位之前，案例保持模板状态：结构可以公开，事实不代填。
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="CASE STUDIES"
+        eyebrowEn="CASE STUDIES"
+        titleZh="有类似的项目？"
+        titleEn="Planning a similar project?"
+        descZh="把场地条件、配置方向与数量发过来，我们按同样的四段结构帮你梳理方案。"
+        descEn="Send the site conditions, configuration direction and quantity, and we will work through the same four-part structure with you."
+        secondaryLabelZh="查看收藏"
+        secondaryLabelEn="See the collection"
+        secondaryHref="/products/"
+        noteZh="项目照片与图纸可以直接在 WhatsApp 中发送。"
+        noteEn="Project photos and drawings can be sent directly in WhatsApp."
+      />
+    </div>
+  </section>
+</Layout>

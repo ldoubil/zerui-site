@@ -1,0 +1,158 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import InquiryCard from '../../../components/InquiryCard.astro';
+
+const sections = [
+  {
+    no: '01',
+    titleZh: '为什么没有一张通用证书',
+    titleEn: 'Why one generic certificate does not exist',
+    bodyZh: [
+      '户外厨房由结构、电气元件、燃气设备与整机组合而成。同一套柜体，换一个目的地市场、换一台设备或改一处接线，适用的要求就会变化。',
+      '所以我们不预先承诺「有 CE / 有某证书」，而是在报价与出图阶段，按你的配置与目的地逐项核对，并把可提供的文件写进报价。',
+    ],
+    bodyEn: [
+      'An outdoor kitchen combines a structure, electrical components, gas equipment and the finished unit. The same cabinet run can fall under different requirements when the destination market, an appliance or a connection changes.',
+      'We therefore do not pre-commit to "CE" or any named certificate. Instead, requirements are checked item by item during quotation and drawing, and the documents we can supply are written into the quotation.',
+    ],
+  },
+  {
+    no: '02',
+    titleZh: '我们按什么核对',
+    titleEn: 'What we check against',
+    bodyZh: [
+      '目的地市场：国家与地区、项目类型（家用、商用、酒店）以及当地验收方式。',
+      '配置：电气规格（110V 或 220V，按市场接线）、燃气类型与接口、设备清单与安装方式。',
+      '结构与材料：不锈钢牌号、表面处理、沿海或高湿环境的防腐要求。',
+      '文件与标识：包装声明、唛头、说明书语言，以及项目方指定的其他资料。',
+    ],
+    bodyEn: [
+      'Destination: country and region, project type (residential, commercial, hospitality) and how the site is signed off locally.',
+      'Configuration: electrical specification (110V or 220V, wired for the market), gas type and connection, equipment list and installation method.',
+      'Structure and materials: stainless steel grade, surface finish, and corrosion requirements for coastal or high-humidity sites.',
+      'Documents and marking: packing declarations, shipping marks, manual language and any further items the project specifies.',
+    ],
+  },
+  {
+    no: '03',
+    titleZh: '可以提供的文件',
+    titleEn: 'Documents we can supply',
+    bodyZh: [
+      '元件说明与规格：按实际选用的设备与元件提供。',
+      '整机说明与图纸：结构、尺寸、接口位置与安装说明。',
+      '包装与运输文件：装箱清单、包装尺寸与重量、唛头。',
+      '项目指定资料：按项目要求逐项确认能否提供，不默认全部具备。',
+    ],
+    bodyEn: [
+      'Component information and specifications for the equipment actually selected.',
+      'Unit documentation and drawings: structure, dimensions, connection points and installation instructions.',
+      'Packing and shipping documents: packing list, packed size and weight, shipping marks.',
+      'Project-specific paperwork: confirmed item by item against the request, never assumed.',
+    ],
+  },
+  {
+    no: '04',
+    titleZh: '确认流程',
+    titleEn: 'How confirmation works',
+    bodyZh: [
+      '第一步：说明目的地市场、项目类型与验收要求。',
+      '第二步：确定配置与设备清单，明确电气与燃气规格。',
+      '第三步：我们列出该项目可提供的文件，写进报价。',
+      '第四步：图纸与文件清单在投产前书面确认，随货交付。',
+    ],
+    bodyEn: [
+      'Step 1: state the destination market, project type and acceptance requirements.',
+      'Step 2: fix the configuration and equipment list, including electrical and gas specifications.',
+      'Step 3: we list the documents available for that project and include them in the quotation.',
+      'Step 4: the drawing and document list are confirmed in writing before production and supplied with the shipment.',
+    ],
+  },
+];
+---
+
+<Layout
+  path="/resources/compliance/"
+  current=""
+  titleZh="合规与认证：按项目确认｜ZERUI"
+  titleEn="Outdoor Kitchen Compliance & Certification by Project | ZERUI"
+  descZh="户外厨房的认证与合规按配置、目的地市场与项目类型逐项确认。说明我们核对什么、可以提供哪些文件，以及为什么不预先承诺具体证书。"
+  descEn="Outdoor kitchen certification and compliance are confirmed against the configuration, destination market and project type. What we check, which documents we can supply, and why we do not pre-commit to certificates."
+>
+  <PageHero
+    eyebrowZh="RESOURCES · COMPLIANCE"
+    eyebrowEn="RESOURCES · COMPLIANCE"
+    titleZh="认证与合规，跟着配置和目的地走"
+    titleEn="Compliance follows the configuration and destination"
+    ledeZh="认证不是一张通用证书能覆盖的。我们在报价与出图阶段按项目核对，可提供的文件写进报价。"
+    ledeEn="No single generic certificate covers an outdoor kitchen. Requirements are checked per project during quotation and drawing, and available documents are listed in the quotation."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="guide-read">
+        <div class="guide-sections">
+          {
+            sections.map((section) => (
+              <div class="guide-section">
+                <p class="guide-section-no">
+                  <span>{section.no}</span>
+                  <span data-en={section.titleEn}>{section.titleZh}</span>
+                </p>
+                {section.bodyZh.map((line, index) => (
+                  <p class="guide-section-desc" data-en={section.bodyEn[index]}>{line}</p>
+                ))}
+              </div>
+            ))
+          }
+        </div>
+        <p
+          class="note"
+          data-en="This page explains how requirements are confirmed. It is not a certificate, a test report, or a statement that a particular document is available for every market."
+        >
+          本页说明我们如何确认要求，不构成证书、检测报告，也不代表每个市场都能提供特定文件。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Send this with your inquiry">询价时请一并说明</h2>
+      </div>
+      <ul class="plain-list">
+        {
+          [
+            { zh: '目的地国家与项目类型', en: 'Destination country and project type' },
+            { zh: '需要的电气与燃气规格', en: 'Required electrical and gas specifications' },
+            { zh: '设备清单与安装方式', en: 'Equipment list and installation method' },
+            { zh: '项目方要求的文件清单', en: 'Document list required by the project' },
+            { zh: '验收节点与交货时间', en: 'Acceptance milestones and delivery date' },
+          ].map((item, index) => (
+            <li>
+              <span class="idx">{String(index + 1).padStart(2, '0')}</span>
+              <span data-en={item.en}>{item.zh}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="COMPLIANCE"
+        eyebrowEn="COMPLIANCE"
+        titleZh="把项目要求发过来核对"
+        titleEn="Send the project requirements"
+        descZh="目的地、配置与需要的文件清单越具体，我们越能给出可执行的答复。"
+        descEn="The more specific the destination, configuration and document list, the more concrete our answer can be."
+        secondaryLabelZh="运输与包装"
+        secondaryLabelEn="Shipping & packing"
+        secondaryHref="/resources/shipping/"
+      />
+    </div>
+  </section>
+</Layout>

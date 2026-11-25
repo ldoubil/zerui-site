@@ -1,0 +1,168 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import InquiryCard from '../../../components/InquiryCard.astro';
+
+const checklist = [
+  {
+    no: '01',
+    titleZh: '基础与承重',
+    titleEn: 'Foundation and load',
+    bodyZh: [
+      '安装面要平整、硬化并能承受整机与设备的重量；软土、坡地或架空平台需要先做结构处理。',
+      '参考重量以单台 800 kg 起（以卢米埃尔为例），其他型号按图纸与包装数据确认。',
+    ],
+    bodyEn: [
+      'The surface must be level, solid and able to carry the unit and its equipment; soft ground, slopes or raised decks need structural preparation first.',
+      'Reference weight starts at 800 kg per unit (Lumière); other models are confirmed from drawings and packed data.',
+    ],
+  },
+  {
+    no: '02',
+    titleZh: '搬运通道与吊装',
+    titleEn: 'Access and lifting',
+    bodyZh: [
+      '量出门洞、台阶、转角与通道净宽，确认整机能否到位；不能到位时改用模块交付。',
+      '整机吊装需要确认吊点、落点与吊车或叉车的作业空间，吊装由具备资质的当地人员执行。',
+    ],
+    bodyEn: [
+      'Measure doorways, steps, corners and clear access width to confirm the complete unit can reach its position; if not, switch to modular delivery.',
+      'Complete-unit lifting needs confirmed lifting points, landing position and crane or forklift working space, carried out by qualified local personnel.',
+    ],
+  },
+  {
+    no: '03',
+    titleZh: '水电燃气与排水',
+    titleEn: 'Utilities and drainage',
+    bodyZh: [
+      '水、电、燃气与排水的接口位置在图纸阶段确认，现场按图预留；电气与燃气由当地持证人员接入。',
+      '电气规格按目的地市场选择（110V 或 220V）；燃气类型与接口按项目确认，不通用。',
+    ],
+    bodyEn: [
+      'Water, power, gas and drainage positions are confirmed on the drawing and prepared on site to match; electrical and gas connections are made by licensed local installers.',
+      'Electrical specification follows the destination market (110V or 220V); gas type and connection are confirmed per project and are not universal.',
+    ],
+  },
+  {
+    no: '04',
+    titleZh: '环境与遮蔽',
+    titleEn: 'Exposure and cover',
+    bodyZh: [
+      '沿海、高湿或多雨环境，需要在确认图纸时写明防腐与防水要求。',
+      '带顶棚的单元要预留顶棚打开后的净高与回转空间；不带的，需要在现场另做遮蔽。',
+    ],
+    bodyEn: [
+      'For coastal, high-humidity or rainy sites, corrosion and weather-resistance requirements are written into the confirmed drawing.',
+      'Units with a canopy need clear height and swing space with the canopy open; units without one need separate cover on site.',
+    ],
+  },
+  {
+    no: '05',
+    titleZh: '安装顺序',
+    titleEn: 'Installation sequence',
+    bodyZh: [
+      '常见顺序：基础验收 → 单元就位 → 水平校准 → 水电燃气接入 → 设备调试 → 现场清理与交付。',
+      '模块交付时先装结构，再装柜体、台面与设备；每一步按安装说明核对。',
+    ],
+    bodyEn: [
+      'Typical sequence: foundation check, positioning, levelling, utility connections, equipment commissioning, then site clean-up and handover.',
+      'With modular delivery, the structure goes up first, then cabinets, worktop and equipment, each step checked against the installation instructions.',
+    ],
+  },
+  {
+    no: '06',
+    titleZh: '交付后的维护',
+    titleEn: 'After handover',
+    bodyZh: [
+      '不锈钢表面按日常清洁即可；沿海环境增加清洁频率，检查紧固件与密封件。',
+      '保修 1 年并提供备件；具体条款按订单确认。',
+    ],
+    bodyEn: [
+      'Stainless steel needs routine cleaning; in coastal environments clean more often and check fasteners and seals.',
+      'A 1-year warranty with spare parts is provided; the exact terms are confirmed with the order.',
+    ],
+  },
+];
+---
+
+<Layout
+  path="/resources/installation/"
+  current=""
+  titleZh="安装前准备清单｜ZERUI"
+  titleEn="Outdoor Kitchen Installation Preparation Checklist | ZERUI"
+  descZh="户外厨房安装前的准备：基础与承重、搬运通道与吊装、水电燃气与排水、环境与遮蔽、安装顺序与交付后维护。"
+  descEn="Preparing for an outdoor kitchen installation: foundation and load, access and lifting, utilities and drainage, exposure and cover, installation sequence and aftercare."
+>
+  <PageHero
+    eyebrowZh="RESOURCES · INSTALLATION"
+    eyebrowEn="RESOURCES · INSTALLATION"
+    titleZh="安装前，把这几件事确认掉"
+    titleEn="Confirm these before installation day"
+    ledeZh="基础、通道、水电燃气与吊装条件，决定一台户外厨房能不能顺利就位。下面六项建议在发货前逐项核对。"
+    ledeEn="Foundation, access, utilities and lifting decide whether an outdoor kitchen can be positioned smoothly. Check these six items before dispatch."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="principles">
+        {
+          checklist.map((item) => (
+            <div class="principle">
+              <span class="step-no">{item.no}</span>
+              <h3 data-en={item.titleEn}>{item.titleZh}</h3>
+              {item.bodyZh.map((line, index) => (
+                <p data-en={item.bodyEn[index]}>{line}</p>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+      <p
+        class="note"
+        data-en="Site preparation and utility connections are carried out by the buyer's local contractors. We supply drawings and installation instructions, and confirm requirements before production."
+      >
+        现场基础与水电燃气接入由买方的当地施工方完成。我们提供图纸与安装说明，并在生产前确认相关要求。
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--pale">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Before dispatch">发货前核对</h2>
+      </div>
+      <ul class="plain-list">
+        {
+          [
+            { zh: '安装面已硬化、找平并验收', en: 'Installation surface solid, level and checked' },
+            { zh: '通道、门洞与吊装落点已实测', en: 'Access, doorways and lifting position measured' },
+            { zh: '水电燃气与排水点位按图预留', en: 'Utility and drainage points prepared to drawing' },
+            { zh: '当地持证安装人员已安排', en: 'Licensed local installers arranged' },
+            { zh: '顶棚打开后的净高与回转空间已确认', en: 'Clear height and swing space confirmed with canopy open' },
+          ].map((item, index) => (
+            <li>
+              <span class="idx">{String(index + 1).padStart(2, '0')}</span>
+              <span data-en={item.en}>{item.zh}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="INSTALLATION"
+        eyebrowEn="INSTALLATION"
+        titleZh="把场地照片发过来"
+        titleEn="Send your site photos"
+        descZh="通道、基础与接口位置的照片，能帮我们在发货前发现大多数安装问题。"
+        descEn="Photos of the access route, foundation and connection points let us catch most installation issues before dispatch."
+        secondaryLabelZh="合规与认证"
+        secondaryLabelEn="Compliance"
+        secondaryHref="/resources/compliance/"
+      />
+    </div>
+  </section>
+</Layout>

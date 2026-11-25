@@ -1,0 +1,301 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import InquiryCard from '../../components/InquiryCard.astro';
+import { faqGroups } from '../../data/faq';
+
+const oemFaqIds = ['customisable', 'samples', 'quote-info', 'drawing-changes'];
+const oemFaq = faqGroups.flatMap((group) => group.items).filter((item) => oemFaqIds.includes(item.id));
+
+const audiences = [
+  {
+    no: '01',
+    titleZh: '经销商与进口商',
+    titleEn: 'Dealers & importers',
+    descZh: '用一套结构做出适合本地市场的产品线，包装、标识与门板饰面跟随你的品牌。',
+    descEn: 'Build a local range from one structure, with packing, labelling and door finishes following your brand.',
+  },
+  {
+    no: '02',
+    titleZh: '自有品牌商',
+    titleEn: 'Own-brand businesses',
+    descZh: '从首件样品到翻单，按同一份主规格生产，型号命名与说明书语言按市场调整。',
+    descEn: 'From first sample to repeat orders, produced to one master specification, with model naming and manual language adjusted for the market.',
+  },
+  {
+    no: '03',
+    titleZh: '项目与工程采购',
+    titleEn: 'Project buyers',
+    descZh: '酒店、度假村与多台项目把同一配置重复到不同楼栋或批次，现场安装与培训保持一致。',
+    descEn: 'Hotels, resorts and multi-unit projects repeat one configuration across buildings or phases, keeping installation and training consistent.',
+  },
+];
+
+const scope = [
+  {
+    no: '01',
+    titleZh: '结构与尺寸',
+    titleEn: 'Structure and dimensions',
+    descZh: '宽度、进深、净高与模块组合可按场地调整；顶棚、柜体与台面在同一套结构内设计。',
+    descEn: 'Width, depth, clear height and module combinations are adjusted to the site; canopy, cabinets and worktop are designed within one structure.',
+  },
+  {
+    no: '02',
+    titleZh: '台面与表面',
+    titleEn: 'Worktop and finish',
+    descZh: '烧结石、石英石或不锈钢台面；拉丝、喷涂或其他饰面按环境与建筑立面选择。',
+    descEn: 'Sintered stone, quartz or stainless steel worktops; brushed, coated or other finishes chosen for the environment and architecture.',
+  },
+  {
+    no: '03',
+    titleZh: '设备与开孔',
+    titleEn: 'Equipment and cut-outs',
+    descZh: '按目的地市场确定烤炉、电磁炉、水槽、冷藏、排风与照明，开孔与接口围绕设备排布。',
+    descEn: 'Grills, induction hobs, sinks, refrigeration, ventilation and lighting specified for the destination, with cut-outs and connections arranged around them.',
+  },
+  {
+    no: '04',
+    titleZh: '品牌与包装',
+    titleEn: 'Branding and packing',
+    descZh: '门板、标识、说明书语言与唛头按品牌要求；包装方案连同装柜量在报价时确认。',
+    descEn: 'Door fronts, labels, manual language and shipping marks to your brand; packing and container load confirmed with the quotation.',
+  },
+];
+
+const steps = [
+  {
+    no: '01',
+    titleZh: '需求与市场',
+    titleEn: 'Brief and market',
+    descZh: '目的地、买家类型、数量区间与目标价位，决定结构与设备的方向。',
+    descEn: 'Destination, buyer type, quantity range and target price set the direction for structure and equipment.',
+  },
+  {
+    no: '02',
+    titleZh: '结构方向与报价',
+    titleEn: 'Direction and quotation',
+    descZh: '先给结构方向与报价区间，确认后再进入详细图纸。',
+    descEn: 'A structural direction and indicative price range come first; detailed drawings follow confirmation.',
+  },
+  {
+    no: '03',
+    titleZh: '图纸与样品',
+    titleEn: 'Drawings and sample',
+    descZh: '图纸、色板与关键细节书面确认；需要时先做一件样机验证。',
+    descEn: 'Drawings, colour samples and key details are confirmed in writing, with a sample unit where needed.',
+  },
+  {
+    no: '04',
+    titleZh: '投产',
+    titleEn: 'Production',
+    descZh: '图纸确认后按 20 天标准周期排产，切割、焊接、装配与检验在同一工厂完成。',
+    descEn: 'After approval, production follows a 20-day standard cycle, with cutting, welding, assembly and inspection in one factory.',
+  },
+  {
+    no: '05',
+    titleZh: '检验与包装',
+    titleEn: 'Inspection and packing',
+    descZh: '发货前核对配置、包装清单、唛头与配件，按目的地做出口包装。',
+    descEn: 'Before dispatch, configuration, packing list, shipping marks and accessories are checked, then export packing is completed for the destination.',
+  },
+  {
+    no: '06',
+    titleZh: '翻单与扩展',
+    titleEn: 'Repeat orders',
+    descZh: '主规格存档，后续翻单与新增型号沿用同一标准，减少每次重做的沟通成本。',
+    descEn: 'The master specification is kept on file so repeat orders and new models follow the same standard.',
+  },
+];
+---
+
+<Layout
+  path="/custom/oem/"
+  current="/custom/"
+  titleZh="户外厨房 OEM 与自有品牌｜ZERUI"
+  titleEn="Outdoor Kitchen OEM & Private Label Manufacturing | ZERUI"
+  descZh="泽锐 zerui 的户外厨房 OEM：山东临沂自有工厂，2,000 平方米、60+ 人、月产能 200+ 件；结构、台面、设备与品牌均可按市场配置，1 件起订，标准生产周期 20 天。"
+  descEn="Outdoor kitchen OEM from ZERUI: our own factory in Linyi, Shandong — 2,000 m², 60+ people and 200+ units per month. Structure, worktop, equipment and branding configured for your market; from one unit on a 20-day standard cycle."
+>
+  <PageHero
+    eyebrowZh="OEM & PRIVATE LABEL"
+    eyebrowEn="OEM & PRIVATE LABEL"
+    titleZh="做你自己的户外厨房产品线"
+    titleEn="Build your own outdoor kitchen line"
+    ledeZh="从结构、台面到设备与品牌，按你的市场配置；一件起订，先做样机再进入批量。"
+    ledeEn="From structure and worktop to equipment and branding, configured for your market — start with one unit, prove it with a sample, then move to volume."
+  >
+    <div class="page-hero-meta">
+      <span data-en="From 1 unit">1 件起订</span>
+      <span data-en="20-day standard cycle">20 天标准周期</span>
+      <span data-en="Own factory in Linyi">临沂自有工厂</span>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Who OEM is for">适合谁</h2>
+        <span class="section-note" data-en="Three roles">三类角色</span>
+      </div>
+      <div class="principles">
+        {
+          audiences.map((item) => (
+            <div class="principle">
+              <span class="step-no">{item.no}</span>
+              <h3 data-en={item.titleEn}>{item.titleZh}</h3>
+              <p data-en={item.descEn}>{item.descZh}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="What can be configured">可以配置什么</h2>
+        <span class="section-note" data-en="Four dimensions">四个维度</span>
+      </div>
+      <div class="principles principles--four">
+        {
+          scope.map((item) => (
+            <div class="principle">
+              <span class="step-no">{item.no}</span>
+              <h3 data-en={item.titleEn}>{item.titleZh}</h3>
+              <p data-en={item.descEn}>{item.descZh}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p
+        class="note"
+        data-en="Configuration is agreed against a written drawing. Certification and documents are checked item by item for the configuration and destination market — we do not pre-commit to specific certificates."
+      >
+        配置以书面图纸为准。认证与文件按配置和目的地市场逐项核对，不预先承诺具体证书。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="From brief to repeat order">从需求到翻单</h2>
+        <span class="section-note" data-en="Six steps">六步</span>
+      </div>
+      <div class="steps steps--four">
+        {
+          steps.map((step) => (
+            <div class="step">
+              <span class="step-no">{step.no}</span>
+              <h3 class="step-title" data-en={step.titleEn}>{step.titleZh}</h3>
+              <p class="step-desc" data-en={step.descEn}>{step.descZh}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="band-section">
+    <div class="wrap">
+      <div class="stat-band">
+        <div class="stat">
+          <p class="stat-value"><span>2019</span></p>
+          <p class="stat-label" data-en="Established">成立年份</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            <span>2,000</span>
+            <span class="stat-unit" data-en="m²">㎡</span>
+          </p>
+          <p class="stat-label" data-en="Factory floor">厂房面积</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            <span>60+</span>
+            <span class="stat-unit" data-en="people">人</span>
+          </p>
+          <p class="stat-label" data-en="Team">团队规模</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            <span>200+</span>
+            <span class="stat-unit" data-en="units">件</span>
+          </p>
+          <p class="stat-label" data-en="Monthly capacity">月产能</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split split--text">
+        <div class="split-copy">
+          <p class="eyebrow" data-en="SAMPLES & BRANDING">样品与品牌</p>
+          <h2 class="section-title" data-en="Prove it with one unit first">
+            先用一件样机验证
+          </h2>
+        </div>
+        <div class="split-copy">
+          <p
+            class="lede"
+            data-en="A sample unit is the cheapest way to check proportions, finish and equipment layout before committing to a volume order. It can become your showroom display."
+          >
+            批量下单前，用一件样机确认比例、饰面与设备布局，是成本最低的方式；这台样机也可以直接作为展厅展示。
+          </p>
+          <p
+            class="lede"
+            data-en="Branding is agreed with the same drawing: door details, labels, manual language and shipping marks. Packing is planned with the container load so the first shipment arrives ready to display."
+          >
+            品牌与图纸一起确认：门板细节、标识、说明书语言与唛头。包装与装柜方案同步规划，首批到货即可展示。
+          </p>
+          <p class="split-actions">
+            <a class="section-link" href="#inquiry" data-en="Start an OEM project ↗">开始 OEM 项目 ↗</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="OEM questions">OEM 常见问题</h2>
+        <a class="section-link" href="/faq/" data-en="All FAQ">全部问题</a>
+      </div>
+      <div class="faq-list" style="max-width:860px;">
+        {
+          oemFaq.map((item) => (
+            <div class="faq-item" id={item.id}>
+              <h3 class="faq-q">
+                <span class="idx">Q</span>
+                <span data-en={item.q.en}>{item.q.zh}</span>
+              </h3>
+              <p class="faq-a" data-en={item.a.en}>{item.a.zh}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="OEM & PRIVATE LABEL"
+        eyebrowEn="OEM & PRIVATE LABEL"
+        titleZh="说说你的品牌与市场"
+        titleEn="Tell us about your brand and market"
+        descZh="目标市场、数量区间、品牌要求与期望到货时间，是我们判断方案是否可行的四个关键信息。"
+        descEn="Target market, quantity range, branding requirements and expected arrival date are the four inputs that decide whether a plan is workable."
+        secondaryLabelZh="返回定制总览"
+        secondaryLabelEn="Custom & OEM overview"
+        secondaryHref="/custom/"
+        noteZh="图纸、色板与包装要求可以直接在 WhatsApp 中发送。"
+        noteEn="Drawings, colour samples and packing requirements can be sent directly in WhatsApp."
+      />
+    </div>
+  </section>
+</Layout>

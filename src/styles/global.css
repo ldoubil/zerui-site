@@ -1634,7 +1634,7 @@ h2 {
 
 .footer-top {
   display: grid;
-  grid-template-columns: 1.6fr 1fr 1.2fr;
+  grid-template-columns: 1.5fr 0.85fr 0.95fr 1.05fr;
   gap: 48px;
   padding-bottom: 56px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
@@ -2516,6 +2516,10 @@ html[data-lang="en"] .spec-table--wide .model-zh {
   margin-top: 32px;
 }
 
+.pd-download {
+  margin-top: 24px;
+}
+
 .spec-table--spec th[scope="row"] {
   width: 26%;
   font-size: 13.5px;
@@ -2740,6 +2744,41 @@ html[data-lang="en"] .spec-table--wide .model-zh {
 }
 
 /* ---------------- 首页数据带 ---------------- */
+/* ---------------- trust bar ---------------- */
+.trust-bar {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+.trust-bar-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 15px 0;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.trust-bar-list li {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.trust-bar-list li + li::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  margin: 0 16px;
+  border-radius: 50%;
+  background: var(--brass);
+  opacity: 0.85;
+}
+
+/* ---------------- band / stats ---------------- */
 .band-section {
   background: var(--paper);
 }

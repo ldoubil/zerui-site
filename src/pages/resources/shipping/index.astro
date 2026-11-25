@@ -1,0 +1,154 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import InquiryCard from '../../../components/InquiryCard.astro';
+
+const sections = [
+  {
+    no: '01',
+    titleZh: '先定交付方式，再算包装',
+    titleEn: 'Choose the delivery method first',
+    bodyZh: [
+      '整机交付：舱体在厂内装配、检验后整体包装，到场即可吊装就位，适合通道与吊装条件明确的场地。',
+      '模块交付：结构、柜体与设备分箱，现场组装，适合通道受限或需要分批进场的项目。',
+      '两种方式的包装尺寸、重量与到场条件不同，报价前先确认，避免下单后反复。',
+    ],
+    bodyEn: [
+      'Complete unit: the pod is assembled and checked in the factory, then packed as one piece and lifted into position on site. It suits sites with clear access and lifting conditions.',
+      'Modular delivery: structure, cabinets and equipment ship in separate crates and are assembled on site. It suits restricted access or phased projects.',
+      'The two methods have different packed sizes, weights and site requirements; confirm before quotation to avoid re-planning after the order.',
+    ],
+  },
+  {
+    no: '02',
+    titleZh: '装柜量按型号与包装算',
+    titleEn: 'Container load depends on model and packing',
+    bodyZh: [
+      '以 40HQ 为例，常见装柜量为 12–24 台，具体取决于型号、包装方式与是否混装。',
+      '整机包装的参考数据（以卢米埃尔为例）：包装尺寸 2.93 × 0.78 × 2.46 m，包装重量 900 kg。其他型号按图纸与包装方案确认。',
+      '混装、配件与备件会占用柜内空间，装柜方案在报价时一并给出。',
+    ],
+    bodyEn: [
+      'For a 40HQ container the typical load is 12–24 units, depending on model, packing and whether other items are mixed in.',
+      'Reference packed data (Lumière): packed size 2.93 × 0.78 × 2.46 m, packed weight 900 kg. Other models are confirmed from drawings and the packing plan.',
+      'Mixed loads, accessories and spare parts take container space, so the loading plan is issued with the quotation.',
+    ],
+  },
+  {
+    no: '03',
+    titleZh: '目的地规划',
+    titleEn: 'Destination planning',
+    bodyZh: [
+      '目的港、内陆运输方式与卸货点要在报价阶段说明。整机交付需要确认叉车或吊车能否到位。',
+      '场地通道、门洞、台阶与转弯半径决定单元能否进入安装位置；必要时改为模块交付。',
+      '海运与目的港费用按实际体积与重量核算，不用估算值下单。',
+    ],
+    bodyEn: [
+      'State the destination port, inland transport and unloading point at quotation. Complete-unit delivery needs a forklift or crane confirmed on site.',
+      'Access width, doorways, steps and turning radius decide whether the unit can reach its position; if not, switch to modular delivery.',
+      'Freight and destination charges are calculated from actual volume and weight, not estimates.',
+    ],
+  },
+  {
+    no: '04',
+    titleZh: '生产与出运时间',
+    titleEn: 'Production and dispatch',
+    bodyZh: [
+      '确认配置后按 20 天标准生产周期排产，图纸与包装方案在投产前书面确认。',
+      '发货前核对装箱清单、唛头、配件与说明书语言，再按目的地安排出运。',
+      '运输时间按航线与目的港确认，不包含在 20 天生产周期内。',
+    ],
+    bodyEn: [
+      'Production follows a 20-day standard cycle after the configuration is confirmed; the drawing and packing plan are approved in writing before production.',
+      'Before dispatch we check the packing list, shipping marks, accessories and manual language, then arrange shipment for the destination.',
+      'Transit time depends on the route and destination port and is not part of the 20-day production cycle.',
+    ],
+  },
+];
+---
+
+<Layout
+  path="/resources/shipping/"
+  current=""
+  titleZh="出口包装与运输｜ZERUI"
+  titleEn="Outdoor Kitchen Export Packing, Container Loading & Shipping | ZERUI"
+  descZh="户外厨房的出口包装与运输：整机与模块两种交付方式、40HQ 装柜量（12–24 台）、包装尺寸与重量、目的地规划与出运时间。"
+  descEn="Export packing and shipping for outdoor kitchens: complete-unit and modular delivery, 40HQ container loads of 12–24 units, packed sizes and weights, destination planning and dispatch."
+>
+  <PageHero
+    eyebrowZh="RESOURCES · SHIPPING"
+    eyebrowEn="RESOURCES · SHIPPING"
+    titleZh="把运输当成配置的一部分"
+    titleEn="Treat freight as part of the configuration"
+    ledeZh="整机还是模块、装几台、到哪个港、现场怎么卸——这些问题在报价阶段确定，比发货前再改要省事得多。"
+    ledeEn="Complete unit or modular, how many per container, which port, and how it is unloaded — settling these at quotation is far easier than changing them before dispatch."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="guide-read">
+        <div class="guide-sections">
+          {
+            sections.map((section) => (
+              <div class="guide-section">
+                <p class="guide-section-no">
+                  <span>{section.no}</span>
+                  <span data-en={section.titleEn}>{section.titleZh}</span>
+                </p>
+                {section.bodyZh.map((line, index) => (
+                  <p class="guide-section-desc" data-en={section.bodyEn[index]}>{line}</p>
+                ))}
+              </div>
+            ))
+          }
+        </div>
+        <p
+          class="note"
+          data-en="Packed sizes, weights and container plans are confirmed for the actual configuration. The figures on this page are references, not a quotation."
+        >
+          包装尺寸、重量与装柜方案按实际配置确认。本页数据为参考，不构成报价。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="What to send with your inquiry">询价时请一并说明</h2>
+      </div>
+      <ul class="plain-list">
+        {
+          [
+            { zh: '目的港与内陆卸货点', en: 'Destination port and inland unloading point' },
+            { zh: '整机或模块交付', en: 'Complete-unit or modular delivery' },
+            { zh: '数量与批次', en: 'Quantity and shipment phases' },
+            { zh: '现场通道与吊装条件', en: 'Site access and lifting conditions' },
+            { zh: '需要的交货时间', en: 'Required delivery window' },
+          ].map((item, index) => (
+            <li>
+              <span class="idx">{String(index + 1).padStart(2, '0')}</span>
+              <span data-en={item.en}>{item.zh}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="SHIPPING"
+        eyebrowEn="SHIPPING"
+        titleZh="要一份装柜与包装方案？"
+        titleEn="Need a loading and packing plan?"
+        descZh="给我目的港、数量与型号，我们按实际包装给出装柜方案与毛重。"
+        descEn="Send the destination port, quantity and model, and we will return a loading plan and gross weight from the actual packing."
+        secondaryLabelZh="安装前准备"
+        secondaryLabelEn="Installation preparation"
+        secondaryHref="/resources/installation/"
+      />
+    </div>
+  </section>
+</Layout>

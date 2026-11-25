@@ -1,0 +1,115 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import InquiryCard from '../../components/InquiryCard.astro';
+
+const resources = [
+  {
+    no: '01',
+    href: '/resources/compliance/',
+    titleZh: '合规与认证',
+    titleEn: 'Compliance & certification',
+    descZh: '认证按项目配置与目的地市场逐项确认，不预先承诺具体证书；说明需要准备哪些文件。',
+    descEn: 'Certification is confirmed item by item against the configuration and destination market, without pre-committing to certificates; what documents to prepare.',
+  },
+  {
+    no: '02',
+    href: '/resources/shipping/',
+    titleZh: '出口包装与运输',
+    titleEn: 'Export packing & shipping',
+    descZh: '整机与模块两种交付方式的包装、装柜量、唛头与目的地规划。',
+    descEn: 'Packing, container loading, shipping marks and destination planning for complete-unit and modular deliveries.',
+  },
+  {
+    no: '03',
+    href: '/resources/installation/',
+    titleZh: '安装前准备',
+    titleEn: 'Installation preparation',
+    descZh: '基础、承重、水电燃气点位、搬运通道与吊装条件，安装前逐项核对。',
+    descEn: 'Foundation, load capacity, utility points, delivery route and lifting conditions checked before installation.',
+  },
+];
+---
+
+<Layout
+  path="/resources/"
+  current=""
+  titleZh="采购资源：合规、运输与安装｜ZERUI"
+  titleEn="Buyer Resources: Compliance, Shipping & Installation | ZERUI"
+  descZh="面向户外厨房买家与进口商的资源页：合规与认证按项目确认、出口包装与目的地规划、安装前准备清单。"
+  descEn="Resources for outdoor kitchen buyers and importers: compliance confirmed per project, export packing and destination planning, and a pre-installation checklist."
+>
+  <PageHero
+    eyebrowZh="RESOURCES"
+    eyebrowEn="RESOURCES"
+    titleZh="采购与落地资源"
+    titleEn="Resources for specifying and installing"
+    ledeZh="三块内容：合规与认证、出口包装与运输、安装前准备。每一块都按项目实际情况确认，不给通用承诺。"
+    ledeEn="Three areas: compliance and certification, export packing and shipping, and pre-installation preparation. Each is confirmed against the project rather than promised generically."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="principles">
+        {
+          resources.map((item) => (
+            <a class="principle" href={item.href}>
+              <span class="step-no">{item.no}</span>
+              <h3 data-en={item.titleEn}>{item.titleZh}</h3>
+              <p data-en={item.descEn}>{item.descZh}</p>
+              <span class="section-link" data-en="Read more ↗">查看详情 ↗</span>
+            </a>
+          ))
+        }
+      </div>
+      <p
+        class="note"
+        data-en="These pages describe how we confirm requirements; they are not certificates, test reports or a promise that a specific document is available for every market."
+      >
+        这些页面说明我们如何确认要求，不等同于证书、检测报告，也不代表每个市场都能提供特定文件。
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--pale">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Related pages">相关内容</h2>
+      </div>
+      <ul class="plain-list">
+        <li>
+          <span class="idx">01</span>
+          <a href="/guides/" data-en="Outdoor kitchen buying guide">户外厨房采购指南</a>
+        </li>
+        <li>
+          <span class="idx">02</span>
+          <a href="/faq/" data-en="Frequently asked questions">常见问题</a>
+        </li>
+        <li>
+          <span class="idx">03</span>
+          <a href="/custom/oem/" data-en="OEM & private label manufacturing">OEM 与自有品牌</a>
+        </li>
+        <li>
+          <span class="idx">04</span>
+          <a href="/case-studies/" data-en="Project case studies">项目案例</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="RESOURCES"
+        eyebrowEn="RESOURCES"
+        titleZh="需要针对你的市场核对吗？"
+        titleEn="Need this checked for your market?"
+        descZh="告诉我们目的地市场、设备配置与项目类型，我们按项目逐项确认可提供的文件与运输方案。"
+        descEn="Tell us the destination market, equipment configuration and project type, and we will confirm the documents and shipping plan available for that project."
+        secondaryLabelZh="查看常见问题"
+        secondaryLabelEn="Read the FAQ"
+        secondaryHref="/faq/"
+      />
+    </div>
+  </section>
+</Layout>
