@@ -5,33 +5,62 @@ import PageHero from '../../components/PageHero.astro';
 import InquiryCard from '../../components/InquiryCard.astro';
 import { images } from '../../lib/images';
 
-const workshopImages = [
+const factoryImages = [
   {
-    image: images.factoryLine,
-    captionZh: '整机装配',
-    captionEn: 'Assembly',
-    noteZh: '整机在厂内完成装配与出货前检查，按项目逐台核对配置。',
-    noteEn: 'Units are assembled and checked before dispatch, with each configuration verified against the project.',
-    altZh: '工厂内装配完成的户外厨房整机',
-    altEn: 'Finished outdoor kitchens assembled on the factory floor',
+    image: images.aboutBand,
+    captionZh: '材料准备',
+    captionEn: 'Material preparation',
+    altZh: '待加工的不锈钢板材与型材',
+    altEn: 'Raw stainless steel sheet stock prepared for outdoor kitchen pod fabrication',
   },
   {
     image: images.factoryWeld,
-    captionZh: '细节与收边',
-    captionEn: 'Details & finishing',
-    noteZh: '焊缝、收边与柜体配合在出厂前逐项检查。',
-    noteEn: 'Welds, edges and cabinet fits are checked item by item before dispatch.',
-    altZh: '不锈钢烧烤炉与柜体的收边细节',
-    altEn: 'Close-up of stainless steel grill and cabinet detailing',
+    captionZh: '金工加工区',
+    captionEn: 'Metal fabrication area',
+    altZh: '舱体框架与柜体面板开料、折弯与焊接的加工区',
+    altEn: 'Fabrication area where pod frames and cabinet panels are cut, bent and welded',
+  },
+  {
+    image: images.factoryLine,
+    captionZh: '成品与装配',
+    captionEn: 'Finished units & assembly',
+    altZh: '工厂内装配并检查完成的户外厨房舱',
+    altEn: 'Finished outdoor kitchen pods assembled and checked on the factory floor',
   },
   {
     image: images.factoryPack,
-    captionZh: '出口包装',
-    captionEn: 'Export packing',
-    noteZh: '整机检查后按运输方式装入木箱，随箱附编号与装箱清单。',
-    noteEn: 'After inspection, units are packed into timber crates with numbered packing lists.',
-    altZh: '工厂内用木箱包装的户外厨房',
-    altEn: 'Outdoor kitchens packed in timber export crates at the factory',
+    captionZh: '出口木箱，待装柜',
+    captionEn: 'Export crates, ready for loading',
+    altZh: '临沂工厂内待装柜的出口木箱包装',
+    altEn: 'Finished outdoor kitchen pods packed in timber export crates at the Linyi factory',
+  },
+  {
+    image: images.project02,
+    captionZh: '车间入口',
+    captionEn: 'Workshop entrance',
+    altZh: '临沂工厂车间入口',
+    altEn: 'Entrance to the Linyi factory workshop',
+  },
+];
+
+const factoryVideos = [
+  {
+    src: '/videos/packing.mp4',
+    poster: '/videos/poster-packing.webp',
+    captionZh: '缠膜与木箱包装',
+    captionEn: 'Wrapping and timber crating',
+  },
+  {
+    src: '/videos/loading.mp4',
+    poster: '/videos/poster-loading.webp',
+    captionZh: '工厂装柜',
+    captionEn: 'Container loading at the factory',
+  },
+  {
+    src: '/videos/showroom.mp4',
+    poster: '/videos/poster-showroom.webp',
+    captionZh: '临沂展厅整列',
+    captionEn: 'The showroom line-up at Linyi',
   },
 ];
 ---
@@ -39,105 +68,145 @@ const workshopImages = [
 <Layout
   path="/factory/"
   current="/factory/"
-  titleZh="工厂与工艺｜泽锐 zerui 户外厨房制造"
-  titleEn="Factory & Craft | ZERUI Outdoor Kitchen Manufacturing"
-  descZh="走进泽锐 zerui 位于山东临沂的自有工厂：2000 ㎡ 厂房、60+ 人团队、月产能 200+ 件，2019 年成立，钣金、焊接、装配与出口包装全部内部完成。"
-  descEn="Inside ZERUI's own factory in Linyi, Shandong: a 2,000 m² facility, a team of 60+ and capacity of 200+ units per month, established in 2019 with fabrication, assembly and export packing all in-house."
+  titleZh="临沂工厂｜泽锐 zerui 户外厨房制造"
+  titleEn="Our Linyi Factory | ZERUI Outdoor Kitchen Manufacturing"
+  descZh="走进泽锐 zerui 位于山东临沂的户外厨房舱工厂：不锈钢加工、定制设计、装配与出口包装，为全球舱体项目供货。自有工厂 2000 ㎡，60+ 人生产团队，月产能 200+ 件。"
+  descEn="Inside the ZERUI outdoor kitchen pod factory in Linyi, Shandong, China — stainless steel fabrication, custom design, assembly and export packing for pod projects worldwide."
 >
   <PageHero
-    eyebrowZh="FACTORY / CRAFT"
-    eyebrowEn="FACTORY / CRAFT"
-    titleZh="从一张板，到一台能直接用的厨房"
-    titleEn="From a sheet of steel to a kitchen that arrives ready"
-    ledeZh="山东临沂，自有工厂。从钣金、焊接、表面处理到装配与出口包装，全部内部完成。"
-    ledeEn="Our own factory in Linyi, Shandong. Sheet metal, welding, finishing, assembly and export packing all completed in-house."
-  >
-    <div class="page-hero-meta">
-      <span data-en="Established 2019">2019 年成立</span>
-      <span data-en="Linyi, Shandong">山东临沂</span>
-      <span data-en="Export packing">出口包装</span>
-    </div>
-  </PageHero>
+    eyebrowZh="我们的临沂工厂"
+    eyebrowEn="OUR LINYI FACTORY"
+    titleZh="用心制造。"
+    titleEn="Built with care."
+    ledeZh="我们在中国山东临沂的户外厨房舱工厂——为全球的舱体项目提供不锈钢加工、定制设计、装配与出口包装。"
+    ledeEn="Our outdoor kitchen pod factory in Linyi, Shandong, China — stainless steel fabrication, custom design, assembly and export packing for pod projects worldwide."
+  />
 
   <section class="band-section">
     <div class="wrap">
       <div class="stat-band">
         <div class="stat">
           <p class="stat-value">2019</p>
-          <p class="stat-label" data-en="Established">成立</p>
+          <p class="stat-label" data-en="Factory established">工厂成立</p>
         </div>
         <div class="stat">
           <p class="stat-value">
             2,000
             <span class="stat-unit" data-en="m²">㎡</span>
           </p>
-          <p class="stat-label" data-en="Factory floor">厂房面积</p>
+          <p class="stat-label" data-en="Factory area">工厂面积</p>
         </div>
         <div class="stat">
           <p class="stat-value">
             60
             <span class="stat-unit">+</span>
           </p>
-          <p class="stat-label" data-en="Team">团队</p>
+          <p class="stat-label" data-en="Production team">生产团队</p>
         </div>
         <div class="stat">
           <p class="stat-value">
             200
             <span class="stat-unit">+</span>
           </p>
-          <p class="stat-label" data-en="Units per month">件每月</p>
+          <p class="stat-label" data-en="Monthly capacity at our Linyi factory">月产能（临沂工厂）</p>
         </div>
+      </div>
+      <p class="smallnote" data-en="Manufacturing base: our own factory in Linyi, Shandong, China.">
+        制造基地：中国山东临沂的自有工厂。
+      </p>
+
+      <div class="factory-grid">
+        {
+          factoryImages.map((item) => (
+            <figure>
+              <div class="factory-media">
+                <Image
+                  src={item.image}
+                  alt={item.altZh}
+                  data-alt-en={item.altEn}
+                  widths={[480, 800, 1200]}
+                  sizes="(max-width: 760px) 50vw, 33vw"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <figcaption data-en={item.captionEn}>{item.captionZh}</figcaption>
+            </figure>
+          ))
+        }
       </div>
     </div>
   </section>
 
   <section class="section section--tight">
     <div class="wrap">
-      <p
-        class="lede lede--wide"
-        data-en="Every unit starts as flat sheet and leaves as a finished kitchen. Between those two points, the work stays in one building: cutting, bending, welding, finishing, assembly and packing, each reviewed before the next step begins."
-      >
-        每一台厨房从平板开始，到最后作为整机出货，中间全部在同一栋厂房里完成：开料、折弯、
-        焊接、表面处理、装配与包装，每一步确认后再进入下一步。
-      </p>
+      <div class="editorial">
+        <p class="eyebrow" data-en="Export packing">出口包装</p>
+        <h2 data-en="Packed and loaded by our own team">由我们自己的团队包装与装柜</h2>
+        <p
+          data-en="Every pod is film-wrapped and crated in timber by our own team at Linyi, then loaded into the container under our supervision — the unit that leaves our factory is the unit that arrives at yours. A 40HQ container loads 12–24 pods, depending on the model."
+        >
+          每一台舱都由我们临沂的团队在厂内缠膜、装入木箱，并在我们的监督下装进集装箱——离开我们工厂的那台，
+          就是到达你手上的那台。一个 40HQ 集装箱可装 12–24 台，视型号而定。
+        </p>
+      </div>
+
+      <div class="factory-grid factory-videos">
+        {
+          factoryVideos.map((item) => (
+            <figure>
+              <video
+                src={item.src}
+                poster={item.poster}
+                width="720"
+                height="1280"
+                controls
+                preload="none"
+                playsinline
+              ></video>
+              <figcaption data-en={item.captionEn}>{item.captionZh}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+
+      <div class="editorial editorial--after">
+        <h2 data-en="Quality and export readiness">质量与出口就绪</h2>
+        <p
+          data-en="The manufacturing process includes material selection, cutting, bending, welding, finishing, assembly checks and packing. Request model-specific material details, test records, appliance documentation and packing specifications before placing an order. CE documentation for selected components does not establish compliance for the complete assembled product. Every finished pod is covered by a one-year warranty."
+        >
+          制造流程包括选材、开料、折弯、焊接、表面处理、装配检查与包装。下单前可索取对应型号的材料说明、
+          检测记录、设备文件与包装规格。部分部件具备 CE 文件，并不代表整机成品符合 CE。每台成品舱提供一年保修。
+        </p>
+
+        <h2 data-en="An outdoor kitchen pod factory, end to end">从一块钢板到一台成品舱</h2>
+        <p
+          data-en="Our Linyi factory handles the complete build of every ZERUI pod: sheet and profile cutting, frame welding, cabinet fabrication, surface finishing, canopy assembly, equipment fitting and final inspection all happen under one roof. Building the structure, cabinetry and canopy together is what lets us hold the fit and finish of a complete pod to one standard, and confirm every configuration in writing before it is packed. Our collection page explains the five factory models and how material and finish are specified for each site."
+        >
+          临沂工厂完成每一台泽锐厨房舱的整机制造：板材与型材开料、框架焊接、柜体制作、表面处理、顶篷装配、
+          设备安装与最终检查，全部在同一屋檐下完成。结构、柜体与顶篷一起制造，才能把整台舱的配合与收边
+          控制在同一标准，并在包装前以书面确认每一套配置。我们的<a href="/products/">收藏</a>页面说明了
+          五种工厂型号，以及每个项目的材料与表面如何确定。
+        </p>
+        <p
+          data-en="Finished pods are checked against their order drawings, protected for export and crated for container loading. Packed dimensions, gross weight and the container plan are confirmed for each order, so importers can plan freight and site delivery before the units leave Linyi."
+        >
+          成品舱按订单图纸逐台核对，做好出口防护后装入木箱，等待装柜。每张订单都会确认包装尺寸、毛重与装柜方案，
+          让进口商在舱离开临沂前就能安排运费与现场交付。
+        </p>
+      </div>
     </div>
   </section>
-
-  {
-    workshopImages.map((item) => (
-      <section class="section section--tight">
-        <div class="wrap">
-          <figure class="factory-plate">
-            <div class="factory-plate-media">
-              <Image
-                src={item.image}
-                alt={item.altZh}
-                data-alt-en={item.altEn}
-                widths={[800, 1400, 2000]}
-                sizes="100vw"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <figcaption>
-              <span class="factory-plate-title" data-en={item.captionEn}>{item.captionZh}</span>
-              <span class="factory-plate-note" data-en={item.noteEn}>{item.noteZh}</span>
-            </figcaption>
-          </figure>
-        </div>
-      </section>
-    ))
-  }
 
   <section class="section section--tight">
     <div class="wrap">
       <InquiryCard
-        eyebrowZh="VISIT / SAMPLE"
-        eyebrowEn="VISIT / SAMPLE"
-        titleZh="想看看实物或来工厂"
-        titleEn="See a unit or visit the factory"
-        descZh="可以安排看样或到厂参观，也可以先发图纸，我们按你的配置给出工厂端的建议。"
-        descEn="We can arrange a sample review or a factory visit, or start from your drawings and advise on the manufacturing side."
+        eyebrowZh="你的项目从这里开始"
+        eyebrowEn="YOUR PROJECT STARTS HERE"
+        titleZh="让户外，值得聚在一起。"
+        titleEn="Make the outdoors worth gathering in."
+        descZh="告诉我们你的市场、配置与数量，我们会一起把下一台厨房舱定下来。"
+        descEn="Tell us your market, configuration and quantity. We will help define your next kitchen pod."
         secondaryLabelZh="了解定制流程"
         secondaryLabelEn="See the custom process"
         secondaryHref="/custom/"

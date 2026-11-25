@@ -24,8 +24,8 @@ const canonical = new URL(path ?? Astro.url.pathname, site).href;
 const canonicalEn = `${canonical}?lang=en`;
 const ogImageUrl = ogImage
   ? new URL(ogImage, site).href
-  : new URL('/assets/img/og-image.png', site).href;
-const logoSrc = new URL('/assets/img/logo.png', site).href;
+  : new URL('/og-image.png', site).href;
+const logoSrc = new URL('/icon-512.png', site).href;
 
 const graph = [
   {
@@ -108,8 +108,13 @@ const structuredData = {
         ))
     }
 
-    <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg" />
-    <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="泽锐 zerui" />

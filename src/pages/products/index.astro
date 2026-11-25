@@ -4,59 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import PageHero from '../../components/PageHero.astro';
 import InquiryCard from '../../components/InquiryCard.astro';
 import { images } from '../../lib/images';
-
-const pods = [
-  {
-    fullEn: 'Obsidian integrated outdoor kitchen pod',
-    seriesZh: '签名系列',
-    seriesEn: 'Signature collection',
-    nameZh: '黑曜石',
-    nameEn: 'Obsidian',
-    image: 'islands',
-    altZh: '黑曜石一体化户外厨房舱，抬起式顶篷，深色柜体，集成烤炉、水槽与冷藏',
-    altEn: 'Obsidian integrated outdoor kitchen pod with lift-up canopy, dark cabinets, built-in grill, sink and refrigeration',
-  },
-  {
-    fullEn: 'Lumière integrated outdoor kitchen pod',
-    seriesZh: '庭院收藏',
-    seriesEn: 'Courtyard collection',
-    nameZh: '卢米埃尔',
-    nameEn: 'Lumière',
-    image: 'project01',
-    altZh: '夜间灯光下的卢米埃尔户外厨房舱，庭院铺装与木质围栏',
-    altEn: 'Lumière outdoor kitchen pod lit at night on a paved courtyard with timber fencing',
-  },
-  {
-    fullEn: 'Copper Studio integrated outdoor kitchen pod',
-    seriesZh: '娱乐收藏',
-    seriesEn: 'Entertainment collection',
-    nameZh: 'Copper Studio',
-    nameEn: 'Copper Studio',
-    image: 'cabinets',
-    altZh: 'Copper Studio 户外厨房舱，铜色木纹饰面，集成烤炉、电视与冷藏',
-    altEn: 'Copper Studio outdoor kitchen pod with copper-toned timber finish, built-in grill, TV and refrigeration',
-  },
-  {
-    fullEn: 'Chef Edition integrated outdoor kitchen pod',
-    seriesZh: '烹饪收藏',
-    seriesEn: 'Cooking collection',
-    nameZh: '厨师版',
-    nameEn: 'Chef Edition',
-    image: 'grills',
-    altZh: '厨师版户外厨房舱，双烹饪设备，不锈钢烤炉与嵌入式烟机',
-    altEn: 'Chef Edition outdoor kitchen pod with dual cooking equipment, stainless grill and built-in hood',
-  },
-  {
-    fullEn: 'Mirror Edition integrated outdoor kitchen pod',
-    seriesZh: '建筑收藏',
-    seriesEn: 'Architectural collection',
-    nameZh: '镜像版',
-    nameEn: 'Mirror Edition',
-    image: 'project02',
-    altZh: '镜像版户外厨房舱，镜面不锈钢外壳，抬起式顶篷与集成烤炉',
-    altEn: 'Mirror Edition outdoor kitchen pod with mirror-polished stainless shell, lift-up canopy and built-in grill',
-  },
-];
+import { pods } from '../../data/pods';
 
 const rangeRows = [
   {
@@ -126,7 +74,7 @@ const rangeRows = [
       <div class="pod-grid">
         {
           pods.map((pod) => (
-            <a class="pod-card" href="#range">
+            <a class="pod-card" href={`/product/${pod.slug}/`}>
               <div class="pod-media">
                 <Image
                   src={images[pod.image]}
