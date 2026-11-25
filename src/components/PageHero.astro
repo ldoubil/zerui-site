@@ -1,0 +1,11 @@
+---
+const { eyebrowZh, eyebrowEn, titleZh, titleEn, ledeZh, ledeEn } = Astro.props;
+---
+
+<section class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow" data-en={eyebrowEn}>{eyebrowZh}</p>
+    <h1 class="page-title" data-en={titleEn}>{titleZh}</h1>
+    <p class="page-lede" data-en={ledeEn}>{ledeZh}</p>
+  </div>
+</section>

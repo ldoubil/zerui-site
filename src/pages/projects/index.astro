@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Card from '../../components/Card.astro';
+
+const projects = [
+  {
+    labelZh: '示例案例 01',
+    labelEn: 'Sample Project 01',
+    titleZh: '项目占位标题',
+    titleEn: 'Placeholder Project Title',
+    descZh: '占位文案：此处用于展示项目卡片的结构，非真实项目、非真实客户。',
+    descEn: 'Placeholder copy: demonstrates the project card structure. Not a real project or client.',
+  },
+  {
+    labelZh: '示例案例 02',
+    labelEn: 'Sample Project 02',
+    titleZh: '项目占位标题',
+    titleEn: 'Placeholder Project Title',
+    descZh: '占位文案：可在此补充项目类型、所在地区与交付范围。',
+    descEn: 'Placeholder copy: project type, region and scope of delivery can be added here.',
+  },
+  {
+    labelZh: '示例案例 03',
+    labelEn: 'Sample Project 03',
+    titleZh: '项目占位标题',
+    titleEn: 'Placeholder Project Title',
+    descZh: '占位文案：上线前请替换为经客户授权的真实项目信息。',
+    descEn: 'Placeholder copy: replace with client-authorised project information before launch.',
+  },
+];
+---
+
+<Layout
+  path="/projects/"
+  current="/projects/"
+  titleZh="案例｜泽锐 zerui 户外厨房"
+  titleEn="Projects | ZERUI Outdoor Kitchens"
+  descZh="泽锐 zerui 案例页面结构示例。当前为占位内容，未使用任何真实客户名称、照片或数据。"
+  descEn="A sample projects page structure for ZERUI. All content is placeholder; no real client names, photos or data are used."
+>
+  <PageHero
+    eyebrowZh="PROJECTS"
+    eyebrowEn="PROJECTS"
+    titleZh="案例"
+    titleEn="Projects"
+    ledeZh="以下为版式示例，全部是占位内容。未使用任何真实客户名称、照片或项目数据。"
+    ledeEn="The items below are layout samples only. No real client names, photos or project data are used."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Project Cards">项目卡片</h2>
+        <span class="section-note" data-en="Placeholder">占位</span>
+      </div>
+      <div class="grid">
+        {projects.map((item) => <Card {...item} />)}
+      </div>
+      <p class="note" data-en="All entries are placeholders for layout review only.">
+        所有条目均为版式占位，仅用于确认页面结构。
+      </p>
+    </div>
+  </section>
+</Layout>

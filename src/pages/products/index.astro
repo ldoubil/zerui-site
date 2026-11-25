@@ -1,0 +1,73 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Card from '../../components/Card.astro';
+
+const products = [
+  {
+    labelZh: '01 / 示例结构',
+    labelEn: '01 / Sample Structure',
+    titleZh: '一体化户外厨房岛台',
+    titleEn: 'Integrated Outdoor Kitchen Islands',
+    descZh: '岛台、台面、柜体与设备的一体化结构方案示例。尺寸、配置与设备组合按项目定义。',
+    descEn: 'A sample structure combining island body, countertop, cabinets and equipment. Dimensions and configurations are defined per project.',
+  },
+  {
+    labelZh: '02 / 示例结构',
+    labelEn: '02 / Sample Structure',
+    titleZh: '模块化户外厨房系统',
+    titleEn: 'Modular Outdoor Kitchen Systems',
+    descZh: '按模块组合的柜体与台面系统，便于运输、现场拼装与后期扩展。',
+    descEn: 'Cabinet and countertop modules that ship flat and assemble on site, with room to extend later.',
+  },
+  {
+    labelZh: '03 / 示例结构',
+    labelEn: '03 / Sample Structure',
+    titleZh: '专业烧烤炉',
+    titleEn: 'Professional Grills',
+    descZh: '嵌入式与独立式烧烤炉的结构方案示例，具体型号与参数待补充。',
+    descEn: 'Sample structures for built-in and freestanding grills. Models and specifications to be added.',
+  },
+  {
+    labelZh: '04 / 示例结构',
+    labelEn: '04 / Sample Structure',
+    titleZh: '不锈钢柜体与配件',
+    titleEn: 'Stainless Steel Cabinets & Accessories',
+    descZh: '门板、抽屉、水槽柜等柜体部件的结构示例，可配合不同台面方案。',
+    descEn: 'Sample cabinet parts such as doors, drawers and sink units, combinable with different countertop options.',
+  },
+];
+---
+
+<Layout
+  path="/products/"
+  current="/products/"
+  titleZh="产品与系统｜泽锐 zerui 户外厨房"
+  titleEn="Products & Systems | ZERUI Outdoor Kitchens"
+  descZh="泽锐 zerui 的产品结构示例：一体化户外厨房岛台、模块化户外厨房系统、专业烧烤炉与不锈钢柜体配件。"
+  descEn="Sample product structures from ZERUI: integrated outdoor kitchen islands, modular systems, professional grills and stainless steel cabinets."
+>
+  <PageHero
+    eyebrowZh="PRODUCT RANGE"
+    eyebrowEn="PRODUCT RANGE"
+    titleZh="产品与系统"
+    titleEn="Products & Systems"
+    ledeZh="以下为产品结构示例，用于展示页面组织方式。具体型号、尺寸与配置待确认后补充。"
+    ledeEn="Sample product structures, included to show how the pages are organised. Models, dimensions and configurations will be added once confirmed."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Category Overview">品类概览</h2>
+        <span class="section-note" data-en="Sample content">示例内容</span>
+      </div>
+      <div class="grid grid-2">
+        {products.map((item) => <Card {...item} wide />)}
+      </div>
+      <p class="note" data-en="This page is a migration sample. No specifications, certifications or performance data have been added.">
+        本页为迁移示例，未写入任何未经确认的规格、认证或性能数据。
+      </p>
+    </div>
+  </section>
+</Layout>

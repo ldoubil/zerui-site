@@ -1,0 +1,66 @@
+---
+const { current } = Astro.props;
+
+const navItems = [
+  { href: '/products/', zh: '产品', en: 'Products' },
+  { href: '/factory/', zh: '工厂与工艺', en: 'Factory & Craft' },
+  { href: '/projects/', zh: '案例', en: 'Projects' },
+  { href: '/contact/', zh: '联系', en: 'Contact' },
+];
+---
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/" aria-label="泽锐 zerui 首页">
+      <span class="brand-mark">ZERUI</span>
+      <span class="brand-cn">泽锐</span>
+    </a>
+
+    <nav class="nav" id="primary-nav" aria-label="主导航">
+      {
+        navItems.map((item) => (
+          <a
+            class="nav-item"
+            href={item.href}
+            data-en={item.en}
+            aria-current={current === item.href ? 'page' : undefined}
+          >
+            {item.zh}
+          </a>
+        ))
+      }
+      <a
+        class="nav-item"
+        id="nav-contact"
+        href="https://wa.me/8617853993611"
+        target="_blank"
+        rel="noopener"
+        data-en="WhatsApp">WhatsApp</a
+      >
+    </nav>
+
+    <div class="header-actions">
+      <button class="lang-btn" id="lang-toggle" type="button" aria-pressed="false" aria-label="切换语言">
+        EN
+      </button>
+      <a
+        class="btn btn-solid btn-sm"
+        id="cta-quote"
+        href="https://wa.me/8617853993611"
+        target="_blank"
+        rel="noopener"
+        data-en="Get a Quote">获取报价</a
+      >
+      <button
+        class="menu-btn"
+        id="menu-btn"
+        type="button"
+        aria-controls="primary-nav"
+        aria-expanded="false"
+        aria-label="打开菜单"
+      >
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>

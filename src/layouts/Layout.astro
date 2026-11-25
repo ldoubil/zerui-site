@@ -1,0 +1,120 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+
+const {
+  titleZh,
+  titleEn,
+  descZh,
+  descEn,
+  path,
+  current,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://zeruioutdoor.com');
+const canonical = new URL(path ?? Astro.url.pathname, site).href;
+const canonicalEn = `${canonical}?lang=en`;
+const ogImage = new URL('/assets/img/og-image.png', site).href;
+const logoSrc = new URL('/assets/img/logo.png', site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${site.origin}/#organization`,
+      name: '泽锐 zerui',
+      alternateName: ['ZERUI', '泽锐户外厨房'],
+      url: `${site.origin}/`,
+      logo: {
+        '@type': 'ImageObject',
+        url: logoSrc,
+        width: 512,
+        height: 512,
+      },
+      description:
+        '专业户外厨房制造商与工厂，提供不锈钢户外厨房、模块化户外厨房系统、专业烧烤炉的定制、OEM 与 ODM 服务。',
+      contactPoint: [
+        {
+          '@type': 'ContactPoint',
+          telephone: '+8617853993611',
+          contactType: 'sales',
+          availableLanguage: ['zh-CN', 'en'],
+        },
+      ],
+      sameAs: [],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${site.origin}/#website`,
+      url: `${site.origin}/`,
+      name: '泽锐 zerui 官网',
+      inLanguage: ['zh-CN', 'en'],
+      publisher: { '@id': `${site.origin}/#organization` },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{titleZh}</title>
+    <meta name="description" content={descZh} />
+    <meta
+      name="keywords"
+      content="户外厨房,户外厨房工厂,不锈钢户外厨房,定制户外厨房,户外厨房制造商,泽锐,zerui,professional outdoor kitchen,outdoor kitchen manufacturer,custom outdoor kitchen,outdoor kitchen factory,stainless steel outdoor kitchen"
+    />
+    <meta name="author" content="泽锐 zerui" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="theme-color" content="#171713" />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="zh-CN" href={canonical} />
+    <link rel="alternate" hreflang="en" href={canonicalEn} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+
+    <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg" />
+    <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="泽锐 zerui" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:title" content={titleZh} />
+    <meta property="og:description" content={descZh} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ZERUI 泽锐 · Professional Outdoor Kitchen Manufacturer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titleZh} />
+    <meta name="twitter:description" content={descEn} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="ZERUI 泽锐 · Professional Outdoor Kitchen Manufacturer" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body
+    data-title-zh={titleZh}
+    data-title-en={titleEn}
+    data-desc-zh={descZh}
+    data-desc-en={descEn}
+  >
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <Header current={current} />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <script>
+      import '../scripts/main.js';
+    </script>
+  </body>
+</html>

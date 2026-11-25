@@ -1,25 +1,15 @@
 /* ============================================================
-   泽锐 zerui — 单屏首页
-   仅：语言切换（中 / EN）、移动端菜单
+   泽锐 zerui — 语言切换（中 / EN）与移动端菜单
+   文案通过 data-en 属性切换；WhatsApp 链接按语言更新
    ============================================================ */
 (function () {
   'use strict';
 
   var html = document.documentElement;
+  var body = document.body;
   var toggle = document.getElementById('lang-toggle');
   var menuBtn = document.getElementById('menu-btn');
   var nav = document.getElementById('primary-nav');
-
-  var META = {
-    zh: {
-      title: '泽锐 zerui｜专业户外厨房制造商 · 不锈钢户外厨房工厂',
-      desc: '泽锐 zerui 是专注不锈钢户外厨房的制造工厂，提供一体化户外厨房岛台、模块化系统与专业烧烤炉的 OEM/ODM 定制，自有工厂全流程生产，支持全球出口与交付。'
-    },
-    en: {
-      title: 'ZERUI | Professional Outdoor Kitchen Manufacturer & Factory',
-      desc: 'ZERUI is an outdoor kitchen manufacturer and factory in China, offering stainless steel outdoor kitchens, modular systems and professional grills for custom OEM and ODM projects worldwide.'
-    }
-  };
 
   var WA_NUMBER = '8617853993611';
 
@@ -36,9 +26,10 @@
 
   var WA_LINKS = {
     'nav-contact': 'general',
-    'cta-whatsapp': 'general',
     'cta-quote': 'quote',
-    'cta-proposal': 'quote'
+    'cta-proposal': 'quote',
+    'cta-whatsapp': 'general',
+    'cta-contact': 'general'
   };
 
   function applyWhatsAppLinks() {
@@ -51,6 +42,18 @@
       );
     });
   }
+
+  // 每页的标题 / 描述由 Layout 写在 body 的 data 属性上
+  var META = {
+    zh: {
+      title: body.dataset.titleZh || document.title,
+      desc: body.dataset.descZh || ''
+    },
+    en: {
+      title: body.dataset.titleEn || document.title,
+      desc: body.dataset.descEn || ''
+    }
+  };
 
   var lang = 'zh';
   try {
@@ -73,7 +76,7 @@
 
     document.title = META[lang].title;
     var desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute('content', META[lang].desc);
+    if (desc && META[lang].desc) desc.setAttribute('content', META[lang].desc);
 
     if (toggle) {
       toggle.textContent = lang === 'en' ? '中文' : 'EN';
@@ -97,16 +100,16 @@
     });
   }
 
-  /* 移动端菜单（导航为占位项，仅做展示） */
+  /* 移动端菜单 */
   if (menuBtn && nav) {
     menuBtn.addEventListener('click', function () {
-      var open = document.body.classList.toggle('nav-open');
+      var open = body.classList.toggle('nav-open');
       menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
     document.addEventListener('keydown', function (event) {
       if (event.key !== 'Escape') return;
-      document.body.classList.remove('nav-open');
+      body.classList.remove('nav-open');
       menuBtn.setAttribute('aria-expanded', 'false');
     });
   }

@@ -1,0 +1,68 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+
+const steps = [
+  { no: '01', titleZh: '结构设计', titleEn: 'Design', descZh: '按使用场景与设备尺寸确认结构方案与图纸。', descEn: 'Structure and drawings defined around use case and equipment dimensions.' },
+  { no: '02', titleZh: '钣金加工', titleEn: 'Sheet Metal', descZh: '不锈钢板材下料、折弯与成型。', descEn: 'Stainless steel cutting, bending and forming.' },
+  { no: '03', titleZh: '焊接与打磨', titleEn: 'Welding & Finishing', descZh: '框架与柜体焊接，焊缝打磨处理。', descEn: 'Frame and cabinet welding, with seam grinding.' },
+  { no: '04', titleZh: '表面处理', titleEn: 'Surface Treatment', descZh: '按需求进行拉丝或其他表面处理。', descEn: 'Brushed or other surface treatments as required.' },
+  { no: '05', titleZh: '整机装配', titleEn: 'Assembly', descZh: '柜体、台面与设备组装为完整单元。', descEn: 'Cabinets, countertops and equipment assembled into complete units.' },
+  { no: '06', titleZh: '质检与包装', titleEn: 'QC & Packing', descZh: '出货前检查与出口包装。', descEn: 'Pre-shipment checks and export packing.' },
+];
+---
+
+<Layout
+  path="/factory/"
+  current="/factory/"
+  titleZh="工厂与工艺｜泽锐 zerui 户外厨房制造"
+  titleEn="Factory & Craft | ZERUI Outdoor Kitchen Manufacturing"
+  descZh="泽锐 zerui 的制造流程示例：结构设计、钣金加工、焊接打磨、表面处理、整机装配与出货质检。"
+  descEn="A sample view of ZERUI's manufacturing flow: design, sheet metal, welding and finishing, surface treatment, assembly, QC and packing."
+>
+  <PageHero
+    eyebrowZh="FACTORY & CRAFT"
+    eyebrowEn="FACTORY & CRAFT"
+    titleZh="工厂与工艺"
+    titleEn="Factory & Craft"
+    ledeZh="从结构设计到整机装配的通用制造流程示意。本页不包含产能、设备清单或认证信息。"
+    ledeEn="A generic view of the manufacturing flow from design to assembly. This page does not include capacity, equipment lists or certifications."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Manufacturing Flow">制造流程</h2>
+        <span class="section-note" data-en="Sample content">示例内容</span>
+      </div>
+      <div class="steps">
+        {
+          steps.map((step) => (
+            <div class="step">
+              <span class="step-no">{step.no}</span>
+              <h3 class="step-title" data-en={step.titleEn}>{step.titleZh}</h3>
+              <p class="step-desc" data-en={step.descEn}>{step.descZh}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="note" data-en="This flow is illustrative only and does not represent a specific production line, capacity or certification.">
+        本流程仅为示意，不代表具体产线、产能或认证。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Factory View">工厂图块</h2>
+        <span class="section-note" data-en="Placeholder">占位</span>
+      </div>
+      <div class="grid">
+        <div class="ph ph-wide" aria-hidden="true"><span data-en="Workshop Placeholder">车间图块占位</span></div>
+        <div class="ph ph-wide" aria-hidden="true"><span data-en="Detail Placeholder">细节图块占位</span></div>
+        <div class="ph ph-wide" aria-hidden="true"><span data-en="Packing Placeholder">包装图块占位</span></div>
+      </div>
+    </div>
+  </section>
+</Layout>

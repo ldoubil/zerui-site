@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+---
+
+<Layout
+  path="/contact/"
+  current="/contact/"
+  titleZh="联系我们｜泽锐 zerui 户外厨房"
+  titleEn="Contact | ZERUI Outdoor Kitchens"
+  descZh="通过 WhatsApp 联系泽锐 zerui，咨询不锈钢户外厨房的产品、定制与 OEM/ODM 项目。"
+  descEn="Contact ZERUI via WhatsApp for stainless steel outdoor kitchens, custom builds and OEM/ODM projects."
+>
+  <PageHero
+    eyebrowZh="CONTACT"
+    eyebrowEn="CONTACT"
+    titleZh="联系我们"
+    titleEn="Contact"
+    ledeZh="目前统一通过 WhatsApp 沟通，方便直接发送图纸、尺寸与项目需求。"
+    ledeEn="WhatsApp is the current contact channel, making it easy to share drawings, dimensions and project requirements."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="contact-panel">
+        <div class="contact-main">
+          <p class="contact-label" data-en="WhatsApp">WHATSAPP</p>
+          <p class="contact-value">+86 178 5399 3611</p>
+          <p class="contact-desc" data-en="Send your product requirements, drawings or target dimensions and we will reply in the same chat.">
+            发送产品需求、图纸或目标尺寸，我们会直接在同一对话中回复。
+          </p>
+          <div class="contact-actions">
+            <a
+              class="btn btn-solid"
+              id="cta-contact"
+              href="https://wa.me/8617853993611"
+              target="_blank"
+              rel="noopener"
+              data-en="Open WhatsApp">打开 WhatsApp</a
+            >
+          </div>
+        </div>
+        <div class="contact-side">
+          <ul class="contact-list">
+            <li>
+              <span data-en="Channel">联系渠道</span>
+              <span data-en="WhatsApp">WhatsApp</span>
+            </li>
+            <li>
+              <span data-en="Contact type">联系类型</span>
+              <span data-en="Sales">销售</span>
+            </li>
+            <li>
+              <span data-en="Languages">语言</span>
+              <span>中文 / English</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <p class="note" data-en="This page is part of the Astro migration sample. Business hours and other channels have not been confirmed, so they are intentionally left out.">
+        本页为 Astro 迁移示例。工作时间与其他联系方式尚未确认，因此未写入页面。
+      </p>
+    </div>
+  </section>
+</Layout>
