@@ -429,3 +429,24 @@ fs.writeFileSync(path.join(DIST, 'sitemap.xml'), buildIndex());
 console.log(`en pages: ${pages.length}`);
 for (const r of report) console.log(`  ${r.enRoute}  CJK:${r.cjk}`);
 console.log(`sitemap urls: ${routes.length * 2}  images: ${[...images.values()].filter((v) => v && v !== DEFAULT_OG).length}`);
+
+// 部署时把双语 URL 推送给 IndexNow（Bing 等），本地构建不推送
+if (process.env.GITHUB_ACTIONS === 'true') {
+  const key = '90722fe68dce49b5b2b350b66941b31b';
+  const urlList = routes.flatMap((route) => [abs(route), abs(enPath(route))]);
+  try {
+    const res = await fetch('https://api.indexnow.org/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({
+        host: 'zeruioutdoor.com',
+        key,
+        keyLocation: `${ORIGIN}/${key}.txt`,
+        urlList,
+      }),
+    });
+    console.log(`indexnow: ${res.status} (${urlList.length} urls)`);
+  } catch (error) {
+    console.log(`indexnow skipped: ${error.message}`);
+  }
+}
