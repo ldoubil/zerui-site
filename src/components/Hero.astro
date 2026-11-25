@@ -1,52 +1,68 @@
-<section class="hero" aria-labelledby="hero-title">
+---
+import { getHeroSources } from '../lib/hero-images';
+
+const { desktopAvif, desktopWebp, mobileAvif, mobileWebp } = await getHeroSources();
+---
+
+<section class="hero hero-photo" aria-labelledby="hero-title">
+  <div class="hero-media" aria-hidden="true">
+    <picture>
+      <source
+        media="(max-width: 900px)"
+        type="image/avif"
+        srcset={mobileAvif.srcSet.attribute}
+        sizes="100vw"
+      />
+      <source
+        media="(max-width: 900px)"
+        type="image/webp"
+        srcset={mobileWebp.srcSet.attribute}
+        sizes="100vw"
+      />
+      <source type="image/avif" srcset={desktopAvif.srcSet.attribute} sizes="100vw" />
+      <source type="image/webp" srcset={desktopWebp.srcSet.attribute} sizes="100vw" />
+      <img
+        src={desktopWebp.src}
+        width={desktopWebp.attributes.width}
+        height={desktopWebp.attributes.height}
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class="hero-photo-img"
+      />
+    </picture>
+    <div class="hero-scrim"></div>
+  </div>
+
   <div class="wrap hero-inner">
-    <p class="eyebrow" data-en="Outdoor Kitchen Manufacturer · Since 2012">
-      OUTDOOR KITCHEN MANUFACTURER · SINCE 2012
-    </p>
-    <div class="hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow" data-en="Outdoor Kitchen Manufacturer · OEM / ODM">
+        OUTDOOR KITCHEN MANUFACTURER · OEM / ODM
+      </p>
+
       <h1 id="hero-title">
         <span class="h1-line" data-en="Professional Outdoor">专业户外厨房</span>
         <span class="h1-line brass" data-en="Kitchen Manufacturer">制造商</span>
       </h1>
-      <div class="hero-side">
-        <p
-          class="lede"
-          data-en="ZERUI designs and manufactures stainless steel outdoor kitchens in its own factory — from structure and sheet metal to assembly. OEM / ODM for brands, designers and premium residential projects worldwide."
+
+      <p
+        class="lede"
+        data-en="Stainless steel outdoor kitchens, made in our own factory. Built to your site and market, with OEM options."
+      >
+        不锈钢户外厨房，自有工厂制造。按场地与市场定制，可做 OEM。
+      </p>
+
+      <div class="cta-row">
+        <a
+          class="btn btn-solid"
+          data-wa="quote"
+          href="https://wa.me/8617853993611"
+          target="_blank"
+          rel="noopener"
+          data-en="Request a Proposal">获取定制方案</a
         >
-          泽锐 zerui 专注不锈钢户外厨房的研发与制造。从结构设计、钣金加工、表面处理到整机装配，全部在自有工厂完成；为全球经销商、设计机构与高端住宅项目提供 OEM / ODM 定制。
-        </p>
-        <div class="cta-row">
-          <a
-            class="btn btn-solid"
-            id="cta-proposal"
-            href="https://wa.me/8617853993611"
-            target="_blank"
-            rel="noopener"
-            data-en="Request a Proposal">获取定制方案</a
-          >
-          <a class="btn btn-line" href="/factory/" data-en="Tour the Factory">参观工厂与工艺</a>
-          <a
-            class="cta-wa"
-            id="cta-whatsapp"
-            href="https://wa.me/8617853993611"
-            target="_blank"
-            rel="noopener"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5Z"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linejoin="round"></path>
-              <path
-                d="M8.6 10.4c.6 2.2 2.3 3.9 4.5 4.5"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"></path>
-            </svg>
-            <span data-en="WhatsApp">WhatsApp 咨询</span>
-          </a>
-        </div>
+        <a class="btn btn-line" href="/factory/" data-en="Tour the Factory">参观工厂与工艺</a>
       </div>
     </div>
   </div>

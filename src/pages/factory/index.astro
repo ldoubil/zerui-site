@@ -1,14 +1,38 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import PageHero from '../../components/PageHero.astro';
+import InquiryCard from '../../components/InquiryCard.astro';
+import { images } from '../../lib/images';
 
-const steps = [
-  { no: '01', titleZh: '结构设计', titleEn: 'Design', descZh: '按使用场景与设备尺寸确认结构方案与图纸。', descEn: 'Structure and drawings defined around use case and equipment dimensions.' },
-  { no: '02', titleZh: '钣金加工', titleEn: 'Sheet Metal', descZh: '不锈钢板材下料、折弯与成型。', descEn: 'Stainless steel cutting, bending and forming.' },
-  { no: '03', titleZh: '焊接与打磨', titleEn: 'Welding & Finishing', descZh: '框架与柜体焊接，焊缝打磨处理。', descEn: 'Frame and cabinet welding, with seam grinding.' },
-  { no: '04', titleZh: '表面处理', titleEn: 'Surface Treatment', descZh: '按需求进行拉丝或其他表面处理。', descEn: 'Brushed or other surface treatments as required.' },
-  { no: '05', titleZh: '整机装配', titleEn: 'Assembly', descZh: '柜体、台面与设备组装为完整单元。', descEn: 'Cabinets, countertops and equipment assembled into complete units.' },
-  { no: '06', titleZh: '质检与包装', titleEn: 'QC & Packing', descZh: '出货前检查与出口包装。', descEn: 'Pre-shipment checks and export packing.' },
+const workshopImages = [
+  {
+    image: images.factoryLine,
+    captionZh: '整机装配',
+    captionEn: 'Assembly',
+    noteZh: '整机在厂内完成装配与出货前检查，按项目逐台核对配置。',
+    noteEn: 'Units are assembled and checked before dispatch, with each configuration verified against the project.',
+    altZh: '工厂内装配完成的户外厨房整机',
+    altEn: 'Finished outdoor kitchens assembled on the factory floor',
+  },
+  {
+    image: images.factoryWeld,
+    captionZh: '细节与收边',
+    captionEn: 'Details & finishing',
+    noteZh: '焊缝、收边与柜体配合在出厂前逐项检查。',
+    noteEn: 'Welds, edges and cabinet fits are checked item by item before dispatch.',
+    altZh: '不锈钢烧烤炉与柜体的收边细节',
+    altEn: 'Close-up of stainless steel grill and cabinet detailing',
+  },
+  {
+    image: images.factoryPack,
+    captionZh: '出口包装',
+    captionEn: 'Export packing',
+    noteZh: '整机检查后按运输方式装入木箱，随箱附编号与装箱清单。',
+    noteEn: 'After inspection, units are packed into timber crates with numbered packing lists.',
+    altZh: '工厂内用木箱包装的户外厨房',
+    altEn: 'Outdoor kitchens packed in timber export crates at the factory',
+  },
 ];
 ---
 
@@ -17,52 +41,107 @@ const steps = [
   current="/factory/"
   titleZh="工厂与工艺｜泽锐 zerui 户外厨房制造"
   titleEn="Factory & Craft | ZERUI Outdoor Kitchen Manufacturing"
-  descZh="泽锐 zerui 的制造流程示例：结构设计、钣金加工、焊接打磨、表面处理、整机装配与出货质检。"
-  descEn="A sample view of ZERUI's manufacturing flow: design, sheet metal, welding and finishing, surface treatment, assembly, QC and packing."
+  descZh="走进泽锐 zerui 位于山东临沂的自有工厂：2000 ㎡ 厂房、60+ 人团队、月产能 200+ 件，2019 年成立，钣金、焊接、装配与出口包装全部内部完成。"
+  descEn="Inside ZERUI's own factory in Linyi, Shandong: a 2,000 m² facility, a team of 60+ and capacity of 200+ units per month, established in 2019 with fabrication, assembly and export packing all in-house."
 >
   <PageHero
-    eyebrowZh="FACTORY & CRAFT"
-    eyebrowEn="FACTORY & CRAFT"
-    titleZh="工厂与工艺"
-    titleEn="Factory & Craft"
-    ledeZh="从结构设计到整机装配的通用制造流程示意。本页不包含产能、设备清单或认证信息。"
-    ledeEn="A generic view of the manufacturing flow from design to assembly. This page does not include capacity, equipment lists or certifications."
-  />
+    eyebrowZh="FACTORY / CRAFT"
+    eyebrowEn="FACTORY / CRAFT"
+    titleZh="从一张板，到一台能直接用的厨房"
+    titleEn="From a sheet of steel to a kitchen that arrives ready"
+    ledeZh="山东临沂，自有工厂。从钣金、焊接、表面处理到装配与出口包装，全部内部完成。"
+    ledeEn="Our own factory in Linyi, Shandong. Sheet metal, welding, finishing, assembly and export packing all completed in-house."
+  >
+    <div class="page-hero-meta">
+      <span data-en="Established 2019">2019 年成立</span>
+      <span data-en="Linyi, Shandong">山东临沂</span>
+      <span data-en="Export packing">出口包装</span>
+    </div>
+  </PageHero>
 
-  <section class="section">
+  <section class="band-section">
     <div class="wrap">
-      <div class="section-head">
-        <h2 class="section-title" data-en="Manufacturing Flow">制造流程</h2>
-        <span class="section-note" data-en="Sample content">示例内容</span>
+      <div class="stat-band">
+        <div class="stat">
+          <p class="stat-value">2019</p>
+          <p class="stat-label" data-en="Established">成立</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            2,000
+            <span class="stat-unit" data-en="m²">㎡</span>
+          </p>
+          <p class="stat-label" data-en="Factory floor">厂房面积</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            60
+            <span class="stat-unit">+</span>
+          </p>
+          <p class="stat-label" data-en="Team">团队</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            200
+            <span class="stat-unit">+</span>
+          </p>
+          <p class="stat-label" data-en="Units per month">件每月</p>
+        </div>
       </div>
-      <div class="steps">
-        {
-          steps.map((step) => (
-            <div class="step">
-              <span class="step-no">{step.no}</span>
-              <h3 class="step-title" data-en={step.titleEn}>{step.titleZh}</h3>
-              <p class="step-desc" data-en={step.descEn}>{step.descZh}</p>
-            </div>
-          ))
-        }
-      </div>
-      <p class="note" data-en="This flow is illustrative only and does not represent a specific production line, capacity or certification.">
-        本流程仅为示意，不代表具体产线、产能或认证。
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <p
+        class="lede lede--wide"
+        data-en="Every unit starts as flat sheet and leaves as a finished kitchen. Between those two points, the work stays in one building: cutting, bending, welding, finishing, assembly and packing, each reviewed before the next step begins."
+      >
+        每一台厨房从平板开始，到最后作为整机出货，中间全部在同一栋厂房里完成：开料、折弯、
+        焊接、表面处理、装配与包装，每一步确认后再进入下一步。
       </p>
     </div>
   </section>
 
-  <section class="section">
+  {
+    workshopImages.map((item) => (
+      <section class="section section--tight">
+        <div class="wrap">
+          <figure class="factory-plate">
+            <div class="factory-plate-media">
+              <Image
+                src={item.image}
+                alt={item.altZh}
+                data-alt-en={item.altEn}
+                widths={[800, 1400, 2000]}
+                sizes="100vw"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <figcaption>
+              <span class="factory-plate-title" data-en={item.captionEn}>{item.captionZh}</span>
+              <span class="factory-plate-note" data-en={item.noteEn}>{item.noteZh}</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section section--tight">
     <div class="wrap">
-      <div class="section-head">
-        <h2 class="section-title" data-en="Factory View">工厂图块</h2>
-        <span class="section-note" data-en="Placeholder">占位</span>
-      </div>
-      <div class="grid">
-        <div class="ph ph-wide" aria-hidden="true"><span data-en="Workshop Placeholder">车间图块占位</span></div>
-        <div class="ph ph-wide" aria-hidden="true"><span data-en="Detail Placeholder">细节图块占位</span></div>
-        <div class="ph ph-wide" aria-hidden="true"><span data-en="Packing Placeholder">包装图块占位</span></div>
-      </div>
+      <InquiryCard
+        eyebrowZh="VISIT / SAMPLE"
+        eyebrowEn="VISIT / SAMPLE"
+        titleZh="想看看实物或来工厂"
+        titleEn="See a unit or visit the factory"
+        descZh="可以安排看样或到厂参观，也可以先发图纸，我们按你的配置给出工厂端的建议。"
+        descEn="We can arrange a sample review or a factory visit, or start from your drawings and advise on the manufacturing side."
+        secondaryLabelZh="了解定制流程"
+        secondaryLabelEn="See the custom process"
+        secondaryHref="/custom/"
+      />
     </div>
   </section>
 </Layout>

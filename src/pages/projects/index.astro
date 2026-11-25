@@ -1,65 +1,132 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import PageHero from '../../components/PageHero.astro';
-import Card from '../../components/Card.astro';
-
-const projects = [
-  {
-    labelZh: '示例案例 01',
-    labelEn: 'Sample Project 01',
-    titleZh: '项目占位标题',
-    titleEn: 'Placeholder Project Title',
-    descZh: '占位文案：此处用于展示项目卡片的结构，非真实项目、非真实客户。',
-    descEn: 'Placeholder copy: demonstrates the project card structure. Not a real project or client.',
-  },
-  {
-    labelZh: '示例案例 02',
-    labelEn: 'Sample Project 02',
-    titleZh: '项目占位标题',
-    titleEn: 'Placeholder Project Title',
-    descZh: '占位文案：可在此补充项目类型、所在地区与交付范围。',
-    descEn: 'Placeholder copy: project type, region and scope of delivery can be added here.',
-  },
-  {
-    labelZh: '示例案例 03',
-    labelEn: 'Sample Project 03',
-    titleZh: '项目占位标题',
-    titleEn: 'Placeholder Project Title',
-    descZh: '占位文案：上线前请替换为经客户授权的真实项目信息。',
-    descEn: 'Placeholder copy: replace with client-authorised project information before launch.',
-  },
-];
+import InquiryCard from '../../components/InquiryCard.astro';
+import { images } from '../../lib/images';
 ---
 
 <Layout
   path="/projects/"
   current="/projects/"
-  titleZh="案例｜泽锐 zerui 户外厨房"
-  titleEn="Projects | ZERUI Outdoor Kitchens"
-  descZh="泽锐 zerui 案例页面结构示例。当前为占位内容，未使用任何真实客户名称、照片或数据。"
-  descEn="A sample projects page structure for ZERUI. All content is placeholder; no real client names, photos or data are used."
+  titleZh="经销商合作｜泽锐 zerui 户外厨房"
+  titleEn="Dealer Programme | ZERUI Outdoor Kitchens"
+  descZh="泽锐 zerui 面向经销商与分销商的户外厨房舱供货：进口商、烧烤零售、户外家具分销、建筑商与独立展厅。自有工厂供货，一台起订，支持贴牌与合并出运。"
+  descEn="Outdoor kitchen pods supplied from our own factory to importers, BBQ retailers, outdoor furniture distributors, builders and independent showrooms. Start with one unit; private label and consolidated shipments available."
 >
   <PageHero
-    eyebrowZh="PROJECTS"
-    eyebrowEn="PROJECTS"
-    titleZh="案例"
-    titleEn="Projects"
-    ledeZh="以下为版式示例，全部是占位内容。未使用任何真实客户名称、照片或项目数据。"
-    ledeEn="The items below are layout samples only. No real client names, photos or project data are used."
+    eyebrowZh="全球经销商合作"
+    eyebrowEn="GLOBAL DEALER PARTNERSHIPS"
+    titleZh="为经销商与分销商，供应户外厨房舱。"
+    titleEn="Outdoor kitchen pods for dealers and distributors."
+    ledeZh="由我们自有工厂供应户外厨房舱，面向进口商、烧烤零售商、户外家具分销商、建筑商与独立展厅。一台起订。"
+    ledeEn="Outdoor kitchen pods supplied from our own factory to importers, BBQ retailers, outdoor furniture distributors, builders and independent showrooms. Start with one unit."
   />
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head">
-        <h2 class="section-title" data-en="Project Cards">项目卡片</h2>
-        <span class="section-note" data-en="Placeholder">占位</span>
+      <div class="trio">
+        <article>
+          <span class="number">01</span>
+          <h3 data-en="Showroom entry">展厅起步</h3>
+          <p
+            data-en="Evaluate a single, fully specified sample before planning a larger collection."
+          >
+            在规划更大的产品线之前，先用一台完整配置的样机做评估。
+          </p>
+        </article>
+        <article>
+          <span class="number">02</span>
+          <h3 data-en="Private label">贴牌</h3>
+          <p
+            data-en="Discuss finishes, branding and regional preferences for your product range."
+          >
+            围绕你的产品线，讨论饰面、品牌与区域偏好。
+          </p>
+        </article>
+        <article>
+          <span class="number">03</span>
+          <h3 data-en="Bulk supply">批量供货</h3>
+          <p
+            data-en="Request a packing and shipment plan for consolidated multi-unit orders."
+          >
+            为多台合并订单索取包装与出运计划。
+          </p>
+        </article>
       </div>
-      <div class="grid">
-        {projects.map((item) => <Card {...item} />)}
+
+      <div class="editorial editorial--after">
+        <h2 data-en="What to include in a dealer enquiry">经销商询盘里要包含什么</h2>
+        <p
+          data-en="Tell us where you sell, your distribution channels, preferred models, initial quantity and the destination market. We will discuss specifications, commercial terms, availability, compliance documents and service arrangements. Territorial exclusivity is not implied and requires a separate agreement."
+        >
+          告诉我们销售地区、分销渠道、偏好型号、首批数量与目的地市场。我们会讨论规格、商务条款、交期、
+          合规文件与服务安排。区域独家不会默认给予，需另签书面协议。
+        </p>
+
+        <h2 data-en="Supply for builders, showrooms and project channels">
+          面向建筑商、展厅与项目渠道的供货
+        </h2>
+        <p
+          data-en="As an outdoor kitchen supplier for builders, dealers and distributors, we support more than showroom sales. Builders and landscape contractors can specify our pods into residential projects, while distributors build a regional range around a single showroom unit. We prepare consolidated packing and shipment plans for multi-unit orders, and every unit leaves our Linyi factory with its configuration and equipment list confirmed in writing."
+        >
+          作为面向建筑商、经销商与分销商的户外厨房供应商，我们支持的不只是展厅零售。
+          建筑商与景观承包商可以把舱体指定进住宅项目；分销商则以一台展厅样机为基础，建立区域产品线。
+          多台订单按合并包装与出运计划执行，每一台离开临沂工厂时，都带着书面确认的配置与设备清单。
+        </p>
+        <p
+          data-en="Support starts before your first order: we help you choose the configurations that fit your market, agree finish and branding options, and plan sample and stock quantities around your selling season. Design support for dealer ranges is free — layouts, finishes and branding proposals are developed with you before any order is placed. As your range grows, repeat orders follow the same confirmed specification, so every delivery matches the units your customers saw in the showroom."
+        >
+          支持从第一张订单之前开始：帮你选择适合当地市场的配置，确认饰面与品牌选项，
+          并按销售季节规划样机与库存数量。经销商产品线的设计支持免费——布局、饰面与品牌方案在下单前一起完成。
+          产品线扩大后，翻单沿用同一份确认规格，每一批货都与客户在展厅看到的单元一致。
+        </p>
+
+        <h2 data-en="Our outdoor kitchen dealer program">我们的户外厨房经销商计划</h2>
+        <p
+          data-en="Our outdoor kitchen dealer program follows a simple path: start with one fully specified showroom unit, agree finishes and private label branding for your market, then grow into consolidated multi-unit shipments as your range develops. Repeat orders follow the same confirmed specification, so the pods on your floor always match the pods your customers receive, and territorial exclusivity, where requested, is covered by a separate agreement."
+        >
+          计划路径很简单：从一台完整配置的展厅单元开始，确认面向当地市场的饰面与贴牌，
+          再随着产品线成长进入合并多台出运。翻单沿用同一份确认规格，展厅里的舱体与客户收到的舱体始终一致；
+          如提出区域独家，另以书面协议约定。
+        </p>
+        <p
+          data-en="Builders sit inside the same programme. When project teams compare outdoor kitchen suppliers for builders, the questions are practical: can the unit be specified into a residential project, confirmed by drawing, and delivered against a site schedule? We answer with confirmed dimensions, equipment lists and packing plans in writing before production, so builders, landscape contractors and showrooms all work from the same specification."
+        >
+          建筑商也在同一套计划内。项目团队比较户外厨房供应商时，问题都很实际：单元能否指定进住宅项目、
+          能否以图纸确认、能否按现场进度交付？我们用书面确认的尺寸、设备清单与包装计划回答，
+          生产前完成，让建筑商、景观承包商与展厅都按同一份规格工作。
+        </p>
       </div>
-      <p class="note" data-en="All entries are placeholders for layout review only.">
-        所有条目均为版式占位，仅用于确认页面结构。
-      </p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <figure class="dealer-wide">
+        <Image
+          src={images.aboutBand}
+          alt="工厂内不同饰面的多台户外厨房舱，含柜体、烤炉与冷藏配置"
+          data-alt-en="Multiple kitchen pod finishes in our factory, with cabinets, grills and refrigeration"
+          widths={[800, 1200, 1600]}
+          sizes="100vw"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="从你的项目开始"
+        eyebrowEn="YOUR PROJECT STARTS HERE"
+        titleZh="让户外，值得聚在一起。"
+        titleEn="Make the outdoors worth gathering in."
+        descZh="告诉我们市场、配置与数量，我们帮你把下一台厨房舱定下来。"
+        descEn="Tell us your market, configuration and quantity. We will help define your next kitchen pod."
+      />
     </div>
   </section>
 </Layout>

@@ -1,15 +1,337 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import InquiryCard from '../components/InquiryCard.astro';
+import { getHeroSources } from '../lib/hero-images';
+import { images } from '../lib/images';
+import { faqGroups } from '../data/faq';
+import { categories } from '../data/site';
+
+const { desktopAvif, mobileAvif } = await getHeroSources();
+
+const showcase = categories.map((item) => ({
+  no: item.no,
+  zh: item.titleZh,
+  en: item.titleEn,
+  href: `/products/${item.slug}/`,
+  image: images[item.image],
+  alt: item.altZh,
+  altEn: item.altEn,
+}));
+
+const customPoints = [
+  { zh: '尺寸与布局', en: 'Dimensions & layout' },
+  { zh: '台面与柜门', en: 'Countertop & doors' },
+  { zh: '设备与开孔', en: 'Equipment & cut-outs' },
+  { zh: '品牌与包装', en: 'Branding & packing' },
+];
+
+const partners = [
+  {
+    no: '01',
+    titleZh: '经销商与分销商',
+    titleEn: 'Dealers & distributors',
+    descZh: '从展厅单元开始，打造适合客户和地区的产品线。',
+    descEn: 'Start with a showroom unit and build a range that fits your customers and region.',
+    linkZh: '经销商计划',
+    linkEn: 'Dealer programme',
+    href: '/projects/',
+  },
+  {
+    no: '02',
+    titleZh: '建筑师与承包商',
+    titleEn: 'Architects & contractors',
+    descZh: '围绕场地规划厨房、可用水电设施及所需安装条件。',
+    descEn: 'Plan the kitchen around the site, available utilities and required installation conditions.',
+    linkZh: '项目解决方案',
+    linkEn: 'Project solutions',
+    href: '/custom/#projects',
+  },
+  {
+    no: '03',
+    titleZh: 'OEM 及自有品牌',
+    titleEn: 'OEM & private label',
+    descZh: '打造一条独有的产品线，材料、细节与品牌形象都可配置。',
+    descEn: 'Build a distinctive line with configurable materials, details and branding.',
+    linkZh: '定制制造',
+    linkEn: 'Custom manufacturing',
+    href: '/custom/#oem',
+  },
+];
+
+const coreFaq = faqGroups[0].items;
 ---
 
 <Layout
   path="/"
   current="/"
+  headerOverlay
   titleZh="泽锐 zerui｜专业户外厨房制造商 · 不锈钢户外厨房工厂"
   titleEn="ZERUI | Professional Outdoor Kitchen Manufacturer & Factory"
-  descZh="泽锐 zerui 是专注不锈钢户外厨房的制造工厂，提供一体化户外厨房岛台、模块化系统与专业烧烤炉的 OEM/ODM 定制，自有工厂全流程生产，支持全球出口与交付。"
-  descEn="ZERUI is an outdoor kitchen manufacturer and factory in China, offering stainless steel outdoor kitchens, modular systems and professional grills for custom OEM and ODM projects worldwide."
+  descZh="泽锐 zerui 是专注不锈钢户外厨房的制造工厂，提供一体化户外厨房岛台、模块化系统、专业烧烤炉与柜体的定制和 OEM/ODM 方案，自有工厂全流程生产。"
+  descEn="ZERUI is an outdoor kitchen manufacturer in China, offering stainless steel islands, modular systems, grills and cabinets for custom and OEM projects worldwide."
+  preload={[
+    {
+      href: desktopAvif.src,
+      srcset: desktopAvif.srcSet.attribute,
+      sizes: '100vw',
+      type: 'image/avif',
+      media: '(min-width: 901px)',
+    },
+    {
+      href: mobileAvif.src,
+      srcset: mobileAvif.srcSet.attribute,
+      sizes: '100vw',
+      type: 'image/avif',
+      media: '(max-width: 900px)',
+    },
+  ]}
 >
   <Hero />
+
+  <section class="band-section">
+    <div class="wrap">
+      <div class="stat-band">
+        <div class="stat">
+          <p class="stat-value">
+            <span data-en="1">1</span>
+            <span class="stat-unit" data-en="unit">件</span>
+          </p>
+          <p class="stat-label" data-en="Minimum order">最低订购量</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            <span data-en="20">20</span>
+            <span class="stat-unit" data-en="days">天</span>
+          </p>
+          <p class="stat-label" data-en="Standard production">标准生产周期</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            <span class="stat-word">OEM</span>
+          </p>
+          <p class="stat-label" data-en="Custom design options">及定制设计选项</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            <span class="stat-word" data-en="Export">出口</span>
+          </p>
+          <p class="stat-label" data-en="Packing & destination planning">包装与目的地规划</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="products">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker"><span>01</span></p>
+          <h2 class="section-title" data-en="Collection">收藏</h2>
+        </div>
+        <div class="section-aside">
+          <a class="section-link" href="/products/" data-en="See the collection">查看收藏</a>
+        </div>
+      </div>
+      <div class="showcase-grid">
+        {
+          showcase.map((item) => (
+            <a class="showcase-card" href={item.href}>
+              <div class="showcase-media">
+                <Image
+                  src={item.image}
+                  alt={item.alt}
+                  data-alt-en={item.altEn}
+                  widths={[520, 820, 1200]}
+                  sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 600px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="showcase-cap">
+                <span class="showcase-no">{item.no}</span>
+                <h3 data-en={item.en}>{item.zh}</h3>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale" id="custom">
+    <div class="wrap">
+      <div class="split split--wide">
+        <div class="split-copy">
+          <p class="section-kicker"><span>02</span><span data-en="Customisation">定制</span></p>
+          <h2 class="section-title" data-en="One structure, made to your project">
+            一套结构，按项目来做
+          </h2>
+          <p class="lede" data-en="Dimensions, countertop, doors and cut-outs follow the drawing. No preset templates.">
+            尺寸、台面、柜门与开孔都按图纸来，没有预设模板。
+          </p>
+          <ul class="check-list">
+            {
+              customPoints.map((point) => (
+                <li>
+                  <span class="check-mark" aria-hidden="true">—</span>
+                  <span data-en={point.en}>{point.zh}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="split-actions">
+            <a class="btn btn-dark" href="/custom/" data-en="See the custom process">了解定制流程</a>
+          </p>
+        </div>
+        <div class="split-media">
+          <div class="media media--4x3">
+            <Image
+              src={images.modular}
+              alt="模块化户外厨房系统，柜体与台面可拆分组合"
+              data-alt-en="Modular outdoor kitchen system with separable cabinets and countertops"
+              widths={[480, 800, 1200]}
+              sizes="(max-width: 960px) 100vw, 50vw"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="details">
+    <div class="wrap">
+      <p class="section-kicker"><span>03</span><span data-en="Details">详情</span></p>
+      <h2 class="section-title" data-en="Every detail. Considered.">每一个细节。考虑过。</h2>
+      <p
+        class="section-lede"
+        data-en="Integrated cooking, architectural lighting and carefully arranged storage. Choose the features that suit your project."
+      >
+        集成烹饪、建筑照明以及精心布置的储物空间。选择适合您项目的功能。
+      </p>
+      <a class="text-link" href="/custom/" data-en="Discuss your configuration">讨论你的配置</a>
+      <div class="detail-media">
+        <Image
+          src={images.aboutBand}
+          alt="户外厨房的台面、柜体与设备细节"
+          data-alt-en="Countertop, cabinet and equipment details of an outdoor kitchen"
+          widths={[900, 1400, 2000]}
+          sizes="100vw"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale" id="partners">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker"><span>04</span><span data-en="Market">市场</span></p>
+          <h2 class="section-title" data-en="Made for your market">为你的市场量身打造</h2>
+        </div>
+      </div>
+      <p
+        class="section-lede"
+        data-en="A different kind of partnership. For importers, outdoor living dealers, landscape contractors and project teams."
+      >
+        一种不同类型的伙伴关系。适用于进口商、户外生活经销商、景观承包商和项目团队。
+      </p>
+      <div class="principles">
+        {
+          partners.map((item) => (
+            <div class="principle">
+              <span class="step-no">{item.no}</span>
+              <h3 data-en={item.titleEn}>{item.titleZh}</h3>
+              <p data-en={item.descEn}>{item.descZh}</p>
+              <a class="principle-link" href={item.href} data-en={item.linkEn}>
+                {item.linkZh}
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark" id="factory">
+    <div class="wrap">
+      <p class="section-kicker"><span>05</span><span data-en="From the workshop">来自车间</span></p>
+      <div class="split split--wide">
+        <div class="split-copy">
+          <h2 class="section-title" data-en="Crafted with purpose.">精心打造。</h2>
+          <p
+            class="lede"
+            data-en="Our own factory in Linyi, Shandong, China: a 2,000 m² facility, a team of 60+, and capacity of more than 200 units per month. Established in 2019, with fabrication, assembly and export packing all completed in-house."
+          >
+            我们位于中国山东临沂的自有工厂：2000 ㎡ 厂房，60+ 人团队，月产能 200+ 件。成立于 2019
+            年，制造、装配与出口包装全部内部完成。
+          </p>
+          <p class="split-actions">
+            <a class="btn btn-light" href="/factory/" data-en="Inside manufacturing">内部制造</a>
+          </p>
+        </div>
+        <div class="split-media">
+          <div class="media media--4x3">
+            <Image
+              src={images.factoryLine}
+              alt="工厂生产线"
+              data-alt-en="Factory production line"
+              widths={[480, 800, 1200]}
+              sizes="(max-width: 960px) 100vw, 50vw"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker"><span>06</span><span data-en="Good to know">问答</span></p>
+          <h2 class="section-title" data-en="Questions, answered.">问题，已解答。</h2>
+        </div>
+        <a class="section-link" href="/faq/" data-en="All questions">全部问题</a>
+      </div>
+      <div class="acc-list">
+        {
+          coreFaq.map((item) => (
+            <details class="acc">
+              <summary>
+                <span class="acc-q" data-en={item.q.en}>{item.q.zh}</span>
+                <span class="acc-icon" aria-hidden="true" />
+              </summary>
+              <p class="acc-a" data-en={item.a.en}>{item.a.zh}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="START A PROJECT / WHATSAPP"
+        eyebrowEn="START A PROJECT / WHATSAPP"
+        titleZh="从一张场地照片开始"
+        titleEn="Start with a site photo"
+        descZh="发来场地照片、尺寸与想要的设备，我们先判断适合整机还是模块。"
+        descEn="Send a site photo, dimensions and the equipment you want. We will suggest complete-unit or modular first."
+        secondaryLabelZh="查看定制流程"
+        secondaryLabelEn="See the custom process"
+        secondaryHref="/custom/"
+        noteZh="中文 / English 均可沟通；图纸与尺寸可直接在对话中发送。"
+        noteEn="We work in Chinese and English; drawings and dimensions can be shared directly in the chat."
+      />
+    </div>
+  </section>
 </Layout>

@@ -1,40 +1,105 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import PageHero from '../../components/PageHero.astro';
-import Card from '../../components/Card.astro';
+import InquiryCard from '../../components/InquiryCard.astro';
+import { images } from '../../lib/images';
 
-const products = [
+const pods = [
   {
-    labelZh: '01 / 示例结构',
-    labelEn: '01 / Sample Structure',
-    titleZh: '一体化户外厨房岛台',
-    titleEn: 'Integrated Outdoor Kitchen Islands',
-    descZh: '岛台、台面、柜体与设备的一体化结构方案示例。尺寸、配置与设备组合按项目定义。',
-    descEn: 'A sample structure combining island body, countertop, cabinets and equipment. Dimensions and configurations are defined per project.',
+    fullEn: 'Obsidian integrated outdoor kitchen pod',
+    seriesZh: '签名系列',
+    seriesEn: 'Signature collection',
+    nameZh: '黑曜石',
+    nameEn: 'Obsidian',
+    image: 'islands',
+    altZh: '黑曜石一体化户外厨房舱，抬起式顶篷，深色柜体，集成烤炉、水槽与冷藏',
+    altEn: 'Obsidian integrated outdoor kitchen pod with lift-up canopy, dark cabinets, built-in grill, sink and refrigeration',
   },
   {
-    labelZh: '02 / 示例结构',
-    labelEn: '02 / Sample Structure',
-    titleZh: '模块化户外厨房系统',
-    titleEn: 'Modular Outdoor Kitchen Systems',
-    descZh: '按模块组合的柜体与台面系统，便于运输、现场拼装与后期扩展。',
-    descEn: 'Cabinet and countertop modules that ship flat and assemble on site, with room to extend later.',
+    fullEn: 'Lumière integrated outdoor kitchen pod',
+    seriesZh: '庭院收藏',
+    seriesEn: 'Courtyard collection',
+    nameZh: '卢米埃尔',
+    nameEn: 'Lumière',
+    image: 'project01',
+    altZh: '夜间灯光下的卢米埃尔户外厨房舱，庭院铺装与木质围栏',
+    altEn: 'Lumière outdoor kitchen pod lit at night on a paved courtyard with timber fencing',
   },
   {
-    labelZh: '03 / 示例结构',
-    labelEn: '03 / Sample Structure',
-    titleZh: '专业烧烤炉',
-    titleEn: 'Professional Grills',
-    descZh: '嵌入式与独立式烧烤炉的结构方案示例，具体型号与参数待补充。',
-    descEn: 'Sample structures for built-in and freestanding grills. Models and specifications to be added.',
+    fullEn: 'Copper Studio integrated outdoor kitchen pod',
+    seriesZh: '娱乐收藏',
+    seriesEn: 'Entertainment collection',
+    nameZh: 'Copper Studio',
+    nameEn: 'Copper Studio',
+    image: 'cabinets',
+    altZh: 'Copper Studio 户外厨房舱，铜色木纹饰面，集成烤炉、电视与冷藏',
+    altEn: 'Copper Studio outdoor kitchen pod with copper-toned timber finish, built-in grill, TV and refrigeration',
   },
   {
-    labelZh: '04 / 示例结构',
-    labelEn: '04 / Sample Structure',
-    titleZh: '不锈钢柜体与配件',
-    titleEn: 'Stainless Steel Cabinets & Accessories',
-    descZh: '门板、抽屉、水槽柜等柜体部件的结构示例，可配合不同台面方案。',
-    descEn: 'Sample cabinet parts such as doors, drawers and sink units, combinable with different countertop options.',
+    fullEn: 'Chef Edition integrated outdoor kitchen pod',
+    seriesZh: '烹饪收藏',
+    seriesEn: 'Cooking collection',
+    nameZh: '厨师版',
+    nameEn: 'Chef Edition',
+    image: 'grills',
+    altZh: '厨师版户外厨房舱，双烹饪设备，不锈钢烤炉与嵌入式烟机',
+    altEn: 'Chef Edition outdoor kitchen pod with dual cooking equipment, stainless grill and built-in hood',
+  },
+  {
+    fullEn: 'Mirror Edition integrated outdoor kitchen pod',
+    seriesZh: '建筑收藏',
+    seriesEn: 'Architectural collection',
+    nameZh: '镜像版',
+    nameEn: 'Mirror Edition',
+    image: 'project02',
+    altZh: '镜像版户外厨房舱，镜面不锈钢外壳，抬起式顶篷与集成烤炉',
+    altEn: 'Mirror Edition outdoor kitchen pod with mirror-polished stainless shell, lift-up canopy and built-in grill',
+  },
+];
+
+const rangeRows = [
+  {
+    model: 'Standard',
+    modelZh: '标准款',
+    size: '2.85 × 0.73 × 2.28 m',
+    weight: '800 kg',
+    packedSize: '2.93 × 0.78 × 2.46 m',
+    packedWeight: '900 kg',
+  },
+  {
+    model: 'Original',
+    modelZh: '原创款',
+    size: '2.25 × 0.73 × 2.28 m',
+    weight: '650 kg',
+    packedSize: '2.33 × 0.78 × 2.46 m',
+    packedWeight: '760 kg',
+  },
+  {
+    model: 'Flagship',
+    modelZh: '旗舰款',
+    size: '3.50 × 0.73 × 2.28 m',
+    weight: '900 kg',
+    packedSize: '3.58 × 0.78 × 2.46 m',
+    packedWeight: '1,030 kg',
+  },
+  {
+    model: 'Foldable',
+    modelZh: '折叠款',
+    size: '2.80 × 0.96 × 1.15 m',
+    sizeNoteZh: '顶篷收起',
+    sizeNoteEn: 'canopy closed',
+    weight: '600 kg',
+    packedSize: '2.93 × 1.04 × 1.24 m',
+    packedWeight: '680 kg',
+  },
+  {
+    model: 'Simple (Terrace)',
+    modelZh: '简版（露台）',
+    size: '2.85 × 0.91 × 2.37 m',
+    weight: '600 kg',
+    packedSize: '2.93 × 1.12 × 2.47 m',
+    packedWeight: '700 kg',
   },
 ];
 ---
@@ -42,32 +107,187 @@ const products = [
 <Layout
   path="/products/"
   current="/products/"
-  titleZh="产品与系统｜泽锐 zerui 户外厨房"
-  titleEn="Products & Systems | ZERUI Outdoor Kitchens"
-  descZh="泽锐 zerui 的产品结构示例：一体化户外厨房岛台、模块化户外厨房系统、专业烧烤炉与不锈钢柜体配件。"
-  descEn="Sample product structures from ZERUI: integrated outdoor kitchen islands, modular systems, professional grills and stainless steel cabinets."
+  titleZh="收藏｜泽锐 zerui 户外厨房"
+  titleEn="The Collection | ZERUI Outdoor Kitchens"
+  descZh="泽锐 zerui 的户外厨房收藏：预制的一体化户外厨房舱与模块化套件，五种工厂型号，可配置不锈钢结构、集成烹饪台与可升降式遮阳篷。含标准尺寸与装箱重量表。"
+  descEn="The ZERUI outdoor kitchen collection: prefabricated, all-in-one pods and modular kits in five factory models, with configurable stainless steel structures, integrated cooking stations and lift-up canopies. Standard dimensions and packed weights included."
 >
   <PageHero
-    eyebrowZh="PRODUCT RANGE"
-    eyebrowEn="PRODUCT RANGE"
-    titleZh="产品与系统"
-    titleEn="Products & Systems"
-    ledeZh="以下为产品结构示例，用于展示页面组织方式。具体型号、尺寸与配置待确认后补充。"
-    ledeEn="Sample product structures, included to show how the pages are organised. Models, dimensions and configurations will be added once confirmed."
+    eyebrowZh="系列 / 01"
+    eyebrowEn="THE COLLECTION / 01"
+    titleZh="预制户外厨房舱。"
+    titleEn="Prefab outdoor kitchen pods."
+    ledeZh="预制的一体化户外厨房舱和模块化户外厨房套件——在我们工厂预制，配备可配置的不锈钢结构、集成烹饪台和可升降式遮阳篷。"
+    ledeEn="Prefabricated, all-in-one outdoor kitchen pods and modular outdoor kitchen kits — pre-built at our factory with configurable stainless steel structures, integrated cooking stations and lift-up canopies."
   />
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head">
-        <h2 class="section-title" data-en="Category Overview">品类概览</h2>
-        <span class="section-note" data-en="Sample content">示例内容</span>
+      <div class="pod-grid">
+        {
+          pods.map((pod) => (
+            <a class="pod-card" href="#range">
+              <div class="pod-media">
+                <Image
+                  src={images[pod.image]}
+                  alt={pod.altZh}
+                  data-alt-en={pod.altEn}
+                  widths={[480, 800, 1200]}
+                  sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="pod-copy">
+                <p class="pod-full">{pod.fullEn}</p>
+                <span class="eyebrow" data-en={pod.seriesEn}>{pod.seriesZh}</span>
+                <h3 class="pod-name" data-en={pod.nameEn}>{pod.nameZh}</h3>
+                <span class="pod-link" data-en="Explore configuration ↗">探索配置 ↗</span>
+              </div>
+            </a>
+          ))
+        }
       </div>
-      <div class="grid grid-2">
-        {products.map((item) => <Card {...item} wide />)}
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="editorial">
+        <h2 data-en="Designed as a complete outdoor kitchen">按一整套户外厨房来设计</h2>
+        <p
+          data-en="Unlike a standalone grill or cabinet, a kitchen pod brings cooking, preparation, storage and optional refrigeration together in a single coordinated unit. Specify the footprint, opening mechanism, finish and equipment according to your market. Standard dimensions and packed weights for every model are listed in the full range table below. If the grill is the centre of your outdoor cooking, our professional grills bring the most cooking-focused configurations together in one place."
+        >
+          与一台独立的烤炉或一组柜体不同，厨房舱把烹饪、备餐、收纳和可选的冷藏放在同一个协同单元里。
+          按你的市场确定占地尺寸、开合方式、表面与设备。每个型号的标准尺寸与装箱重量都列在下方全系表中。
+          如果烧烤才是户外烹饪的核心，我们的<a href="/products/grills/">专业烧烤炉</a>把最偏烹饪的配置集中在一起。
+        </p>
+
+        <h2 data-en="Choose a configuration, not just a finish">先定配置，不只是选表面</h2>
+        <p
+          data-en="Discuss stainless steel grade, corrosion exposure, canopy operation, heat sources and electrical specifications before approval. Components, appliance availability and compliance documentation vary by destination."
+        >
+          确认之前，先讨论不锈钢牌号、腐蚀环境、顶篷操作、热源与电气规格。
+          部件、设备供应与合规文件随目的地不同而变化。
+        </p>
+
+        <h2 data-en="Built as modular outdoor kitchen kits">以模块化户外厨房套件来制造</h2>
+        <p
+          data-en="Every pod is planned as a modular outdoor kitchen kit: a stainless steel structure module, a cooking module, a preparation and sink module, and storage or refrigeration modules, all configured around one shared frame and canopy. Dealers can take a complete pod as a single unit, or build a market-specific range by combining the same modules in different layouts, finishes and widths. Because the modules are engineered together at our factory, the finished pod works as one coordinated unit rather than a run of separate cabinets to align on site."
+        >
+          每个舱都按模块化户外厨房套件来规划：不锈钢结构模块、烹饪模块、备餐与水槽模块，
+          以及收纳或冷藏模块，全部围绕同一套框架与顶篷配置。经销商可以整舱采购，
+          也可以用同一批模块，按不同布局、表面和宽度组合出适合本地市场的产品线。
+          因为模块在工厂里一起设计，成品舱是一个协同工作的整体，而不是到场后还要对齐的一排独立柜体。
+        </p>
+        <p
+          data-en="Tell us your market and the configurations you want to offer. We confirm the module combination, equipment list and drawings in writing before production, so the pods you receive match the range you planned. The full system is explained on our modular outdoor kitchen page."
+        >
+          告诉我们你的市场和想提供的配置。投产前，我们会以书面确认模块组合、设备清单与图纸，
+          确保收到的舱与你规划的产品线一致。完整系统见<a href="/products/modular/">模块化户外厨房</a>页面。
+        </p>
+
+        <h2 data-en="Prefab layouts, including L-shaped kitchens">预制布局，包括 L 型厨房</h2>
+        <p
+          data-en="Because every pod is pre-built on a shared frame, the layout can follow the space: a straight island run for a narrow terrace, or a prefab L-shaped outdoor kitchen that turns a corner and separates the cooking zone from preparation and serving. L-shaped and corner arrangements are planned from the same modules and confirmed by drawing before production, so the finished kitchen arrives as one coordinated unit rather than a run of separate cabinets to align on site. Our integrated islands page looks at the straight and L-shaped layouts in detail."
+        >
+          因为每个舱都在共享框架上预制，布局可以跟着空间走：窄露台用直排岛台，
+          转角处用预制 L 型户外厨房，把烹饪区与备餐、服务区分开。L 型与转角布局由同一批模块规划，
+          并在生产前以图纸确认，成品到场就是一个协同单元，而不是一排需要现场对齐的独立柜体。
+          <a href="/products/islands/">一体化岛台</a>页面详细说明直排与 L 型布局。
+        </p>
       </div>
-      <p class="note" data-en="This page is a migration sample. No specifications, certifications or performance data have been added.">
-        本页为迁移示例，未写入任何未经确认的规格、认证或性能数据。
+    </div>
+  </section>
+
+  <section class="section section--pale" id="range">
+    <div class="wrap">
+      <div class="editorial">
+        <h2 data-en="The full range">全系尺寸与重量</h2>
+        <p
+          data-en="Every ZERUI pod is built on one of five factory models. The table below lists the standard dimensions and packed weights we build to — the figures your freight forwarder will ask for first. Two of our series present range models directly: the Chef Edition is the Flagship model, and the Lumière is the Standard model. Talk to us about the Foldable and Simple (Terrace) models for your market."
+        >
+          每个泽锐厨房舱都基于五种工厂型号。下表是标准尺寸与装箱重量——也是货代最先会问的数据。
+          其中两个系列直接对应型号：Chef Edition 是旗舰款，Lumière 是标准款。
+          折叠款与简版（露台）可以按你的市场单独沟通。
+        </p>
+      </div>
+
+      <div class="table-scroll table-scroll--wide">
+        <table class="spec-table spec-table--wide">
+          <thead>
+            <tr>
+              <th scope="col" data-en="Model">型号</th>
+              <th scope="col" data-en="Unit size (W × D × H)">单台尺寸（宽 × 深 × 高）</th>
+              <th scope="col" data-en="Unit weight">单台重量</th>
+              <th scope="col" data-en="Packed size">包装尺寸</th>
+              <th scope="col" data-en="Packed weight">包装重量</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              rangeRows.map((row) => (
+                <tr>
+                  <th scope="row">
+                    {row.model}
+                    <span class="model-zh">{row.modelZh}</span>
+                  </th>
+                  <td>
+                    {row.size}
+                    {row.sizeNoteZh && (
+                      <span class="cell-note" data-en={row.sizeNoteEn}>({row.sizeNoteZh})</span>
+                    )}
+                  </td>
+                  <td>{row.weight}</td>
+                  <td>{row.packedSize}</td>
+                  <td>{row.packedWeight}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p class="table-hint" data-en="Swipe sideways to see packed sizes and weights.">
+        左右滑动查看包装尺寸与重量。
       </p>
+
+      <div class="editorial editorial--after">
+        <p
+          data-en="The Simple (Terrace) takes a different approach: an open-frame structure under a fixed roof, with no enclosed canopy and no range hood — a lighter terrace kitchen for covered patios and garden rooms, with the grill, sink and refrigeration set into an open steel frame."
+        >
+          简版（露台）采用另一种做法：固定顶棚下的开放框架，没有封闭顶篷，也不带油烟机——
+          更轻的露台厨房，适合有顶的庭院与花园房，烤炉、水槽与冷藏安装在开放的钢框架内。
+        </p>
+      </div>
+
+      <figure class="range-figure">
+        <Image
+          src={images.modular}
+          alt="简版（露台）开放框架户外厨房舱，固定顶棚，集成烤炉、水槽与收纳"
+          data-alt-en="Simple (Terrace) open-frame outdoor kitchen pod with fixed roof, built-in grill, sink and storage"
+          widths={[640, 900, 1200]}
+          sizes="(max-width: 760px) 100vw, 720px"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption data-en="The Simple (Terrace): our open-frame model for covered terraces.">
+          简版（露台）：固定顶棚的开放框架型号。
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="从你的项目开始"
+        eyebrowEn="YOUR PROJECT STARTS HERE"
+        titleZh="让户外，值得聚在一起。"
+        titleEn="Make the outdoors worth gathering in."
+        descZh="告诉我们市场、配置与数量，我们帮你把下一台厨房舱定下来。"
+        descEn="Tell us your market, configuration and quantity. We will help define your next kitchen pod."
+      />
     </div>
   </section>
 </Layout>

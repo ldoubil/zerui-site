@@ -1,6 +1,7 @@
 /* ============================================================
-   泽锐 zerui — 语言切换（中 / EN）与移动端菜单
-   文案通过 data-en 属性切换；WhatsApp 链接按语言更新
+   泽锐 zerui — 语言切换（中 / EN）、WhatsApp 链接与移动端菜单
+   默认语言按浏览器判断：中文浏览器中文，其余英文；
+   顶部手动切换会记住选择，?lang=en / ?lang=zh 仍然有效。
    ============================================================ */
 (function () {
   'use strict';
@@ -16,55 +17,78 @@
   var WA_TEXT = {
     general: {
       zh: '你好，我想了解一下泽锐的户外厨房产品',
-      en: 'Hello, I would like to learn more about ZERUI outdoor kitchen products.'
+      en: 'Hello, I would like to learn more about ZERUI outdoor kitchen products.',
     },
     quote: {
-      zh: '你好，我想咨询泽锐户外厨房的报价，产品需求：',
-      en: 'Hello, I would like a quote for a ZERUI outdoor kitchen. Product requirements:'
-    }
+      zh: '你好，我想咨询泽锐户外厨房的报价。产品形式 / 尺寸 / 数量 / 目标市场：',
+      en: 'Hello, I would like a quote for a ZERUI outdoor kitchen. Product type / size / quantity / target market:',
+    },
+    custom: {
+      zh: '你好，我们有一个定制 / OEM 项目想咨询。市场 / 产品形式 / 尺寸 / 数量：',
+      en: 'Hello, we have a custom / OEM project to discuss. Market / product type / size / quantity:',
+    },
+    product: {
+      zh: '你好，我想了解这类产品的配置与可定制范围：',
+      en: 'Hello, I would like to know more about the configuration and customisation options for this type of product:',
+    },
+    factory: {
+      zh: '你好，我想预约一次工厂视频看厂，方便的时间是：',
+      en: 'Hello, I would like to arrange a factory video tour. A time that suits us:',
+    },
+    project: {
+      zh: '你好，我看到一个类似的户外厨房方案，想咨询同类配置：',
+      en: 'Hello, I saw a similar project case and would like to ask about a comparable solution:',
+    },
+    guide: {
+      zh: '你好，我读了一篇指南，想就我们的场地咨询建议：',
+      en: 'Hello, I read one of your guides and would like advice for our site:',
+    },
+    faq: {
+      zh: '你好，我有一个问题：',
+      en: 'Hello, I have a question:',
+    },
+    contact: {
+      zh: '你好，我想和泽锐聊聊户外厨房项目',
+      en: 'Hello, I would like to talk to ZERUI about an outdoor kitchen project.',
+    },
   };
 
-  var WA_LINKS = {
-    'nav-contact': 'general',
-    'cta-quote': 'quote',
-    'cta-proposal': 'quote',
-    'cta-whatsapp': 'general',
-    'cta-contact': 'general'
-  };
+  function waHref(key) {
+    var entry = WA_TEXT[key] || WA_TEXT.general;
+    return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(entry[lang]);
+  }
 
   function applyWhatsAppLinks() {
-    Object.keys(WA_LINKS).forEach(function (id) {
-      var el = document.getElementById(id);
-      if (!el) return;
-      el.setAttribute(
-        'href',
-        'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(WA_TEXT[WA_LINKS[id]][lang])
-      );
+    document.querySelectorAll('[data-wa]').forEach(function (el) {
+      el.setAttribute('href', waHref(el.getAttribute('data-wa')));
     });
   }
 
-  // 每页的标题 / 描述由 Layout 写在 body 的 data 属性上
   var META = {
     zh: {
       title: body.dataset.titleZh || document.title,
-      desc: body.dataset.descZh || ''
+      desc: body.dataset.descZh || '',
     },
     en: {
       title: body.dataset.titleEn || document.title,
-      desc: body.dataset.descEn || ''
-    }
+      desc: body.dataset.descEn || '',
+    },
   };
 
-  var lang = 'zh';
-  try {
-    var saved = localStorage.getItem('zerui-lang');
-    var wanted = new URLSearchParams(window.location.search).get('lang');
-    if (wanted === 'en' || (!wanted && saved === 'en')) lang = 'en';
-  } catch (err) {
-    /* noop */
+  var lang = html.dataset.lang === 'en' ? 'en' : 'zh';
+  if (!html.dataset.lang) {
+    try {
+      var saved = localStorage.getItem('zerui-lang');
+      var wanted = new URLSearchParams(window.location.search).get('lang');
+      if (wanted === 'en' || wanted === 'zh') lang = wanted;
+      else if (saved === 'en' || saved === 'zh') lang = saved;
+      else lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+    } catch (err) {
+      lang = /^zh/i.test(navigator.language || '') ? 'zh' : 'en';
+    }
   }
 
-  function applyLang(next) {
+  function applyLang(next, remember) {
     lang = next;
     html.dataset.lang = lang;
     html.lang = lang === 'en' ? 'en' : 'zh-CN';
@@ -74,29 +98,49 @@
       el.textContent = lang === 'en' ? el.dataset.en : el.dataset.zh;
     });
 
+    document.querySelectorAll('[data-alt-en]').forEach(function (img) {
+      if (!img.dataset.altZh) img.dataset.altZh = img.getAttribute('alt') || '';
+      img.setAttribute('alt', lang === 'en' ? img.dataset.altEn : img.dataset.altZh);
+    });
+
+    document.querySelectorAll('[data-aria-en]').forEach(function (el) {
+      if (!el.dataset.ariaZh) el.dataset.ariaZh = el.getAttribute('aria-label') || '';
+      el.setAttribute('aria-label', lang === 'en' ? el.dataset.ariaEn : el.dataset.ariaZh);
+    });
+
     document.title = META[lang].title;
     var desc = document.querySelector('meta[name="description"]');
     if (desc && META[lang].desc) desc.setAttribute('content', META[lang].desc);
+    var ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', META[lang].title);
+    var ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc && META[lang].desc) ogDesc.setAttribute('content', META[lang].desc);
 
     if (toggle) {
       toggle.textContent = lang === 'en' ? '中文' : 'EN';
       toggle.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
+      toggle.setAttribute(
+        'aria-label',
+        lang === 'en' ? '切换到中文' : 'Switch to English'
+      );
     }
 
-    try {
-      localStorage.setItem('zerui-lang', lang);
-    } catch (err) {
-      /* noop */
+    if (remember) {
+      try {
+        localStorage.setItem('zerui-lang', lang);
+      } catch (err) {
+        /* noop */
+      }
     }
 
     applyWhatsAppLinks();
   }
 
-  applyLang(lang);
+  applyLang(lang, false);
 
   if (toggle) {
     toggle.addEventListener('click', function () {
-      applyLang(lang === 'en' ? 'zh' : 'en');
+      applyLang(lang === 'en' ? 'zh' : 'en', true);
     });
   }
 
@@ -107,10 +151,63 @@
       menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        body.classList.remove('nav-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
     document.addEventListener('keydown', function (event) {
       if (event.key !== 'Escape') return;
       body.classList.remove('nav-open');
       menuBtn.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  /* 首页悬浮导航：离开 Hero 后变实底 */
+  var overlayHeader = document.getElementById('site-header');
+  if (overlayHeader && overlayHeader.classList.contains('site-header--overlay')) {
+    var hero = document.querySelector('.hero-photo');
+    var ticking = false;
+
+    var updateHeader = function () {
+      ticking = false;
+      var threshold = hero
+        ? Math.max(hero.offsetHeight - overlayHeader.offsetHeight - 12, 80)
+        : 90;
+      overlayHeader.classList.toggle('is-scrolled', window.scrollY > threshold);
+    };
+
+    window.addEventListener(
+      'scroll',
+      function () {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateHeader);
+      },
+      { passive: true }
+    );
+    window.addEventListener('resize', updateHeader);
+    updateHeader();
+  }
+  /* 悬浮 WhatsApp：进入咨询卡或页脚时让位，避免遮挡 */
+  var waFloat = document.querySelector('.wa-float');
+  if (waFloat && 'IntersectionObserver' in window) {
+    var blocked = { inq: false, footer: false };
+    var syncFloat = function () {
+      waFloat.classList.toggle('is-hidden', blocked.inq || blocked.footer);
+    };
+    [
+      ['inq', '.inq'],
+      ['footer', 'footer'],
+    ].forEach(function (pair) {
+      var el = document.querySelector(pair[1]);
+      if (!el) return;
+      new IntersectionObserver(function (entries) {
+        blocked[pair[0]] = entries[0].isIntersecting;
+        syncFloat();
+      }).observe(el);
     });
   }
 })();

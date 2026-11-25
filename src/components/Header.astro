@@ -1,19 +1,23 @@
 ---
-const { current } = Astro.props;
+import logo from '../assets/brand/logo.svg';
+import { navItems } from '../data/site';
 
-const navItems = [
-  { href: '/products/', zh: '产品', en: 'Products' },
-  { href: '/factory/', zh: '工厂与工艺', en: 'Factory & Craft' },
-  { href: '/projects/', zh: '案例', en: 'Projects' },
-  { href: '/contact/', zh: '联系', en: 'Contact' },
-];
+const { current, overlay = false } = Astro.props;
 ---
 
-<header class="site-header">
+<header class:list={['site-header', overlay && 'site-header--overlay']} id="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="/" aria-label="泽锐 zerui 首页">
-      <span class="brand-mark">ZERUI</span>
-      <span class="brand-cn">泽锐</span>
+    <a class="brand" href="/" aria-label="泽锐 zerui 首页" data-aria-en="ZERUI home">
+      <img
+        class="brand-logo"
+        src={logo.src}
+        width="34"
+        height="26"
+        alt="ZERUI 泽锐"
+        loading="eager"
+        decoding="async"
+      />
+      <span class="brand-cn" data-en="ZERUI">泽锐</span>
     </a>
 
     <nav class="nav" id="primary-nav" aria-label="主导航">
@@ -29,23 +33,15 @@ const navItems = [
           </a>
         ))
       }
-      <a
-        class="nav-item"
-        id="nav-contact"
-        href="https://wa.me/8617853993611"
-        target="_blank"
-        rel="noopener"
-        data-en="WhatsApp">WhatsApp</a
-      >
     </nav>
 
     <div class="header-actions">
-      <button class="lang-btn" id="lang-toggle" type="button" aria-pressed="false" aria-label="切换语言">
+      <button class="lang-btn" id="lang-toggle" type="button" aria-pressed="false" aria-label="Switch language">
         EN
       </button>
       <a
         class="btn btn-solid btn-sm"
-        id="cta-quote"
+        data-wa="quote"
         href="https://wa.me/8617853993611"
         target="_blank"
         rel="noopener"
@@ -58,6 +54,7 @@ const navItems = [
         aria-controls="primary-nav"
         aria-expanded="false"
         aria-label="打开菜单"
+        data-aria-en="Open menu"
       >
         <span></span><span></span>
       </button>

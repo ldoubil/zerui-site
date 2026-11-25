@@ -1,64 +1,95 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import PageHero from '../../components/PageHero.astro';
+import InquiryCard from '../../components/InquiryCard.astro';
+import { SITE } from '../../data/site';
+
+const waHref = `https://wa.me/${SITE.waNumber}`;
+
+const notes = [
+  {
+    titleZh: '响应方式',
+    titleEn: 'How we reply',
+    descZh: '工作时间内会陆续处理消息。跨时区时直接留言即可，我们看到后会按顺序回复；具体项目问题以书面信息为准。',
+    descEn: 'Messages are handled through working hours. Across time zones, just leave a message and we reply in order; project specifics are confirmed in writing.',
+  },
+  {
+    titleZh: '带上这些信息',
+    titleEn: 'What to include',
+    descZh: '场地照片或草图、可用尺寸、想放的设备、目标市场与大致数量。信息越完整，第一版建议越具体。',
+    descEn: 'Site photos or a sketch, available dimensions, intended equipment, target market and approximate quantity. The more complete, the more specific the first response.',
+  },
+  {
+    titleZh: '沟通语言',
+    titleEn: 'Languages',
+    descZh: '中文与英文都可以。图纸、清单与照片可以直接在 WhatsApp 对话中发送，不需要先整理成正式文件。',
+    descEn: 'Chinese and English both work. Drawings, lists and photos can be sent directly in WhatsApp; there is no need to prepare a formal document first.',
+  },
+];
 ---
 
 <Layout
   path="/contact/"
   current="/contact/"
   titleZh="联系我们｜泽锐 zerui 户外厨房"
-  titleEn="Contact | ZERUI Outdoor Kitchens"
-  descZh="通过 WhatsApp 联系泽锐 zerui，咨询不锈钢户外厨房的产品、定制与 OEM/ODM 项目。"
-  descEn="Contact ZERUI via WhatsApp for stainless steel outdoor kitchens, custom builds and OEM/ODM projects."
+  titleEn="Contact ZERUI | Outdoor Kitchen Manufacturer"
+  descZh="通过 WhatsApp 或邮箱联系泽锐 zerui：zeruioutdoor@gmail.com。中文与英文均可沟通。"
+  descEn="Contact ZERUI by WhatsApp or email: zeruioutdoor@gmail.com. We work in Chinese and English."
 >
   <PageHero
     eyebrowZh="CONTACT"
     eyebrowEn="CONTACT"
-    titleZh="联系我们"
-    titleEn="Contact"
-    ledeZh="目前统一通过 WhatsApp 沟通，方便直接发送图纸、尺寸与项目需求。"
-    ledeEn="WhatsApp is the current contact channel, making it easy to share drawings, dimensions and project requirements."
-  />
+    titleZh="把场地和需求说清楚"
+    titleEn="Tell us the site and the requirement"
+    ledeZh="WhatsApp、邮箱与表单都可以。说明场地、设备与市场，我们按实际情况回复。"
+    ledeEn="WhatsApp, email and the form all work. Share the site, equipment and market, and we reply to the actual situation."
+  >
+    <div class="page-hero-meta">
+      <a href={waHref} target="_blank" rel="noopener">WhatsApp · {SITE.phoneDisplay}</a>
+      <span>{SITE.email}</span>
+    </div>
+  </PageHero>
 
   <section class="section">
     <div class="wrap">
-      <div class="contact-panel">
-        <div class="contact-main">
-          <p class="contact-label" data-en="WhatsApp">WHATSAPP</p>
-          <p class="contact-value">+86 178 5399 3611</p>
-          <p class="contact-desc" data-en="Send your product requirements, drawings or target dimensions and we will reply in the same chat.">
-            发送产品需求、图纸或目标尺寸，我们会直接在同一对话中回复。
-          </p>
-          <div class="contact-actions">
-            <a
-              class="btn btn-solid"
-              id="cta-contact"
-              href="https://wa.me/8617853993611"
-              target="_blank"
-              rel="noopener"
-              data-en="Open WhatsApp">打开 WhatsApp</a
-            >
-          </div>
-        </div>
-        <div class="contact-side">
-          <ul class="contact-list">
-            <li>
-              <span data-en="Channel">联系渠道</span>
-              <span data-en="WhatsApp">WhatsApp</span>
-            </li>
-            <li>
-              <span data-en="Contact type">联系类型</span>
-              <span data-en="Sales">销售</span>
-            </li>
-            <li>
-              <span data-en="Languages">语言</span>
-              <span>中文 / English</span>
-            </li>
-          </ul>
-        </div>
+      <InquiryCard
+        eyebrowZh="CONTACT / WHATSAPP"
+        eyebrowEn="CONTACT / WHATSAPP"
+        titleZh="聊聊你的庭院适合哪一种配置"
+        titleEn="Let’s talk about what fits your space"
+        descZh="留下联系方式，或直接在 WhatsApp 对话里说明场地与设备；我们按实际情况给出布局与配置方向。"
+        descEn="Leave your details, or tell us about the site and equipment on WhatsApp; we reply with a layout and configuration that fits."
+        secondaryLabelZh="写邮件"
+        secondaryLabelEn="Send an email"
+        secondaryHref={`mailto:${SITE.email}`}
+        noteZh="中文 / English 均可沟通；图纸、清单与照片可以直接在对话中发送。"
+        noteEn="Chinese and English both work; drawings, lists and photos can be shared directly in the chat."
+      />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Before you write">发消息之前</h2>
+        <span class="section-note" data-en="Form · WhatsApp · Email">表单 · WhatsApp · 邮箱</span>
       </div>
-      <p class="note" data-en="This page is part of the Astro migration sample. Business hours and other channels have not been confirmed, so they are intentionally left out.">
-        本页为 Astro 迁移示例。工作时间与其他联系方式尚未确认，因此未写入页面。
+      <div class="principles">
+        {
+          notes.map((item, index) => (
+            <div class="principle">
+              <span class="step-no">{String(index + 1).padStart(2, '0')}</span>
+              <h3 data-en={item.titleEn}>{item.titleZh}</h3>
+              <p data-en={item.descEn}>{item.descZh}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p
+        class="note"
+        data-en="The form only asks for a name, email, country, optional WhatsApp number and your requirement. These details are used to reply to your enquiry and are delivered to our mailbox by email."
+      >
+        表单只收集称呼、邮箱、国家/地区、可选的 WhatsApp 号码与需求描述。这些信息仅用于回复你的询盘，通过邮件发送到我们的邮箱。
       </p>
     </div>
   </section>

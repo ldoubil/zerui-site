@@ -1,0 +1,109 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { SITE } from '../../data/site';
+---
+
+<Layout
+  path="/privacy/"
+  current=""
+  titleZh="隐私说明｜泽锐 zerui"
+  titleEn="Privacy Notice | ZERUI"
+  descZh="泽锐 zerui 官网的隐私说明：询盘表单只收集姓名、邮箱、国家/地区、可选 WhatsApp 与需求描述，经 Cloudflare Workers 与 Resend 发送到我们的邮箱；仅通过浏览器本地存储记住语言选择。"
+  descEn="ZERUI website privacy notice: the enquiry form collects only name, email, country, optional WhatsApp number and requirement, delivered to our inbox through Cloudflare Workers and Resend; language preference is stored locally in your browser."
+>
+  <PageHero
+    eyebrowZh="PRIVACY"
+    eyebrowEn="PRIVACY"
+    titleZh="隐私说明"
+    titleEn="Privacy notice"
+    ledeZh="这份说明解释本站会处理哪些信息、为什么处理，以及你可以如何联系我们。最后更新：2026 年 11 月 25 日。"
+    ledeEn="This notice explains what information this website handles, why, and how you can contact us. Last updated: 25 November 2026."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="article-body" style="max-width:76ch;">
+        <p
+          data-en="This website is an information site for ZERUI's products and contact channels. It does not offer accounts, online ordering or online payment."
+        >
+          本站是泽锐 zerui 的产品与联系信息站点，不提供账号注册、在线下单或在线支付功能。
+        </p>
+
+        <h2 data-en="Information you send through the enquiry form">通过询盘表单提交的信息</h2>
+        <p
+          data-en="The contact page has an enquiry form that asks for your name, email address, country or region, an optional WhatsApp number and your requirement. Submitting it sends those fields to our email inbox through Cloudflare Workers and Resend. The form also sends the page address, the interface language and a hashed network identifier used only to limit repeated submissions. We use the content only to reply, quote and, if an order follows, to fulfil it. No account is created and the form does not set advertising or tracking cookies."
+        >
+          联系页提供询盘表单，需要填写称呼、邮箱、国家/地区、可选的 WhatsApp 号码与需求描述。提交后，这些字段会经由
+          Cloudflare Workers 与 Resend 发送到我们的邮箱。表单同时会发送页面地址、界面语言，以及仅用于限制重复提交的
+          网络标识。我们只把内容用于回复、报价，以及在成交后执行订单。表单不会创建账号，也不会写入广告或追踪 Cookie。
+        </p>
+        <p
+          data-en="You can also contact us by WhatsApp, phone or email instead of the form; in that case the message is handled by that service and reaches us directly."
+        >
+          你也可以不用表单，直接通过 WhatsApp、电话或邮件联系我们；这时消息由对应服务处理并直接送达我们。
+        </p>
+
+        <h2 data-en="Language preference stored in your browser">浏览器中的语言偏好</h2>
+        <p
+          data-en="If you switch language manually, the site stores your choice in your browser's local storage under the key “zerui-lang”. This is used only to show the same language on your next visit. It is not used for advertising or cross-site tracking, and you can remove it by clearing site data in your browser."
+        >
+          如果你手动切换语言，本站会把选择保存在浏览器的本地存储中，键名为 “zerui-lang”。它只用于
+          下次访问时显示同一语言，不用于广告或跨站追踪。清除浏览器站点数据即可删除。
+        </p>
+
+        <h2 data-en="Server and access logs">服务器与访问日志</h2>
+        <p
+          data-en="The site is served as static pages by a hosting provider. The provider may record standard access logs such as IP address, browser type, requested page and time, for security and basic traffic analysis. We do not combine these logs with contact information."
+        >
+          本站由托管服务商以静态页面方式提供。服务商可能记录常规访问日志，例如 IP 地址、浏览器类型、
+          访问页面与时间，用于安全与基础流量分析。我们不会把这些日志与联系信息合并使用。
+        </p>
+
+        <h2 data-en="Third-party services and links">第三方服务与链接</h2>
+        <p
+          data-en="Links to WhatsApp open a service operated by Meta, and email links open your own mail application. Once you leave this site or use those services, their terms and privacy policies apply. We do not embed advertising trackers or third-party analytics scripts on this site."
+        >
+          指向 WhatsApp 的链接会打开由 Meta 运营的服务，邮件链接会打开你本机的邮件应用。离开本站或
+          使用这些服务后，适用其各自的条款与隐私政策。本站不嵌入广告追踪器或第三方统计脚本。
+        </p>
+
+        <h2 data-en="How long we keep enquiry information">询盘信息的保留</h2>
+        <p
+          data-en="Enquiry messages are kept for as long as needed to respond, quote and maintain order records. If no order follows and you ask us to delete the conversation, we will do so where we are able, unless a legal or accounting obligation requires us to keep it."
+        >
+          询盘消息在回复、报价与订单记录所需的期限内保留。如果没有成交，且你要求删除对话，我们会在
+          可行范围内删除，法律或财务记录义务要求保留的除外。
+        </p>
+
+        <h2 data-en="Sharing">信息共享</h2>
+        <p
+          data-en="We do not sell contact information. Where an order proceeds, project details may be shared with logistics, inspection or payment providers only to the extent needed to deliver it."
+        >
+          我们不出售联系信息。订单执行过程中，项目信息可能在与物流、验货或支付服务商必要的范围内
+          共享，仅用于完成交付。
+        </p>
+
+        <h2 data-en="Your requests">你的权利</h2>
+        <p data-en="You can ask us to access, correct or delete the contact information you have sent us by writing to the email below. We will respond within a reasonable period.">
+          你可以通过下方邮箱，要求查询、更正或删除你曾发送给我们的联系信息。我们会在合理期限内回复。
+        </p>
+
+        <h2 data-en="Changes to this notice">说明的更新</h2>
+        <p
+          data-en="If this notice changes, the updated version will be published on this page with a new date. Material changes affecting how contact information is used will be noted at the top of the page."
+        >
+          本说明如有变更，会在本页发布更新版本并标注日期。涉及联系信息使用方式的重大变更，会在页面
+          顶部注明。
+        </p>
+
+        <h2 data-en="Contact">联系</h2>
+        <p>
+          <span data-en="For any privacy question, email us at ">如对隐私有任何疑问，请发送邮件至</span>
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          <span data-en=".">。</span>
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

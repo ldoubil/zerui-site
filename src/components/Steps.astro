@@ -1,0 +1,15 @@
+---
+const { steps } = Astro.props;
+---
+
+<div class="steps">
+  {
+    steps.map((step) => (
+      <div class="step">
+        <span class="step-no">{step.no}</span>
+        <h3 class="step-title" data-en={step.titleEn}>{step.titleZh}</h3>
+        <p class="step-desc" data-en={step.descEn}>{step.descZh}</p>
+      </div>
+    ))
+  }
+</div>

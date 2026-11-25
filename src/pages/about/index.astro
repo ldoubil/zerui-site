@@ -1,0 +1,134 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import MediaBand from '../../components/MediaBand.astro';
+import InquiryCard from '../../components/InquiryCard.astro';
+import { images } from '../../lib/images';
+import { principles, audiences } from '../../data/site';
+---
+
+<Layout
+  path="/about/"
+  current="/about/"
+  titleZh="关于泽锐｜不锈钢户外厨房制造"
+  titleEn="About ZERUI | Stainless Steel Outdoor Kitchen Manufacturing"
+  descZh="泽锐 zerui 是一家专注不锈钢户外厨房的制造工厂。我们相信结构优先、暗处用料与整机交付，为经销商、设计机构与庭院业主提供可定制的户外厨房。"
+  descEn="ZERUI is a manufacturer focused on stainless steel outdoor kitchens, built on three beliefs: structure first, materials where they are hidden, and delivery as a whole."
+>
+  <PageHero
+    eyebrowZh="ABOUT ZERUI"
+    eyebrowEn="ABOUT ZERUI"
+    titleZh="把户外厨房当成建筑的一部分"
+    titleEn="Treating an outdoor kitchen as part of the building"
+    ledeZh="户外厨房看起来像家具，实际更接近建筑：要经得住日晒、雨水、盐雾与温差，还要在几年之后仍然好用。泽锐只做这一件事。"
+    ledeEn="An outdoor kitchen looks like furniture but behaves more like a building: it has to take sun, rain, salt air and temperature swings, and still work years later. This is the one thing ZERUI does."
+  />
+
+  <MediaBand
+    image={images.aboutBand}
+    altZh="户外厨房与工厂车间"
+    altEn="Outdoor kitchen and factory workshop"
+    captionZh="泽锐 zerui · 不锈钢户外厨房"
+    captionEn="ZERUI · stainless steel outdoor kitchens"
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split split--text">
+        <div class="split-copy">
+          <p class="eyebrow" data-en="WHY OUTDOOR KITCHENS">为什么是户外厨房</p>
+          <h2 class="section-title" data-en="The hard part is not how it looks">
+            难的不是好看
+          </h2>
+        </div>
+        <div class="split-copy">
+          <p
+            class="lede"
+            data-en="Most outdoor kitchens fail quietly: a corner that holds water, a cabinet interior that was never specified for humidity, a unit that cannot be serviced without cutting a panel open. None of this shows in a photograph."
+          >
+            大多数户外厨房的问题都发生得不响：转角积水、柜体内部从未按潮湿环境选材、想检修却
+            得先拆开一块封死的面板。这些都不会出现在照片里。
+          </p>
+          <p
+            class="lede"
+            data-en="So we start from the parts that are hard to change later — structure, drainage, ventilation, service access — and only then settle the surface. It makes the first conversation slower and the third year easier."
+          >
+            所以我们从那些后期很难改的地方开始：结构、排水、通风、检修口，最后才定表面。这样第一
+            次沟通会慢一点，但第三年会轻松很多。
+          </p>
+          <p
+            class="lede"
+            data-en="ZERUI is a manufacturer, not a trading desk. Design, metalwork, finishing and assembly sit in the same factory, which is what makes it possible to answer for the whole unit."
+          >
+            泽锐是制造工厂，不是贸易商。设计、钣金、表面与装配在同一间工厂里，才有可能为一台整机
+            负责到底。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Three things we hold to">三条坚持</h2>
+        <span class="section-note" data-en="Not slogans">不是口号</span>
+      </div>
+      <div class="principles">
+        {
+          principles.map((item) => (
+            <div class="principle">
+              <span class="step-no">{item.no}</span>
+              <h3 data-en={item.titleEn}>{item.titleZh}</h3>
+              <p data-en={item.descEn}>{item.descZh}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p
+        class="note"
+        style="border-left-color:var(--brass-light); color:rgba(245,242,234,0.58);"
+        data-en="These are working rules rather than marketing language: they decide what we quote, what we refuse to change late, and what we check before a crate is closed."
+      >
+        这些是工作规则，不是宣传语：它们决定我们怎么报价、什么改动到了后期不再接，以及封箱前
+        还要检查什么。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Who we work with">服务对象</h2>
+        <a class="section-link" href="/factory/" data-en="See the factory">看工厂与工艺</a>
+      </div>
+      <div class="principles">
+        {
+          audiences.map((item, index) => (
+            <div class="principle">
+              <span class="step-no">{String(index + 1).padStart(2, '0')}</span>
+              <h3 data-en={item.titleEn}>{item.titleZh}</h3>
+              <p data-en={item.descEn}>{item.descZh}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="NEXT STEP"
+        eyebrowEn="NEXT STEP"
+        titleZh="继续看工厂，或者直接聊项目"
+        titleEn="See the factory, or talk about the project"
+        descZh="如果你更关心制造能力，可以先看工厂与工艺；如果已经有场地和想法，直接发给我们更快。"
+        descEn="If manufacturing capability matters most, start with the factory page. If you already have a site and an idea, sending them over is faster."
+        secondaryLabelZh="工厂与工艺"
+        secondaryLabelEn="Factory & craft"
+        secondaryHref="/factory/"
+      />
+    </div>
+  </section>
+</Layout>

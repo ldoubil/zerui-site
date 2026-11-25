@@ -1,0 +1,200 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import InquiryCard from '../../components/InquiryCard.astro';
+import { faqGroups } from '../../data/faq';
+
+const faqIds = [
+  'what-is-a-pod',
+  'minimum-order',
+  'lead-time',
+  'customise',
+  'international-shipping',
+  'packing',
+  'certification',
+  'site-preparation',
+];
+const faq = faqGroups.flatMap((group) => group.items).filter((item) => faqIds.includes(item.id));
+
+const sections = [
+  {
+    no: '01',
+    labelZh: '场地与配置',
+    labelEn: 'Site & configuration',
+    titleZh: '先看场地，再谈配置',
+    titleEn: 'Start with the site, then the configuration',
+    bodyZh: [
+      '量出安装区域的可用长度、进深与净高，同时确认搬运通道：门洞、台阶、转角与吊装落点。如果单元带顶棚，还要把顶棚打开后的高度算进去。',
+      '再看环境：雨水、海风、强风与日照会不会长期作用在结构和表面上。把结构、防腐与防水的具体要求写进确认图纸，而不是只在样品上判断。',
+    ],
+    bodyEn: [
+      'Measure the clear length, depth and height of the installation area, then check the delivery route: doorways, steps, corners and the lifting position. If the unit has a canopy, include the height with the canopy open.',
+      'Then look at exposure: rain, coastal air, wind and sun acting on the structure and surfaces over time. Put structural, corrosion and weather-resistance requirements into the confirmed drawing rather than judging them from a sample alone.',
+    ],
+  },
+  {
+    no: '02',
+    labelZh: '设备与水电',
+    labelEn: 'Equipment & utilities',
+    titleZh: '设备、水电，按目的地确认',
+    titleEn: 'Equipment and utilities, confirmed for the destination',
+    bodyZh: [
+      '列出烹饪设备、水槽、冰箱、排风与照明需求，并说明每台设备的安装方式与使用频率。燃气与电气设备要按目的地市场的规格选择，并由当地具备资质的安装人员接入。',
+      '在图纸上标出每个模块的水、电、燃气与排水接口位置。接口位置一旦确定，柜体开孔、层板与检修空间都围绕它排布，现场改动就会少很多。',
+    ],
+    bodyEn: [
+      'List the cooking equipment, sink, fridge, ventilation and lighting, together with how each item is installed and how often it will be used. Gas and electrical equipment should be selected for the destination market and connected by qualified local installers.',
+      'Mark the water, power, gas and drainage connection points for every module on the drawing. Once those positions are fixed, cut-outs, shelves and service access are arranged around them, which removes most site alterations.',
+    ],
+  },
+  {
+    no: '03',
+    labelZh: '国际运输',
+    labelEn: 'International delivery',
+    titleZh: '把运输当成配置的一部分',
+    titleEn: 'Treat freight as part of the configuration',
+    bodyZh: [
+      '下单前索取最终包装图、毛重、吊装说明、装柜方案与交付条款。整机与模块两种交付方式，装箱尺寸和到场条件完全不同，越早确定越不容易反复。',
+      '确认卸货通道与基础条件：地面是否平整、能否承受整机重量、吊车或叉车能否到位。海运费与目的港费用按实际体积与重量核算，不用估算值下单。',
+    ],
+    bodyEn: [
+      'Before ordering, request the final packing drawing, gross weight, lifting instructions, container loading plan and delivery terms. Complete-unit and modular deliveries have very different packed sizes and site requirements, so decide early.',
+      'Confirm unloading access and the foundation: whether the ground is level, whether it can carry the unit, and whether a crane or forklift can reach the position. Freight and destination charges are calculated from actual volume and weight, not estimates.',
+    ],
+  },
+  {
+    no: '04',
+    labelZh: '模块化选择',
+    labelEn: 'Choosing modules',
+    titleZh: '从烹饪模块开始选',
+    titleEn: 'Start with the cooking module',
+    bodyZh: [
+      '多数买家会逐模块比较。先定烹饪模块——烤炉尺寸与是否需要额外炉具；再定备餐模块，包括台面长度与水槽位置；最后是收纳与冷藏模块，按实际使用方式确定。',
+      '这样规划，经销商可以用同一套结构做出几种布局：庭院里的一台紧凑烹饪单元、别墅里更宽的待客组合，或是一个项目里重复多台的同一规格。无论选哪套，都要确认顶棚打开后的总尺寸、每个模块的接口位置与装箱尺寸。',
+    ],
+    bodyEn: [
+      'Most buyers compare module by module. Start with cooking — grill size and whether a second cooker is needed — then preparation, including worktop length and sink position, and finally storage and refrigeration sized to how the kitchen will actually be used.',
+      'Planned this way, a dealer can offer several layouts from the same structure: a compact cooking unit for a courtyard, a wider entertaining run for a villa, or one specification repeated across a project. Whichever is chosen, confirm the overall footprint with the canopy open, the connection point for each module and the packed size.',
+    ],
+  },
+  {
+    no: '05',
+    labelZh: '布局与细节',
+    labelEn: 'Layout & detail',
+    titleZh: '布局、照明与遮蔽',
+    titleEn: 'Layout, lighting and cover',
+    bodyZh: [
+      '直排适合窄露台，L 型能把烹饪与备餐分开，独立岛台适合开阔庭院。布局定下来之后，再考虑操作照明与环境照明：操作面要亮，座位区要柔和，两者分开控制。',
+      '表面选择不只看颜色：拉丝不锈钢耐看、易修补，喷涂表面适合与建筑立面协调。遮蔽方式也要和结构一起定，顶棚、固定檐口或独立凉亭，决定了设备和操作区在雨天还能不能用。',
+    ],
+    bodyEn: [
+      'A straight run suits a narrow terrace, an L-shape separates cooking from preparation, and a freestanding island works in an open garden. Once the layout is fixed, plan task and ambient lighting separately: bright at the worktop, softer at the seating area.',
+      'Finish is more than colour: brushed stainless steel ages well and can be repaired, while coated surfaces can match the architecture. Cover should be decided with the structure — an integrated canopy, a fixed overhang or a separate pergola determines whether the equipment stays usable in rain.',
+    ],
+  },
+  {
+    no: '06',
+    labelZh: '合规与文件',
+    labelEn: 'Compliance & documents',
+    titleZh: '认证跟着配置与目的地走',
+    titleEn: 'Compliance follows the configuration and destination',
+    bodyZh: [
+      '认证与合规文件不是一张通用证书就能覆盖。电气元件、燃气设备与整机的要求，会随配置、目的地市场与项目类型变化，需要在报价与出图阶段逐项确认。',
+      '下单前把需要的文件列清楚：元件文件、整机说明、包装声明或项目要求的其他资料。我们按项目配置与目的地要求确认可提供的文件，不预先承诺具体证书。',
+    ],
+    bodyEn: [
+      'Compliance is not covered by one generic certificate. Requirements for electrical components, gas equipment and the finished unit change with the configuration, destination market and project type, so they are checked item by item during quotation and drawing.',
+      'List the documents you need before ordering: component files, unit instructions, packing declarations or project-specific paperwork. We confirm what can be supplied against the project configuration and destination requirements, without pre-committing to specific certificates.',
+    ],
+  },
+];
+---
+
+<Layout
+  path="/guides/"
+  current="/guides/"
+  titleZh="户外厨房采购指南｜泽锐 zerui"
+  titleEn="Outdoor Kitchen Buying Guide | ZERUI"
+  descZh="给准备采购或进口户外厨房的买家：场地与配置、设备与水电、国际运输、模块选择、布局照明与合规文件的实用说明。"
+  descEn="A practical guide for buyers specifying or importing an outdoor kitchen: site and configuration, equipment and utilities, freight, module selection, layout, lighting and compliance documents."
+>
+  <PageHero
+    eyebrowZh="BUYER RESOURCES"
+    eyebrowEn="BUYER RESOURCES"
+    titleZh="户外厨房采购指南"
+    titleEn="The outdoor kitchen buying guide"
+    ledeZh="给准备采购、进口或把户外厨房带进项目的买家：规格、设备、运输、安装与文件的实用说明。"
+    ledeEn="Practical information for specifying, purchasing and importing an outdoor kitchen — from site measurements to equipment, freight and documents."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="guide-read">
+        <p
+          class="guide-read-intro"
+          data-en="An outdoor kitchen is bought once and installed once. Most problems come from decisions made too late — a delivery route that is too narrow, a utility position confirmed after the frame is built, or a finish chosen without knowing the exposure. This guide sets out the order we recommend."
+        >
+          户外厨房通常只买一次、只装一次。多数问题来自太晚才做的决定：通道量晚了、接口在框架做完后才确认，
+          或者在不了解环境的情况下选了表面。下面是我们建议的顺序。
+        </p>
+
+        <div class="guide-sections">
+          {
+            sections.map((section) => (
+              <div class="guide-section">
+                <p class="guide-section-no">
+                  <span>{section.no}</span>
+                  <span data-en={section.labelEn}>{section.labelZh}</span>
+                </p>
+                <h2 class="guide-section-title" data-en={section.titleEn}>{section.titleZh}</h2>
+                {section.bodyZh.map((paragraph, index) => (
+                  <p class="guide-section-desc" data-en={section.bodyEn[index]}>{paragraph}</p>
+                ))}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Frequently asked questions">常见问题</h2>
+        <a class="section-link" href="/faq/" data-en="All FAQ">全部问题</a>
+      </div>
+      <div class="faq-list" style="max-width:860px;">
+        {
+          faq.map((item) => (
+            <div class="faq-item">
+              <h3 class="faq-q">
+                <span class="idx">Q</span>
+                <span data-en={item.q.en}>{item.q.zh}</span>
+              </h3>
+              <p class="faq-a" data-en={item.a.en}>{item.a.zh}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="BUYER RESOURCES"
+        eyebrowEn="BUYER RESOURCES"
+        titleZh="把你的场地和问题发过来"
+        titleEn="Send your site and your questions"
+        descZh="尺寸、照片、设备清单与目的地市场，是我们给出建议所需的基本信息。"
+        descEn="Dimensions, photos, an equipment list and the destination market are what we need to give useful advice."
+        secondaryLabelZh="查看收藏"
+        secondaryLabelEn="See the collection"
+        secondaryHref="/products/"
+        noteZh="中文 / English 均可沟通；图纸与照片可直接在 WhatsApp 发送。"
+        noteEn="Chinese and English both work; drawings and photos can be sent directly in WhatsApp."
+      />
+    </div>
+  </section>
+</Layout>

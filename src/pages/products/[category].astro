@@ -1,0 +1,151 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import MediaBand from '../../components/MediaBand.astro';
+import InquiryCard from '../../components/InquiryCard.astro';
+import { images } from '../../lib/images';
+import { categories } from '../../data/site';
+
+export function getStaticPaths() {
+  return categories.map((item) => ({
+    params: { category: item.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+---
+
+<Layout
+  path={`/products/${item.slug}/`}
+  current="/products/"
+  titleZh={`${item.titleZh}｜泽锐 zerui 户外厨房`}
+  titleEn={`${item.titleEn} | ZERUI Outdoor Kitchens`}
+  descZh={`${item.introZh} 尺寸、布局、台面与设备均可按项目定制。`}
+  descEn={`${item.introEn} Dimensions, layout, countertop and equipment are made to project.`}
+>
+  <PageHero
+    eyebrowZh={`PRODUCT / ${item.no}`}
+    eyebrowEn={`PRODUCT / ${item.no}`}
+    titleZh={item.titleZh}
+    titleEn={item.titleEn}
+    ledeZh={item.introZh}
+    ledeEn={item.introEn}
+  >
+    <div class="page-hero-meta">
+      <span data-en="Made to project">按项目定制</span>
+      <span data-en="Dimensions adjustable">尺寸可调</span>
+      <span data-en="OEM available">支持 OEM</span>
+    </div>
+  </PageHero>
+
+  <MediaBand
+    image={images[item.image]}
+    altZh={item.altZh}
+    altEn={item.altEn}
+    captionZh="结构与柜体细节"
+    captionEn="Structure and cabinet detail"
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split split--text">
+        <div class="split-copy">
+          <p class="eyebrow" data-en="WHERE IT WORKS">适用场景</p>
+          <h2 class="section-title" data-en="Suited to these settings">适合这些场地</h2>
+          <p class="lede" style="margin-top:18px;" data-en={item.shortEn}>{item.shortZh}</p>
+          <p class="note" data-en={item.noteEn}>{item.noteZh}</p>
+        </div>
+        <div>
+          <ul class="plain-list">
+            {
+              item.useCases.map((useCase, index) => (
+                <li>
+                  <span class="idx">{String(index + 1).padStart(2, '0')}</span>
+                  <span data-en={useCase.en}>{useCase.zh}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Structure & options">结构与可定制项</h2>
+        <span class="section-note" data-en="Per drawing">按图纸确认</span>
+      </div>
+      <div class="split">
+        <div>
+          <p class="eyebrow" data-en="FORMS">结构形式</p>
+          <ul class="plain-list">
+            {
+              item.forms.map((form, index) => (
+                <li>
+                  <span class="idx">{String(index + 1).padStart(2, '0')}</span>
+                  <span data-en={form.en}>{form.zh}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <p class="eyebrow" data-en="OPTIONS">可定制项</p>
+          <ul class="plain-list">
+            {
+              item.options.map((option, index) => (
+                <li>
+                  <span class="idx">{String(index + 1).padStart(2, '0')}</span>
+                  <span data-en={option.en}>{option.zh}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="wrap">
+      <div class="split split--wide">
+        <div class="split-copy">
+          <p class="eyebrow" style="color:var(--brass-light);" data-en="EQUIPMENT">可集成设备</p>
+          <h2 class="section-title" data-en="Built around the equipment you choose">
+            围绕你选的设备来做
+          </h2>
+          <p class="lede" style="margin-top:20px;" data-en={item.equipEn}>{item.equipZh}</p>
+        </div>
+        <div class="split-media">
+          <p
+            class="lede"
+            style="margin-top:0;"
+            data-en="We can work from your equipment list, or reserve cut-outs for items supplied later. Cut-out sizes and service routes are confirmed on the drawings before production."
+          >
+            可以按你已有的设备清单来做，也可以先预留开孔，设备之后再补。开孔尺寸与管线位置在
+            生产前随图纸一起确认。
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-ghost" href="/custom/" data-en="Custom & OEM">定制与 OEM</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="THIS FORM"
+        eyebrowEn="THIS FORM"
+        titleZh="这类结构适合你的项目吗？"
+        titleEn="Is this form right for your project?"
+        descZh="发来场地照片与大致尺寸，我们可以先判断结构形式，再给出配置与报价方向。"
+        descEn="Send a site photo and rough dimensions; we can suggest a structural form first, then a configuration and pricing direction."
+      />
+    </div>
+  </section>
+</Layout>

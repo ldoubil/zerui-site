@@ -1,0 +1,71 @@
+---
+import logo from '../assets/brand/logo.svg';
+import { SITE, navItems } from '../data/site';
+
+const year = new Date().getFullYear();
+const siteNav = navItems.filter((item) => item.href !== '/contact/');
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="/" aria-label="泽锐 zerui 首页" data-aria-en="ZERUI home">
+          <img
+            class="brand-logo"
+            src={logo.src}
+            width="34"
+            height="26"
+            alt="ZERUI 泽锐"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="brand-cn" data-en="ZERUI">泽锐</span>
+        </a>
+        <p class="footer-tagline" data-en={SITE.taglineEn}>{SITE.taglineZh}</p>
+        <p
+          class="footer-factory"
+          data-en="Linyi, Shandong · 2,000 m² factory · Established 2019"
+        >
+          山东临沂 · 2,000 平方米工厂 · 2019 年成立
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h3 data-en="Site">站内导航</h3>
+        <ul>
+          {
+            siteNav.map((item) => (
+              <li>
+                <a href={item.href} data-en={item.en}>
+                  {item.zh}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 data-en="Contact">联系</h3>
+        <ul>
+          <li>
+            <a href={`https://wa.me/${SITE.waNumber}`} target="_blank" rel="noopener">
+              WhatsApp · {SITE.phoneDisplay}
+            </a>
+          </li>
+          <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+          <li><a href="/contact/" data-en="Contact page">联系页面</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span data-en={`© ${year} ZERUI`}>© {year} 泽锐 zerui</span>
+      <nav aria-label="页脚链接">
+        <a href="/privacy/" data-en="Privacy">隐私说明</a>
+        <a href="/sitemap-index.xml">Sitemap</a>
+      </nav>
+    </div>
+  </div>
+</footer>

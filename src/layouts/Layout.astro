@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../data/site';
 
 const {
   titleZh,
@@ -9,50 +11,61 @@ const {
   descEn,
   path,
   current,
+  preload,
+  headerOverlay = false,
+  ogImage,
+  ogType = 'website',
+  jsonLd = [],
+  noindex = false,
 } = Astro.props;
 
 const site = Astro.site ?? new URL('https://zeruioutdoor.com');
 const canonical = new URL(path ?? Astro.url.pathname, site).href;
 const canonicalEn = `${canonical}?lang=en`;
-const ogImage = new URL('/assets/img/og-image.png', site).href;
+const ogImageUrl = ogImage
+  ? new URL(ogImage, site).href
+  : new URL('/assets/img/og-image.png', site).href;
 const logoSrc = new URL('/assets/img/logo.png', site).href;
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Organization',
-      '@id': `${site.origin}/#organization`,
-      name: '泽锐 zerui',
-      alternateName: ['ZERUI', '泽锐户外厨房'],
-      url: `${site.origin}/`,
-      logo: {
-        '@type': 'ImageObject',
-        url: logoSrc,
-        width: 512,
-        height: 512,
+const graph = [
+  {
+    '@type': 'Organization',
+    '@id': `${site.origin}/#organization`,
+    name: '泽锐 zerui',
+    alternateName: ['ZERUI', '泽锐户外厨房'],
+    url: `${site.origin}/`,
+    logo: {
+      '@type': 'ImageObject',
+      url: logoSrc,
+      width: 512,
+      height: 512,
+    },
+    description:
+      '专业户外厨房制造商与工厂，提供不锈钢户外厨房、模块化户外厨房系统、专业烧烤炉的定制、OEM 与 ODM 服务。',
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        telephone: '+8617853993611',
+        contactType: 'sales',
+        email: SITE.email,
+        availableLanguage: ['zh-CN', 'en'],
       },
-      description:
-        '专业户外厨房制造商与工厂，提供不锈钢户外厨房、模块化户外厨房系统、专业烧烤炉的定制、OEM 与 ODM 服务。',
-      contactPoint: [
-        {
-          '@type': 'ContactPoint',
-          telephone: '+8617853993611',
-          contactType: 'sales',
-          availableLanguage: ['zh-CN', 'en'],
-        },
-      ],
-      sameAs: [],
-    },
-    {
-      '@type': 'WebSite',
-      '@id': `${site.origin}/#website`,
-      url: `${site.origin}/`,
-      name: '泽锐 zerui 官网',
-      inLanguage: ['zh-CN', 'en'],
-      publisher: { '@id': `${site.origin}/#organization` },
-    },
-  ],
+    ],
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${site.origin}/#website`,
+    url: `${site.origin}/`,
+    name: '泽锐 zerui 官网',
+    inLanguage: ['zh-CN', 'en'],
+    publisher: { '@id': `${site.origin}/#organization` },
+  },
+  ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd]).filter(Boolean),
+];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': graph,
 };
 ---
 
@@ -65,39 +78,74 @@ const jsonLd = {
     <meta name="description" content={descZh} />
     <meta
       name="keywords"
-      content="户外厨房,户外厨房工厂,不锈钢户外厨房,定制户外厨房,户外厨房制造商,泽锐,zerui,professional outdoor kitchen,outdoor kitchen manufacturer,custom outdoor kitchen,outdoor kitchen factory,stainless steel outdoor kitchen"
+      content="户外厨房,户外厨房工厂,不锈钢户外厨房,定制户外厨房,户外厨房制造商,户外厨房OEM,泽锐,zerui,outdoor kitchen,outdoor kitchen manufacturer,custom outdoor kitchen,outdoor kitchen factory,stainless steel outdoor kitchen,modular outdoor kitchen"
     />
     <meta name="author" content="泽锐 zerui" />
-    <meta name="robots" content="index,follow,max-image-preview:large" />
-    <meta name="theme-color" content="#171713" />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large'}
+    />
+    <meta name="theme-color" content="#0e1116" />
 
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="zh-CN" href={canonical} />
     <link rel="alternate" hreflang="en" href={canonicalEn} />
     <link rel="alternate" hreflang="x-default" href={canonical} />
 
+    {
+      preload &&
+        (Array.isArray(preload) ? preload : [preload]).map((item) => (
+          <link
+            rel="preload"
+            as="image"
+            href={item.href}
+            imagesrcset={item.srcset}
+            imagesizes={item.sizes}
+            type={item.type}
+            media={item.media}
+            fetchpriority="high"
+          />
+        ))
+    }
+
     <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg" />
     <link rel="apple-touch-icon" href="/assets/img/logo.png" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="泽锐 zerui" />
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:title" content={titleZh} />
     <meta property="og:description" content={descZh} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:alt" content="ZERUI 泽锐 · Professional Outdoor Kitchen Manufacturer" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={titleZh} />
     <meta name="twitter:description" content={descEn} />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content="ZERUI 泽锐 · Professional Outdoor Kitchen Manufacturer" />
 
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline>
+      (function () {
+        try {
+          var q = new URLSearchParams(location.search).get('lang');
+          var saved = localStorage.getItem('zerui-lang');
+          var lang =
+            q === 'en' || q === 'zh'
+              ? q
+              : saved === 'en' || saved === 'zh'
+                ? saved
+                : /^zh/i.test(navigator.language || '')
+                  ? 'zh'
+                  : 'en';
+          document.documentElement.dataset.lang = lang;
+          document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+        } catch (e) {}
+      })();
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body
     data-title-zh={titleZh}
@@ -105,13 +153,36 @@ const jsonLd = {
     data-desc-zh={descZh}
     data-desc-en={descEn}
   >
-    <a class="skip-link" href="#main">跳到主要内容</a>
+    <a class="skip-link" href="#main" data-en="Skip to main content">跳到主要内容</a>
 
-    <Header current={current} />
+    <Header current={current} overlay={headerOverlay} />
 
     <main id="main">
       <slot />
     </main>
+
+    <Footer />
+
+    <a
+      class="wa-float"
+      href={`https://wa.me/${SITE.waNumber}`}
+      data-wa="general"
+      target="_blank"
+      rel="noopener"
+      aria-label="通过 WhatsApp 咨询"
+      data-aria-en="Chat on WhatsApp"
+    >
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20.5l1.6-5.2A8.5 8.5 0 1 1 21 11.5Z"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linejoin="round"></path>
+        <path
+          d="M8.8 8.2c.2-.4.4-.4.7-.4h.5c.2 0 .3.1.5.4l.7 1.6c.1.2 0 .4-.1.6l-.4.5c-.1.1-.2.3 0 .5.5 1 1.4 1.9 2.4 2.4.2.1.4.1.5 0l.5-.5c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5v.5c0 .3-.1.6-.4.8-.4.3-1 .5-1.7.4-2.3-.3-4.4-2.4-4.8-4.7-.1-.7.1-1.4.4-1.9Z"
+          fill="currentColor"></path>
+      </svg>
+    </a>
 
     <script>
       import '../scripts/main.js';

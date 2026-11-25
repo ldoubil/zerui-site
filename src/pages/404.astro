@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  path="/404/"
+  current=""
+  noindex
+  titleZh="页面不存在｜泽锐 zerui"
+  titleEn="Page not found | ZERUI"
+  descZh="你访问的页面不存在，可以返回首页、查看收藏或直接联系我们。"
+  descEn="The page you requested does not exist. Return to the homepage, browse the product collection, or contact us directly."
+>
+  <section class="notfound">
+    <div class="wrap">
+      <p class="notfound-code">404 / NOT FOUND</p>
+      <h1>
+        <span data-en="This page has moved on.">这个页面不在原处了</span>
+      </h1>
+      <p
+        data-en="The link may be out of date, or the page may have been renamed. The homepage, product collection and guides are all still here."
+      >
+        链接可能已经过期，或页面改了名字。首页、收藏与指南都还在。
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-solid" href="/" data-en="Back to homepage">返回首页</a>
+        <a class="btn btn-line" href="/products/" data-en="Browse products">查看产品</a>
+        <a class="btn btn-line" href="/contact/" data-en="Contact us">联系我们</a>
+      </div>
+    </div>
+  </section>
+</Layout>

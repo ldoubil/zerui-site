@@ -1,0 +1,342 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import InquiryCard from '../../components/InquiryCard.astro';
+import { customScope, customSteps } from '../../data/site';
+import { faqGroups } from '../../data/faq';
+
+const customFaqIds = ['customisable', 'samples', 'quote-info', 'drawing-changes'];
+const customFaq = faqGroups
+  .flatMap((group) => group.items)
+  .filter((item) => customFaqIds.includes(item.id));
+---
+
+<Layout
+  path="/custom/"
+  current="/custom/"
+  titleZh="定制与 OEM｜泽锐 zerui 户外厨房"
+  titleEn="Custom & OEM | ZERUI Outdoor Kitchens"
+  descZh="泽锐 zerui 的户外厨房定制与 OEM：山东临沂自有工厂，2000 平方米、60+ 人、月产能 200+ 件；尺寸、台面、开孔、设备与品牌均可按项目调整，1 件起订，标准生产周期 20 天。"
+  descEn="Custom and OEM outdoor kitchens from ZERUI: our own factory in Linyi, Shandong — 2,000 m², 60+ people and 200+ units per month. Dimensions, worktops, cut-outs, equipment and branding adjusted per project; from one unit with a 20-day standard production cycle."
+>
+  <PageHero
+    eyebrowZh="CUSTOM & OEM"
+    eyebrowEn="CUSTOM & OEM"
+    titleZh="按你的市场，做你的产品线"
+    titleEn="Built for your market"
+    ledeZh="面向经销商、进口商与项目采购的定制与 OEM。围绕目标市场确定尺寸、台面、开孔、设备与品牌，1 件起订，标准生产周期 20 天。"
+    ledeEn="Custom and OEM outdoor kitchens for dealers, importers and project buyers. Dimensions, worktops, cut-outs, equipment and branding are set around your market — from one unit, on a 20-day standard production cycle."
+  >
+    <div class="page-hero-meta">
+      <span data-en="From 1 unit">1 件起订</span>
+      <span data-en="20-day standard cycle">20 天标准周期</span>
+      <span data-en="Private label & packing">贴牌与包装</span>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split split--text">
+        <div class="split-copy">
+          <p class="eyebrow" data-en="DESIGN FLEXIBILITY">设计弹性</p>
+          <h2 class="section-title" data-en="From concept to configuration">
+            从想法到可生产的配置
+          </h2>
+        </div>
+        <div class="split-copy">
+          <p
+            class="lede"
+            data-en="Tell us your target market, available dimensions and how the kitchen will be used. Before drawings, we can discuss layout, worktops, colour, equipment integration and branding. If it helps, prove the design with a single sample unit before going to volume."
+          >
+            把目标市场、可用尺寸和使用方式告诉我们。出图前可以先讨论布局、台面、颜色、设备整合与品牌呈现；
+            需要的话，用一件样机先验证，再进入批量。
+          </p>
+          <p
+            class="lede"
+            data-en="Before approval, discuss stainless steel grade, corrosion exposure, heat sources and electrical specifications. Drawings, colour samples and key details are confirmed in writing before production; certification and documents are checked item by item against the project configuration and destination requirements."
+          >
+            确认之前，先讨论不锈钢牌号、腐蚀环境、热源与电气规格。图纸、色板与关键细节在投产前书面确认；
+            认证与文件按项目配置和目的地要求逐项核对。
+          </p>
+          <p class="split-actions">
+            <a class="section-link" href="#inquiry" data-en="Start your design ↗">开始做方案 ↗</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="From brief to production">从需求到生产</h2>
+        <span class="section-note" data-en="Four steps">四步流程</span>
+      </div>
+      <div class="steps steps--four">
+        {
+          customSteps.map((step) => (
+            <div class="step">
+              <span class="step-no">{step.no}</span>
+              <h3 class="step-title" data-en={step.titleEn}>{step.titleZh}</h3>
+              <p class="step-desc" data-en={step.descEn}>{step.descZh}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p
+        class="note"
+        data-en="Production starts after the drawing is approved. Standard-size custom configurations follow a 20-day production cycle; certification and documents are confirmed against the project configuration and destination requirements, without pre-committing to specific certificates."
+      >
+        图纸确认后进入排产。常规尺寸的定制配置按 20 天标准生产周期执行；认证与文件按项目配置和目的地要求确认，
+        不预先承诺具体证书。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="What can be customised">可定制范围</h2>
+        <span class="section-note" data-en="Four dimensions">四个维度</span>
+      </div>
+      <div class="principles principles--four">
+        {
+          customScope.map((item) => (
+            <div class="principle">
+              <span class="step-no">{item.no}</span>
+              <h3 data-en={item.titleEn}>{item.titleZh}</h3>
+              <p data-en={item.descEn}>{item.descZh}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p
+        class="note"
+        data-en="Dimensions come first. Once width, depth and layout are fixed, we position the grill, sink, refrigeration and worktop runs, then plan electrical and gas connections for the destination market. Countertop, finish and branding follow the same drawings."
+      >
+        先定尺寸，再定设备与细节：宽度、进深和布局确定后，安排炉具、水槽、冷藏与操作台位置，按目的地市场规划水电接口；
+        台面、表面与品牌标识沿用同一套图纸确认。
+      </p>
+    </div>
+  </section>
+
+  <section class="band-section">
+    <div class="wrap">
+      <div class="stat-band">
+        <div class="stat">
+          <p class="stat-value"><span>2019</span></p>
+          <p class="stat-label" data-en="Established">成立年份</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            <span>2,000</span>
+            <span class="stat-unit" data-en="m²">㎡</span>
+          </p>
+          <p class="stat-label" data-en="Factory floor">厂房面积</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            <span>60+</span>
+            <span class="stat-unit" data-en="people">人</span>
+          </p>
+          <p class="stat-label" data-en="Team">团队规模</p>
+        </div>
+        <div class="stat">
+          <p class="stat-value">
+            <span>200+</span>
+            <span class="stat-unit" data-en="units">件</span>
+          </p>
+          <p class="stat-label" data-en="Monthly capacity">月产能</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split split--text">
+        <div class="split-copy">
+          <p class="eyebrow" data-en="IN-HOUSE DELIVERY">厂内交付</p>
+          <h2 class="section-title" data-en="Made, assembled and packed in one factory">
+            制造、装配、包装，都在厂内完成
+          </h2>
+        </div>
+        <div class="split-copy">
+          <p
+            class="lede"
+            data-en="Our factory is in Linyi, Shandong, established in 2019: a 2,000 m² floor, a team of 60+ and capacity of more than 200 units per month. Cutting, welding, assembly, inspection and export packing are completed by the same team, so detail and timing do not depend on outside subcontracting."
+          >
+            工厂在山东临沂，2019 年成立。2000 平方米厂房、60+ 人团队，月产能 200+ 件；切割、焊接、装配、
+            检验与出口包装由同一支团队完成，细节与交期不依赖外部转包。
+          </p>
+          <p
+            class="lede"
+            data-en="Confirmed configurations are scheduled on a 20-day standard cycle. Before dispatch we check the packing list, shipping marks and accessories, then arrange shipment for the destination."
+          >
+            确认后的配置按 20 天标准周期排产。发货前核对包装清单、唛头与配件，按目的地安排出运。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Three kinds of partnership">三种合作方式</h2>
+        <span class="section-note" data-en="Choose by your role">按角色选择</span>
+      </div>
+      <p
+        class="section-lede"
+        data-en="One factory, three roles: dealers taking a range to their market, designers and contractors placing a kitchen into a project, and clients building their own brand."
+      >
+        同一间工厂，服务三类角色：把产品带进当地市场的经销商，把厨房落进项目的设计与施工方，
+        以及要建立自有品牌的客户。
+      </p>
+      <div class="principles">
+        <div class="principle" id="dealers">
+          <span class="step-no">01</span>
+          <h3 data-en="Dealers &amp; distributors">经销商与分销商</h3>
+          <p
+            data-en="Start with a showroom unit, then build a range that fits your customers and region. Packaging, labelling and door finishes can follow your brand."
+          >
+            从展厅单元开始，逐步建立适合客户和地区的产品线。包装、标识与门板饰面可以跟随你的品牌。
+          </p>
+        </div>
+        <div class="principle" id="projects">
+          <span class="step-no">02</span>
+          <h3 data-en="Architects &amp; contractors">建筑师与承包商</h3>
+          <p
+            data-en="We plan around the site, available water and power, access for delivery and the installation conditions the project actually has."
+          >
+            围绕场地条件规划：可用水电、到场通道与现场安装条件，都以项目实际情况为准。
+          </p>
+        </div>
+        <div class="principle" id="oem">
+          <span class="step-no">03</span>
+          <h3 data-en="OEM &amp; private label">OEM 及自有品牌</h3>
+          <p
+            data-en="Build a distinctive line with configurable materials, details and branding, from the first sample through repeat production."
+          >
+            打造一条独有的产品线，材料、细节与品牌形象都可配置，从首件样品延续到后续翻单。
+          </p>
+        </div>
+      </div>
+      <p
+        class="note"
+        data-en="For hotels, resorts, restaurants and multi-unit projects, the same configuration often repeats across buildings or phases. We confirm one master specification in writing, then produce every unit to it, so installation and staff training stay consistent."
+      >
+        酒店、度假村、餐饮与多台项目常常需要把同一配置重复到不同楼栋或不同批次。我们先以一份主规格书面确认，
+        之后逐台按同一标准生产，让现场安装与人员培训保持一致。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split split--text">
+        <div class="split-copy">
+          <p class="eyebrow" data-en="CANOPY &amp; STRUCTURE">顶棚与结构</p>
+          <h2 class="section-title" data-en="Canopy, cabinets and worktop in one structure">
+            顶棚、柜体与台面，同一套结构
+          </h2>
+        </div>
+        <div class="split-copy">
+          <p
+            class="lede"
+            data-en="Some integrated configurations can carry a canopy, covering the cooking zone, equipment and lighting within the same frame. Whether a canopy is needed, how far it shelters and where the lighting sits are settled on the drawings for the actual use."
+          >
+            部分一体化结构可以带顶棚，把操作区、设备与照明覆盖在同一套框架里；是否需要顶棚、遮蔽范围
+            与照明布置，按实际使用场景在图纸上确定。
+          </p>
+          <p
+            class="lede"
+            data-en="The canopy is produced with the cabinets, worktop and equipment in our factory, so the site does not need a separate shade structure. Service and drainage positions are confirmed at the drawing stage as well."
+          >
+            顶棚与柜体、台面、设备一起在厂内生产，现场不需要再配一套独立的遮阳结构；检修与排水位置
+            也在图纸阶段一并确认。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="wrap">
+      <div class="split split--wide">
+        <div class="split-copy">
+          <p class="eyebrow" style="color:var(--brass-light);" data-en="WHAT TO SEND">第一次沟通</p>
+          <h2 class="section-title" data-en="What to send in the first message">
+            第一条消息发什么
+          </h2>
+          <p
+            class="lede"
+            style="margin-top:20px;"
+            data-en="A site photo, a rough sketch or even a reference image is enough to start. The more of the list opposite you can share, the faster the first proposal becomes useful."
+          >
+            一张场地照片、一张草图，甚至一张参考图就可以开始。下面这些信息给得越全，第一版方案就越
+            接近可以落地的东西。
+          </p>
+        </div>
+        <div class="split-media">
+          <ul class="plain-list" style="border-top-color:rgba(255,255,255,0.18);">
+            {
+              [
+                { zh: '场地可用长度、进深与净高', en: 'Clear length, depth and height on site' },
+                { zh: '想放的设备与使用人数', en: 'Equipment and how many people cook' },
+                { zh: '目标市场与安装环境', en: 'Target market and installation environment' },
+                { zh: '大致数量与交付时间', en: 'Approximate quantity and delivery window' },
+                { zh: '是否需要贴牌与定制包装', en: 'Whether private label and custom packing are needed' },
+              ].map((item, index) => (
+                <li style="border-bottom-color:rgba(255,255,255,0.16); color:rgba(245,242,234,0.78);">
+                  <span class="idx">{String(index + 1).padStart(2, '0')}</span>
+                  <span data-en={item.en}>{item.zh}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title" data-en="Custom questions">常见定制问题</h2>
+        <a class="section-link" href="/faq/" data-en="All FAQ">全部问题</a>
+      </div>
+      <div class="faq-list" style="max-width:860px;">
+        {
+          customFaq.map((item) => (
+            <div class="faq-item" id={item.id}>
+              <h3 class="faq-q">
+                <span class="idx">Q</span>
+                <span data-en={item.q.en}>{item.q.zh}</span>
+              </h3>
+              <p class="faq-a" data-en={item.a.en}>{item.a.zh}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <InquiryCard
+        eyebrowZh="CUSTOM & OEM"
+        eyebrowEn="CUSTOM & OEM"
+        titleZh="说说你的市场与数量"
+        titleEn="Tell us about your market and quantity"
+        descZh="把尺寸、台面与设备要求、目标市场与大致数量发过来，我们会先出一版结构方向与报价区间。"
+        descEn="Send the dimensions, worktop and equipment requirements, target market and approximate quantity; we will come back with a structural direction and an indicative price range."
+        secondaryLabelZh="先看工厂工艺"
+        secondaryLabelEn="See the factory"
+        secondaryHref="/factory/"
+        noteZh="图纸、照片与清单可以直接在 WhatsApp 中发送。"
+        noteEn="Drawings, photos and lists can be sent directly in WhatsApp."
+      />
+    </div>
+  </section>
+</Layout>

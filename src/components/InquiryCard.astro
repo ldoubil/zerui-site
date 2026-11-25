@@ -1,0 +1,292 @@
+---
+import { SITE } from '../data/site';
+
+const {
+  eyebrowZh = "LET'S TALK",
+  eyebrowEn = "LET'S TALK",
+  titleZh = '聊聊你的庭院适合哪一种配置',
+  titleEn = 'Let’s talk about what fits your space',
+  descZh = '留下联系方式，我们会先了解场地尺寸与使用习惯，再给出布局建议和配置方向。',
+  descEn = 'Leave your details and we will start with the site dimensions and how you cook, then suggest a layout and configuration.',
+  secondaryLabelZh,
+  secondaryLabelEn,
+  secondaryHref,
+  noteZh = '中文 / English 均可沟通；图纸与尺寸可直接在对话中发送。',
+  noteEn = 'We work in Chinese and English; drawings and dimensions can be shared directly in the chat.',
+} = Astro.props;
+
+const waHref = `https://wa.me/${SITE.waNumber}`;
+const ENDPOINT = 'https://forms.zeruioutdoor.com/api/inquiry';
+---
+
+<section class="inq" id="inquiry">
+  <div class="inq-main">
+    <p class="inq-eyebrow" data-en={eyebrowEn}>{eyebrowZh}</p>
+    <h2 class="inq-title" data-en={titleEn}>{titleZh}</h2>
+    <p class="inq-desc" data-en={descEn}>{descZh}</p>
+
+    <dl class="inq-contacts">
+      <div class="inq-contact">
+        <dt data-en="WhatsApp">WhatsApp</dt>
+        <dd>
+          <a href={waHref} target="_blank" rel="noopener">{SITE.phoneDisplay}</a>
+        </dd>
+      </div>
+      <div class="inq-contact">
+        <dt data-en="Email">邮箱</dt>
+        <dd>
+          <a href={`mailto:${SITE.email}`} data-en={SITE.email}>{SITE.email}</a>
+        </dd>
+      </div>
+    </dl>
+
+    <p class="inq-note" data-en={noteEn}>{noteZh}</p>
+
+    {
+      secondaryHref && secondaryLabelZh && (
+        <a class="inq-secondary" href={secondaryHref} data-en={secondaryLabelEn}>
+          {secondaryLabelZh}
+          <span aria-hidden="true">→</span>
+        </a>
+      )
+    }
+  </div>
+
+  <div class="inq-card">
+    <form class="inq-form" data-endpoint={ENDPOINT} novalidate>
+      <div class="inq-grid2">
+        <label class="inq-field">
+          <span data-en="Name *">姓名 *</span>
+          <input
+            name="name"
+            type="text"
+            required
+            maxlength="80"
+            autocomplete="name"
+            placeholder="怎么称呼你"
+            data-ph-zh="怎么称呼你"
+            data-ph-en="How should we address you"
+          />
+        </label>
+        <label class="inq-field">
+          <span data-en="Email *">邮箱 *</span>
+          <input
+            name="email"
+            type="email"
+            required
+            maxlength="160"
+            autocomplete="email"
+            inputmode="email"
+            placeholder="name@company.com"
+            data-ph-zh="name@company.com"
+            data-ph-en="name@company.com"
+          />
+        </label>
+        <label class="inq-field">
+          <span data-en="Country / Region *">国家 / 地区 *</span>
+          <input
+            name="country"
+            type="text"
+            required
+            maxlength="60"
+            autocomplete="country-name"
+            placeholder="例如：澳大利亚 悉尼"
+            data-ph-zh="例如：澳大利亚 悉尼"
+            data-ph-en="e.g. Sydney, Australia"
+          />
+        </label>
+        <label class="inq-field">
+          <span data-en="WhatsApp (optional)">WhatsApp（可选）</span>
+          <input
+            name="whatsapp"
+            type="tel"
+            maxlength="40"
+            autocomplete="tel"
+            inputmode="tel"
+            placeholder="含国家区号"
+            data-ph-zh="含国家区号"
+            data-ph-en="Include country code"
+          />
+        </label>
+      </div>
+
+      <label class="inq-field inq-field--area">
+        <span data-en="Your requirement *">需求说明 *</span>
+        <textarea
+          name="message"
+          rows="4"
+          required
+          maxlength="2000"
+          placeholder="场地尺寸、使用场景、想放的设备，或任何想了解的问题。"
+          data-ph-zh="场地尺寸、使用场景、想放的设备，或任何想了解的问题。"
+          data-ph-en="Site dimensions, how you will use it, equipment you have in mind, or anything you would like to ask."
+        ></textarea>
+      </label>
+
+      <div class="inq-hp" aria-hidden="true">
+        <label for="inq-company">Company website</label>
+        <input id="inq-company" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div class="inq-foot">
+        <p
+          class="inq-consent"
+          data-en="By submitting you agree these details are used only to reply to this enquiry."
+        >
+          提交即表示同意：这些信息仅用于回复本次询盘。
+        </p>
+        <button class="inq-submit" type="submit">
+          <span class="inq-submit-label" data-en="Send enquiry">提交需求</span>
+          <span class="inq-submit-arrow" aria-hidden="true">↗</span>
+        </button>
+      </div>
+
+      <p class="inq-status" role="status" aria-live="polite" hidden></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  (function () {
+    const form = document.querySelector('.inq-form');
+    if (!form) return;
+
+    const statusEl = form.querySelector('.inq-status');
+    const submit = form.querySelector('.inq-submit');
+    const startedAt = Date.now();
+    let sending = false;
+
+    const TEXT = {
+      zh: {
+        sending: '正在提交…',
+        success: '已收到你的询盘，我们会在工作时间用邮件回复。',
+        network: '网络异常，没能提交。请稍后重试，或直接通过 WhatsApp 联系我们。',
+        invalid_name: '请填写姓名。',
+        invalid_email: '邮箱格式不正确。',
+        invalid_country: '请填写国家或地区。',
+        invalid_message: '请描述需求（至少 10 个字）。',
+        invalid_whatsapp: 'WhatsApp 号码过长。',
+        rate_limited: '提交过于频繁，请稍后再试。',
+        send_failed: '邮件发送失败，请稍后重试，或直接用 WhatsApp 联系我们。',
+        not_configured: '表单服务暂不可用，请直接用 WhatsApp 或邮件联系我们。',
+        default: '提交失败，请稍后重试，或直接通过 WhatsApp 联系我们。',
+      },
+      en: {
+        sending: 'Sending…',
+        success: 'Your enquiry has arrived. We will reply by email during working hours.',
+        network: 'Network error — the enquiry was not sent. Please retry, or reach us on WhatsApp.',
+        invalid_name: 'Please enter a name.',
+        invalid_email: 'That email address looks invalid.',
+        invalid_country: 'Please tell us your country or region.',
+        invalid_message: 'Please describe your requirement (at least 10 characters).',
+        invalid_whatsapp: 'The WhatsApp number is too long.',
+        rate_limited: 'Too many submissions. Please try again later.',
+        send_failed: 'We could not send your message. Please retry, or reach us on WhatsApp.',
+        not_configured: 'The form service is not available right now. Please use WhatsApp or email.',
+        default: 'Submission failed. Please try again, or reach us on WhatsApp.',
+      },
+    };
+
+    const EMAIL_RE = /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[a-zA-Z]{2,}$/;
+
+    function lang() {
+      return document.documentElement.dataset.lang === 'en' ? 'en' : 'zh';
+    }
+
+    function t(key) {
+      const table = TEXT[lang()];
+      return table[key] || table.default;
+    }
+
+    function applyPlaceholders() {
+      form.querySelectorAll('[data-ph-zh]').forEach(function (el) {
+        el.setAttribute('placeholder', lang() === 'en' ? el.dataset.phEn : el.dataset.phZh);
+      });
+    }
+
+    function showStatus(state, message) {
+      statusEl.hidden = false;
+      statusEl.dataset.state = state;
+      statusEl.textContent = message;
+    }
+
+    applyPlaceholders();
+    if ('MutationObserver' in window) {
+      new MutationObserver(applyPlaceholders).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-lang'],
+      });
+    }
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      if (sending) return;
+
+      const get = function (name) {
+        const el = form.querySelector('[name="' + name + '"]');
+        return el ? String(el.value || '').trim() : '';
+      };
+
+      const values = {
+        name: get('name'),
+        email: get('email'),
+        country: get('country'),
+        whatsapp: get('whatsapp'),
+        message: get('message'),
+      };
+
+      const checks = [
+        ['name', values.name.length >= 2, 'invalid_name'],
+        ['email', EMAIL_RE.test(values.email), 'invalid_email'],
+        ['country', values.country.length >= 2, 'invalid_country'],
+        ['message', values.message.length >= 10, 'invalid_message'],
+        ['whatsapp', values.whatsapp.length <= 40, 'invalid_whatsapp'],
+      ];
+
+      for (const [field, ok, key] of checks) {
+        if (ok) continue;
+        showStatus('error', t(key));
+        const el = form.querySelector('[name="' + field + '"]');
+        if (el) el.focus();
+        return;
+      }
+
+      sending = true;
+      submit.disabled = true;
+      submit.setAttribute('aria-busy', 'true');
+      showStatus('sending', t('sending'));
+
+      try {
+        const response = await fetch(form.dataset.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...values,
+            company_website: get('company_website'),
+            elapsed_ms: Date.now() - startedAt,
+            page: window.location.href,
+            lang: lang(),
+          }),
+        });
+        const data = await response.json().catch(function () {
+          return null;
+        });
+
+        if (response.ok && data && data.ok) {
+          form.reset();
+          showStatus('success', t('success'));
+          return;
+        }
+
+        const code = (data && data.code) || 'default';
+        showStatus('error', t(code));
+      } catch (err) {
+        showStatus('error', t('network'));
+      } finally {
+        sending = false;
+        submit.disabled = false;
+        submit.removeAttribute('aria-busy');
+      }
+    });
+  })();
+</script>

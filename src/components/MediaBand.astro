@@ -1,0 +1,23 @@
+---
+import { Image } from 'astro:assets';
+
+const { image, altZh, altEn, captionZh, captionEn, tagZh, tagEn } = Astro.props;
+---
+
+<figure class="media-band">
+  <div class="media">
+    <Image
+      src={image}
+      alt={altZh}
+      data-alt-en={altEn}
+      widths={[800, 1400, 2000]}
+      sizes="100vw"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <figcaption class="figure-caption wrap">
+    <span data-en={captionEn}>{captionZh}</span>
+    {tagZh && <span class="tag" data-en={tagEn}>{tagZh}</span>}
+  </figcaption>
+</figure>

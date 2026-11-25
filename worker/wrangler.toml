@@ -1,0 +1,22 @@
+# 泽锐官网询盘 Worker（表单 → Resend → 邮箱）
+# 部署：在 .tools 目录执行 cf-deploy-worker.ps1（走 Cloudflare API，不需要 wrangler）
+name = "zerui-inquiry"
+main = "src/index.js"
+compatibility_date = "2025-06-14"
+
+[vars]
+TO_EMAIL = "zeruioutdoor@gmail.com"
+FROM_EMAIL = "ZERUI Website <no-reply@zeruioutdoor.com>"
+ALLOWED_ORIGINS = "https://zeruioutdoor.com,https://www.zeruioutdoor.com"
+
+# 限流计数（Durable Object），isolate 会被回收，内存计数不可靠
+[[durable_objects.bindings]]
+name = "RATE_LIMITER"
+class_name = "RateLimiter"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["RateLimiter"]
+
+# RESEND_API_KEY 通过 secret 注入，不写在这里：
+#   wrangler secret put RESEND_API_KEY
