@@ -13,7 +13,7 @@ export const faqGroups: { id: string; title: { zh: string; en: string }; items: 
     items: [
       {
         id: 'what-is-a-pod',
-        q: { zh: '什么是户外厨房胶囊？', en: 'What is an outdoor kitchen pod?' },
+        q: { zh: '什么是户外厨房舱（pod）？', en: 'What is an outdoor kitchen pod?' },
         a: {
           zh: '一套在工厂预制完成的户外烹饪与操作单元：柜体、台面与设备整合在同一结构里，到场就位或现场拼装后即可使用。',
           en: 'A prefabricated outdoor cooking and preparation unit: cabinets, countertop and equipment integrated into one structure, ready to use once lifted into place or assembled on site.',
