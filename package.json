@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build && node scripts/build-en.mjs",
+    "build": "astro build && node scripts/build-i18n.mjs",
     "preview": "astro preview"
   },
   "dependencies": {

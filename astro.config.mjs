@@ -12,7 +12,7 @@ export default defineConfig({
     format: 'directory',
   },
   integrations: [
-    // 基础 sitemap 由集成生成，最终由 scripts/build-en.mjs 覆盖为
+    // 基础 sitemap 由集成生成，最终由 scripts/build-i18n.mjs 覆盖为
     // 含真实 lastmod、双向 hreflang 与 image 条目的版本
     sitemap({
       filter: (page) => !page.includes('/404'),

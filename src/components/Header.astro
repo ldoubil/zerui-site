@@ -2,7 +2,7 @@
 import logo from '../assets/brand/logo.svg';
 import { navItems } from '../data/site';
 
-const { current, overlay = false, langHref = '/en/' } = Astro.props;
+const { current, overlay = false, langHref = '/' } = Astro.props;
 ---
 
 <header class:list={['site-header', overlay && 'site-header--overlay']} id="site-header">

@@ -1,14 +1,15 @@
 /**
- * 构建后生成英文页面（/en/…）与多语言 sitemap。
- * 中文页面在构建时输出，英文版由同一份 HTML 依据 data-en 文本生成，
- * 保证两种语言都是服务端渲染的真实 URL，而不是 JS 切换。
+ * 构建后生成双语页面。
+ * 英文（主语言）输出在根路径，中文输出在 /zh/ 下。
+ * Astro 页面按中文内容构建，本脚本把同一份 HTML 渲染成两种语言：
+ * 根路径写入英文版，/zh/ 写入中文版，保证两种语言都是服务端渲染的真实 URL。
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { parse } from 'node-html-parser';
 import PDFDocument from 'pdfkit';
-import { enPath } from '../src/lib/routes.mjs';
+import { enPath, zhPath } from '../src/lib/routes.mjs';
 
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, 'dist');
@@ -87,6 +88,10 @@ const ASSET_PREFIXES = [
   '/logo.svg',
 ];
 
+const EN_KEYWORDS =
+  'outdoor kitchen,outdoor kitchen pod,outdoor kitchen manufacturer,custom outdoor kitchen,outdoor kitchen factory,stainless steel outdoor kitchen,modular outdoor kitchen,outdoor kitchen OEM,outdoor kitchen dealer,ZERUI';
+const EN_OG_ALT = 'ZERUI · Professional Outdoor Kitchen Manufacturer';
+
 function abs(p) {
   return ORIGIN + p;
 }
@@ -97,7 +102,7 @@ function readPages(dir, base = '/') {
     const full = path.join(dir, name);
     const stat = fs.statSync(full);
     if (stat.isDirectory()) {
-      if (name === 'en') continue;
+      if (name === 'en' || name === 'zh') continue;
       out.push(...readPages(full, `${base}${name}/`));
     } else if (name === 'index.html') {
       out.push({ route: base, file: full });
@@ -106,17 +111,39 @@ function readPages(dir, base = '/') {
   return out;
 }
 
-function rewriteHref(href) {
+function writePage(route, html) {
+  const file = path.join(DIST, route.replace(/^\//, ''), 'index.html');
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, html);
+}
+
+function rewriteHref(href, lang) {
   if (!href || !href.startsWith('/')) return href;
   if (href.startsWith('/en/') || href === '/en') return href;
+  if (href.startsWith('/zh/') || href === '/zh') return href;
   if (ASSET_PREFIXES.some((p) => href.startsWith(p))) return href;
   const [pathPart, hash] = href.split('#');
-  const target = enPath(pathPart);
+  if (!pathPart) return href;
+  const map = lang === 'zh' ? zhPath : enPath;
+  const target = map(pathPart);
   return hash ? `${target}#${hash}` : target;
 }
 
 function isChinese(ch) {
   return /[\u4e00-\u9fff]/.test(ch);
+}
+
+// node-html-parser 写回文本时会把非 ASCII 转成数字实体，这里还原成原文（保留 ASCII 实体）
+function decodeNumericNonAscii(html) {
+  return html
+    .replace(/&#x([0-9a-f]+);/gi, (m, hex) => {
+      const cp = parseInt(hex, 16);
+      return cp > 0x7f ? String.fromCodePoint(cp) : m;
+    })
+    .replace(/&#(\d+);/g, (m, dec) => {
+      const cp = Number(dec);
+      return cp > 0x7f ? String.fromCodePoint(cp) : m;
+    });
 }
 
 function decodeEntities(text) {
@@ -145,28 +172,30 @@ function faqItemsFromHtml(html) {
 
 const ROUTE_SET = new Set(Object.keys(SOURCE_FILES));
 
-function rewriteOriginUrls(value) {
+function rewriteOriginUrls(value, lang) {
   return value.replace(/https:\/\/zeruioutdoor\.com(\/[^"\\\s]*)?/g, (m, p) => {
-    const pathname = p || '/';
-    if (pathname.includes('#')) return m;
+    const full = p || '/';
+    const [pathname, hash] = full.split('#');
     const normalized = pathname.endsWith('/') ? pathname : `${pathname}/`;
-    if (!ROUTE_SET.has(normalized)) return m;
-    return abs(enPath(normalized));
+    // 首页保持根地址，避免 Organization / WebSite 的 @id 随语言变化
+    if (normalized === '/' || !ROUTE_SET.has(normalized)) return m;
+    const target = lang === 'zh' ? zhPath(normalized) : enPath(normalized);
+    return abs(target) + (hash ? `#${hash}` : '');
   });
 }
 
-function walkJsonLd(value) {
-  if (typeof value === 'string') return rewriteOriginUrls(value);
-  if (Array.isArray(value)) return value.map(walkJsonLd);
+function walkJsonLd(value, lang) {
+  if (typeof value === 'string') return rewriteOriginUrls(value, lang);
+  if (Array.isArray(value)) return value.map((item) => walkJsonLd(item, lang));
   if (value && typeof value === 'object') {
     const out = {};
-    for (const [key, val] of Object.entries(value)) out[key] = walkJsonLd(val);
+    for (const [key, val] of Object.entries(value)) out[key] = walkJsonLd(val, lang);
     return out;
   }
   return value;
 }
 
-function localizeJsonLd(html, route, faqItems) {
+function localizeJsonLd(html, route, lang, faqItems) {
   return html.replace(
     /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,
     (match, body) => {
@@ -176,18 +205,22 @@ function localizeJsonLd(html, route, faqItems) {
       } catch {
         return match;
       }
-      data = walkJsonLd(data);
-      if (route === '/faq/' && faqItems.length) {
-        const list = data['@graph'] || [data];
-        for (const node of list) {
-          if (node['@type'] === 'FAQPage') {
-            node['@id'] = `${ORIGIN}/en/faq/#faq`;
-            node.mainEntity = faqItems.map((item) => ({
-              '@type': 'Question',
-              name: item.q,
-              acceptedAnswer: { '@type': 'Answer', text: item.a },
-            }));
-          }
+      data = walkJsonLd(data, lang);
+      for (const node of data['@graph'] || [data]) {
+        if (lang === 'en' && node && node['@type'] === 'Organization') {
+          node.name = 'ZERUI';
+          node.alternateName = ['ZERUI Outdoor Kitchens', 'ZERUI'];
+          node.description =
+            'ZERUI is an outdoor kitchen manufacturer and factory in Linyi, China, producing stainless steel outdoor kitchen pods, modular systems, grills and cabinets for custom, OEM and ODM projects worldwide.';
+        }
+        if (lang === 'en' && node && node['@type'] === 'WebSite') node.name = 'ZERUI';
+        if (lang === 'en' && route === '/faq/' && faqItems.length && node['@type'] === 'FAQPage') {
+          node['@id'] = `${abs(enPath('/faq/'))}#faq`;
+          node.mainEntity = faqItems.map((item) => ({
+            '@type': 'Question',
+            name: item.q,
+            acceptedAnswer: { '@type': 'Answer', text: item.a },
+          }));
         }
       }
       return `<script type="application/ld+json">${JSON.stringify(data)}</script>`;
@@ -195,52 +228,76 @@ function localizeJsonLd(html, route, faqItems) {
   );
 }
 
-function transform(html, route) {
-  const faqItems = route === '/faq/' ? faqItemsFromHtml(html) : [];
-  const root = parse(html, { comment: true, blockTextElements: { script: true, style: true, pre: true } });
-  const enRoute = enPath(route);
-  const zhUrl = abs(route);
-  const enUrl = abs(enRoute);
+function render(html, route, lang) {
+  const isEn = lang === 'en';
+  const root = parse(html, {
+    comment: true,
+    blockTextElements: { script: true, style: true, pre: true },
+  });
 
-  const htmlEl = root.querySelector('html');
-  if (htmlEl) {
-    htmlEl.setAttribute('lang', 'en');
-    htmlEl.setAttribute('data-lang', 'en');
-  }
-
-  // 正文：把 data-en 文本写进 HTML
-  for (const el of root.querySelectorAll('[data-en]')) {
-    const value = el.getAttribute('data-en');
-    if (typeof value === 'string' && value.trim()) el.textContent = value;
-    el.removeAttribute('data-en');
-  }
-  for (const el of root.querySelectorAll('[data-alt-en]')) {
-    const value = el.getAttribute('data-alt-en');
-    if (value) el.setAttribute('alt', value);
-    el.removeAttribute('data-alt-en');
-  }
-  for (const el of root.querySelectorAll('[data-aria-en]')) {
-    const value = el.getAttribute('data-aria-en');
-    if (value) el.setAttribute('aria-label', value);
-    el.removeAttribute('data-aria-en');
-  }
-  // 仅中文的补充标签（型号中文名）在英文页移除
-  for (const el of root.querySelectorAll('.model-zh')) el.remove();
-
-  // 英文页的固定界面文案
-  root.querySelector('#primary-nav')?.setAttribute('aria-label', 'Main navigation');
-  for (const nav of root.querySelectorAll('footer nav')) nav.setAttribute('aria-label', 'Footer links');
-  for (const img of root.querySelectorAll('img[alt="ZERUI 泽锐"]')) img.setAttribute('alt', 'ZERUI');
-
-  // head
+  // 先把标题/描述取出来，再清掉 body 上的构建属性
   const body = root.querySelector('body');
-  const title = EN_TITLES[route] || body?.getAttribute('data-title-en') || root.querySelector('title')?.textContent || '';
-  const desc = body?.getAttribute('data-desc-en') || '';
+  const titleZh = body?.getAttribute('data-title-zh') || root.querySelector('title')?.textContent || '';
+  const titleEn = body?.getAttribute('data-title-en') || titleZh;
+  const descZh = body?.getAttribute('data-desc-zh') || '';
+  const descEn = body?.getAttribute('data-desc-en') || descZh;
   if (body) {
     for (const attr of ['data-title-zh', 'data-title-en', 'data-desc-zh', 'data-desc-en']) {
       body.removeAttribute(attr);
     }
   }
+
+  const enRoute = enPath(route);
+  const zhRoute = zhPath(route);
+  const enUrl = abs(enRoute);
+  const zhUrl = abs(zhRoute);
+
+  const htmlEl = root.querySelector('html');
+  if (htmlEl) {
+    htmlEl.setAttribute('lang', isEn ? 'en' : 'zh-CN');
+    htmlEl.setAttribute('data-lang', isEn ? 'en' : 'zh');
+    htmlEl.setAttribute('data-en-url', enRoute);
+    htmlEl.setAttribute('data-zh-url', zhRoute);
+  }
+
+  if (isEn) {
+    // 英文：把 data-en 文本写进 HTML
+    for (const el of root.querySelectorAll('[data-en]')) {
+      const value = el.getAttribute('data-en');
+      if (typeof value === 'string' && value.trim()) el.textContent = value;
+      el.removeAttribute('data-en');
+    }
+    for (const el of root.querySelectorAll('[data-alt-en]')) {
+      const value = el.getAttribute('data-alt-en');
+      if (value) el.setAttribute('alt', value);
+      el.removeAttribute('data-alt-en');
+    }
+    for (const el of root.querySelectorAll('[data-aria-en]')) {
+      const value = el.getAttribute('data-aria-en');
+      if (value) el.setAttribute('aria-label', value);
+      el.removeAttribute('data-aria-en');
+    }
+    // 仅中文的补充标签（型号中文名）在英文页移除
+    for (const el of root.querySelectorAll('.model-zh')) el.remove();
+    root.querySelector('#primary-nav')?.setAttribute('aria-label', 'Main navigation');
+    for (const nav of root.querySelectorAll('footer nav')) nav.setAttribute('aria-label', 'Footer links');
+    for (const img of root.querySelectorAll('img[alt="ZERUI 泽锐"]')) img.setAttribute('alt', 'ZERUI');
+    // 表单占位符：直接写英文，避免 JS 之前短暂显示中文
+    for (const el of root.querySelectorAll('[data-ph-en]')) {
+      const value = el.getAttribute('data-ph-en');
+      if (value) el.setAttribute('placeholder', value);
+    }
+  } else {
+    // 中文：保留正文，清掉英文替身属性
+    for (const el of root.querySelectorAll('[data-en]')) el.removeAttribute('data-en');
+    for (const el of root.querySelectorAll('[data-alt-en]')) el.removeAttribute('data-alt-en');
+    for (const el of root.querySelectorAll('[data-aria-en]')) el.removeAttribute('data-aria-en');
+    for (const el of root.querySelectorAll('[data-q-en]')) el.removeAttribute('data-q-en');
+    for (const el of root.querySelectorAll('[data-a-en]')) el.removeAttribute('data-a-en');
+  }
+
+  const title = isEn ? EN_TITLES[route] || titleEn : titleZh;
+  const desc = isEn ? descEn : descZh;
   const titleEl = root.querySelector('title');
   if (titleEl) titleEl.textContent = title;
 
@@ -248,66 +305,89 @@ function transform(html, route) {
     const el = root.querySelector(selector);
     if (el && value) el.setAttribute(attr, value);
   };
+
   setMeta('meta[name="description"]', 'content', desc);
   setMeta('meta[property="og:title"]', 'content', title);
   setMeta('meta[property="og:description"]', 'content', desc);
-  setMeta('meta[property="og:url"]', 'content', enUrl);
+  setMeta('meta[property="og:url"]', 'content', isEn ? enUrl : zhUrl);
   setMeta('meta[name="twitter:title"]', 'content', title);
   setMeta('meta[name="twitter:description"]', 'content', desc);
-  setMeta('meta[property="og:locale"]', 'content', 'en_US');
-  setMeta('meta[property="og:locale:alternate"]', 'content', 'zh_CN');
-  setMeta('meta[name="author"]', 'content', 'ZERUI');
-  setMeta('meta[property="og:site_name"]', 'content', 'ZERUI');
-  setMeta(
-    'meta[property="og:image:alt"]',
-    'content',
-    'ZERUI · Professional Outdoor Kitchen Manufacturer'
-  );
-  setMeta(
-    'meta[name="twitter:image:alt"]',
-    'content',
-    'ZERUI · Professional Outdoor Kitchen Manufacturer'
-  );
-  setMeta(
-    'meta[name="keywords"]',
-    'content',
-    'outdoor kitchen,outdoor kitchen pod,outdoor kitchen manufacturer,custom outdoor kitchen,outdoor kitchen factory,stainless steel outdoor kitchen,modular outdoor kitchen,outdoor kitchen OEM,outdoor kitchen dealer,ZERUI'
-  );
+  setMeta('meta[property="og:locale"]', 'content', isEn ? 'en_US' : 'zh_CN');
+  setMeta('meta[property="og:locale:alternate"]', 'content', isEn ? 'zh_CN' : 'en_US');
+  if (isEn) {
+    setMeta('meta[name="author"]', 'content', 'ZERUI');
+    setMeta('meta[property="og:site_name"]', 'content', 'ZERUI');
+    setMeta('meta[property="og:image:alt"]', 'content', EN_OG_ALT);
+    setMeta('meta[name="twitter:image:alt"]', 'content', EN_OG_ALT);
+    setMeta('meta[name="keywords"]', 'content', EN_KEYWORDS);
+  }
 
   const canonical = root.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', enUrl);
+  if (canonical) canonical.setAttribute('href', isEn ? enUrl : zhUrl);
 
   const alternates = {
     'zh-CN': zhUrl,
     en: enUrl,
     'x-default': enUrl,
   };
-  for (const [lang, href] of Object.entries(alternates)) {
-    const link = root.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
+  for (const [code, href] of Object.entries(alternates)) {
+    const link = root.querySelector(`link[rel="alternate"][hreflang="${code}"]`);
     if (link) link.setAttribute('href', href);
   }
 
-  // 站内链接指向对应英文页
+  // 站内链接指向当前语言版本
   for (const a of root.querySelectorAll('a[href]')) {
     const href = a.getAttribute('href');
-    const next = rewriteHref(href);
+    const next = rewriteHref(href, lang);
     if (next !== href) a.setAttribute('href', next);
   }
 
-  // 语言切换变成真实链接（放在链接重写之后，避免被再次改写）
+  // 语言切换（放在链接重写之后，避免被再次改写）
   const toggle = root.querySelector('#lang-toggle');
   if (toggle) {
-    toggle.setAttribute('href', route);
-    toggle.setAttribute('hreflang', 'zh-CN');
-    toggle.setAttribute('lang', 'zh-CN');
-    toggle.setAttribute('aria-label', '切换到中文');
-    toggle.textContent = '中文';
+    if (isEn) {
+      toggle.setAttribute('href', zhRoute);
+      toggle.setAttribute('hreflang', 'zh-CN');
+      toggle.setAttribute('lang', 'zh-CN');
+      toggle.setAttribute('aria-label', 'Switch to Chinese');
+      toggle.textContent = '中文';
+    } else {
+      toggle.setAttribute('href', enRoute);
+      toggle.setAttribute('hreflang', 'en');
+      toggle.setAttribute('lang', 'en');
+      toggle.setAttribute('aria-label', 'Switch to English');
+      toggle.textContent = 'EN';
+    }
   }
 
-  const ogImage = root.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
-  const output = localizeJsonLd(root.toString(), route, faqItems);
+  const faqItems = isEn && route === '/faq/' ? faqItemsFromHtml(html) : [];
+  const output = localizeJsonLd(root.toString(), route, lang, faqItems);
+  return { html: decodeNumericNonAscii(output), enRoute, zhRoute };
+}
 
-  return { html: output, enRoute, ogImage };
+// ---- 旧路径跳转（边缘未生效时的兜底）----
+function writeStub(fromRoute, target) {
+  const file = path.join(DIST, fromRoute.replace(/^\//, ''), 'index.html');
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  const targetUrl = abs(target);
+  fs.writeFileSync(
+    file,
+    `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="${targetUrl}">
+<meta name="robots" content="noindex,follow">
+<meta http-equiv="refresh" content="0; url=${targetUrl}">
+<script>location.replace(${JSON.stringify(target)} + location.search + location.hash);</script>
+</head>
+<body>
+<p>This page has moved to <a href="${target}">${target}</a>.</p>
+</body>
+</html>
+`
+  );
 }
 
 const SHARED_FILES = [
@@ -349,15 +429,14 @@ function buildSitemap(routes, images) {
   const entries = [];
   for (const route of routes) {
     const lm = lastmodFor(route);
-    const en = enPath(route);
-    const zhUrl = abs(route);
-    const enUrl = abs(en);
+    const enUrl = abs(enPath(route));
+    const zhUrl = abs(zhPath(route));
     const image = images.get(route);
     const imageTag =
       image && image !== DEFAULT_OG
         ? `    <image:image><image:loc>${image}</image:loc></image:image>\n`
         : '';
-    for (const loc of [zhUrl, enUrl]) {
+    for (const loc of [enUrl, zhUrl]) {
       entries.push(
         `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lm}</lastmod>\n` +
           imageTag +
@@ -478,39 +557,44 @@ try {
 } catch {}
 
 const pages = readPages(DIST)
-  .filter((p) => p.route !== '/404/' && !p.route.startsWith('/en/'))
+  .filter((p) => p.route !== '/404/' && !p.route.startsWith('/en/') && !p.route.startsWith('/zh/'))
   .sort((a, b) => a.route.localeCompare(b.route));
 
 const routes = pages.map((p) => p.route);
-const report = [];
 const images = new Map();
+let enWithCjk = 0;
 
 for (const page of pages) {
   const html = fs.readFileSync(page.file, 'utf8');
-  const { html: enHtml, enRoute, ogImage } = transform(html, page.route);
-  images.set(page.route, ogImage);
-  const outFile = path.join(DIST, enRoute.replace(/^\//, ''), 'index.html');
-  fs.mkdirSync(path.dirname(outFile), { recursive: true });
-  fs.writeFileSync(outFile, enHtml);
+  const en = render(html, page.route, 'en');
+  const zh = render(html, page.route, 'zh');
 
-  const text = enHtml
+  writePage(en.enRoute, en.html);
+  writePage(zh.zhRoute, zh.html);
+
+  writeStub(`/en${page.route}`, en.enRoute);
+  if (en.enRoute !== page.route) writeStub(page.route, en.enRoute);
+
+  const text = en.html
+    .replace(/<a class="lang-btn"[\s\S]*?<\/a>/g, ' ')
     .replace(/<script[\s\S]*?<\/script>/g, ' ')
     .replace(/<style[\s\S]*?<\/style>/g, ' ')
     .replace(/<[^>]+>/g, ' ');
   const cjk = [...text].filter(isChinese).length;
-  report.push({ route: page.route, enRoute, cjk });
+  if (cjk) enWithCjk++;
+  images.set(page.route, (html.match(/<meta property="og:image" content="([^"]+)"/) || [])[1] || '');
 
   // 每个产品页生成一份英文规格表 PDF
   if (page.route.startsWith('/product/')) {
     const slug = page.route.split('/')[2];
-    const h1 = (enHtml.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || slug;
+    const h1 = (en.html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || slug;
     const title = decodeEntities(h1.replace(/<[^>]+>/g, ''))
       .replace(/\s+/g, ' ')
       .trim();
     writeSpecSheet(
       path.join(DIST, 'specs', `${slug}-outdoor-kitchen-spec-sheet.pdf`),
       title,
-      specRowsFromHtml(enHtml)
+      specRowsFromHtml(en.html)
     );
   }
 }
@@ -519,14 +603,18 @@ fs.writeFileSync(path.join(DIST, 'sitemap-0.xml'), buildSitemap(routes, images))
 fs.writeFileSync(path.join(DIST, 'sitemap-index.xml'), buildIndex());
 fs.writeFileSync(path.join(DIST, 'sitemap.xml'), buildIndex());
 
-console.log(`en pages: ${pages.length}`);
-for (const r of report) console.log(`  ${r.enRoute}  CJK:${r.cjk}`);
-console.log(`sitemap urls: ${routes.length * 2}  images: ${[...images.values()].filter((v) => v && v !== DEFAULT_OG).length}`);
+console.log(`routes: ${routes.length}`);
+console.log(`en pages: ${routes.length} (with CJK leftovers: ${enWithCjk})`);
+console.log(`zh pages: ${routes.length}`);
+console.log(
+  `sitemap urls: ${routes.length * 2}  images: ${[...images.values()].filter((v) => v && v !== DEFAULT_OG).length}`
+);
+for (const route of routes) console.log(`  ${enPath(route)}  |  ${zhPath(route)}`);
 
 // 部署时把双语 URL 推送给 IndexNow（Bing 等），本地构建不推送
 if (process.env.GITHUB_ACTIONS === 'true') {
   const key = '90722fe68dce49b5b2b350b66941b31b';
-  const urlList = routes.flatMap((route) => [abs(route), abs(enPath(route))]);
+  const urlList = routes.flatMap((route) => [abs(enPath(route)), abs(zhPath(route))]);
   try {
     const res = await fetch('https://api.indexnow.org/indexnow', {
       method: 'POST',
