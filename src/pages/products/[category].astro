@@ -18,33 +18,68 @@ const { item } = Astro.props;
 // 只用于 head 的 meta description，避免为压长度而改动正文 intro
 const META_DESC_EN = {
   islands:
-    'Integrated outdoor kitchen islands: countertop, cabinets, cooking equipment and storage built as one unit, assembled and checked before shipment.',
+    'Outdoor kitchen islands manufacturer: countertop, cabinets, cooking equipment and storage built as one unit, assembled and checked before shipment.',
   modular:
     'Modular outdoor kitchen systems: cabinets, worktops and equipment ship flat as independent modules, suited to narrow access and phased builds.',
   grills:
-    'Stainless steel built-in and freestanding outdoor grills for gardens and commercial settings, with body, grates and lid combined around how you cook.',
+    'Outdoor grill manufacturer for stainless steel built-in and freestanding models, with body, grates and lid combined around how you cook.',
   cabinets:
     'Stainless steel outdoor kitchen cabinets: doors, drawers, sink and corner units for adding storage, replacing doors or fitting out a project in bulk.',
 };
 const META_DESC_ZH = {
   islands:
-    '一体化户外厨房岛台：台面、柜体、设备与收纳做成一个整体，出厂前完成装配与检查，到场按图就位，减少现场施工。',
+    '户外厨房岛台制造商：台面、柜体、设备与收纳做成一个整体，出厂前完成装配与检查，到场按图就位。',
+  grills:
+    '户外烧烤炉制造商：嵌入式与独立式不锈钢炉体，炉身、炉排与上盖按你的烹饪方式组合。',
+};
+// 关键词对齐：SEO 标题与 H1 单独覆盖，导航仍用 item.titleZh/titleEn
+const HEAD = {
+  islands: {
+    titleZh: '户外厨房岛台制造商｜ZERUI',
+    titleEn: 'Outdoor Kitchen Islands Manufacturer | ZERUI',
+    h1Zh: '户外厨房岛台制造商',
+    h1En: 'Outdoor Kitchen Islands Manufacturer',
+  },
+  modular: {
+    titleZh: '模块化户外厨房系统｜ZERUI',
+    titleEn: 'Modular Outdoor Kitchen Systems | ZERUI',
+    h1Zh: '模块化户外厨房系统',
+    h1En: 'Modular Outdoor Kitchen Systems',
+  },
+  grills: {
+    titleZh: '户外烧烤炉制造商｜ZERUI',
+    titleEn: 'Outdoor Grill Manufacturer: Built-In & Freestanding | ZERUI',
+    h1Zh: '户外烧烤炉制造商',
+    h1En: 'Outdoor Grill Manufacturer',
+  },
+  cabinets: {
+    titleZh: '不锈钢户外厨房柜体｜ZERUI',
+    titleEn: 'Stainless Steel Outdoor Kitchen Cabinets | ZERUI',
+    h1Zh: '不锈钢户外厨房柜体',
+    h1En: 'Stainless Steel Outdoor Kitchen Cabinets',
+  },
+};
+const head = HEAD[item.slug] ?? {
+  titleZh: `${item.titleZh}｜ZERUI`,
+  titleEn: `${item.titleEn} | ZERUI Outdoor Kitchens`,
+  h1Zh: item.titleZh,
+  h1En: item.titleEn,
 };
 ---
 
 <Layout
   path={`/products/${item.slug}/`}
   current="/products/"
-  titleZh={`${item.titleZh}｜ZERUI`}
-  titleEn={`${item.titleEn} | ZERUI Outdoor Kitchens`}
+  titleZh={head.titleZh}
+  titleEn={head.titleEn}
   descZh={META_DESC_ZH[item.slug] ?? `${item.introZh} 尺寸、布局、台面与设备均可按项目定制。`}
   descEn={META_DESC_EN[item.slug] ?? `${item.introEn} Dimensions, layout, countertop and equipment are made to project.`}
 >
   <PageHero
     eyebrowZh={`PRODUCT / ${item.no}`}
     eyebrowEn={`PRODUCT / ${item.no}`}
-    titleZh={item.titleZh}
-    titleEn={item.titleEn}
+    titleZh={head.h1Zh}
+    titleEn={head.h1En}
     ledeZh={item.introZh}
     ledeEn={item.introEn}
   >
