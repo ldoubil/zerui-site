@@ -14,6 +14,22 @@ export function getStaticPaths() {
 }
 
 const { item } = Astro.props;
+
+// 只用于 head 的 meta description，避免为压长度而改动正文 intro
+const META_DESC_EN = {
+  islands:
+    'Integrated outdoor kitchen islands: countertop, cabinets, cooking equipment and storage built as one unit, assembled and checked before shipment.',
+  modular:
+    'Modular outdoor kitchen systems: cabinets, worktops and equipment ship flat as independent modules, suited to narrow access and phased builds.',
+  grills:
+    'Stainless steel built-in and freestanding outdoor grills for gardens and commercial settings, with body, grates and lid combined around how you cook.',
+  cabinets:
+    'Stainless steel outdoor kitchen cabinets: doors, drawers, sink and corner units for adding storage, replacing doors or fitting out a project in bulk.',
+};
+const META_DESC_ZH = {
+  islands:
+    '一体化户外厨房岛台：台面、柜体、设备与收纳做成一个整体，出厂前完成装配与检查，到场按图就位，减少现场施工。',
+};
 ---
 
 <Layout
@@ -21,8 +37,8 @@ const { item } = Astro.props;
   current="/products/"
   titleZh={`${item.titleZh}｜ZERUI`}
   titleEn={`${item.titleEn} | ZERUI Outdoor Kitchens`}
-  descZh={`${item.introZh} 尺寸、布局、台面与设备均可按项目定制。`}
-  descEn={`${item.introEn} Dimensions, layout, countertop and equipment are made to project.`}
+  descZh={META_DESC_ZH[item.slug] ?? `${item.introZh} 尺寸、布局、台面与设备均可按项目定制。`}
+  descEn={META_DESC_EN[item.slug] ?? `${item.introEn} Dimensions, layout, countertop and equipment are made to project.`}
 >
   <PageHero
     eyebrowZh={`PRODUCT / ${item.no}`}

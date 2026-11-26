@@ -83,6 +83,19 @@ const jsonLd = [
     ],
   },
 ];
+
+// 只用于 head 的 meta description，避免为压长度而改动正文 lead
+const META_DESC_EN = {
+  obsidian:
+    'Obsidian outdoor kitchen pod: dark finish, lift-up canopy, grill station, sink, storage and cold space — built for modern courtyards and dealer showrooms.',
+  lumiere:
+    'Lumière courtyard kitchen pod: light finish, perimeter lighting and a clean cooking zone for villas, terraces and outdoor dining. Dimensions on request.',
+  'copper-studio':
+    'Copper Studio outdoor kitchen: warm metal tones and wood-grain cabinets, an expressive entertainment unit with screen, grill, sink and fridge options.',
+  'mirror-edition':
+    'Mirror Edition outdoor kitchen: reflective metal and contemporary cabinetry give a strong architectural presence, with cooking and prep integrated.',
+};
+const metaDescEn = META_DESC_EN[pod.slug] ?? pod.leadEn;
 ---
 
 <Layout
@@ -91,7 +104,7 @@ const jsonLd = [
   titleZh={`${pod.nameZh}｜ZERUI`}
   titleEn={titleEn}
   descZh={pod.leadZh}
-  descEn={pod.leadEn}
+  descEn={metaDescEn}
   ogImage={imageUrl}
   jsonLd={jsonLd}
 >
