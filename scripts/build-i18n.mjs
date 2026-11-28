@@ -209,7 +209,7 @@ function localizeJsonLd(html, route, lang, faqItems) {
       for (const node of data['@graph'] || [data]) {
         if (lang === 'en' && node && node['@type'] === 'Organization') {
           node.name = 'ZERUI';
-          node.alternateName = ['ZERUI Outdoor Kitchens', 'ZERUI'];
+          node.alternateName = ['ZERUI Outdoor Kitchens', '泽锐 zerui', '泽锐户外厨房'];
           node.description =
             'ZERUI is an outdoor kitchen manufacturer and factory in Linyi, China, producing stainless steel outdoor kitchen pods, modular systems, grills and cabinets for custom, OEM and ODM projects worldwide.';
         }

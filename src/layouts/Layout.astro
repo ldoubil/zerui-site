@@ -37,8 +37,8 @@ const graph = [
   {
     '@type': 'Organization',
     '@id': `${site.origin}/#organization`,
-    name: '泽锐 zerui',
-    alternateName: ['ZERUI', '泽锐户外厨房'],
+    name: 'ZERUI',
+    alternateName: ['ZERUI Outdoor Kitchens', '泽锐 zerui', '泽锐户外厨房'],
     url: `${site.origin}/`,
     logo: {
       '@type': 'ImageObject',
@@ -48,6 +48,17 @@ const graph = [
     },
     description:
       '专业户外厨房制造商与工厂，提供不锈钢户外厨房、模块化户外厨房系统、专业烧烤炉的定制、OEM 与 ODM 服务。',
+    foundingDate: '2019',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Linyi',
+      addressRegion: 'Shandong',
+      addressCountry: 'CN',
+    },
+    sameAs: [
+      'https://www.facebook.com/profile.php?id=61597095447164',
+      'https://www.instagram.com/zeruioutdoor/',
+    ],
     contactPoint: [
       {
         '@type': 'ContactPoint',
@@ -62,7 +73,7 @@ const graph = [
     '@type': 'WebSite',
     '@id': `${site.origin}/#website`,
     url: `${site.origin}/`,
-    name: '泽锐 zerui 官网',
+    name: 'ZERUI',
     inLanguage: ['zh-CN', 'en'],
     publisher: { '@id': `${site.origin}/#organization` },
   },
